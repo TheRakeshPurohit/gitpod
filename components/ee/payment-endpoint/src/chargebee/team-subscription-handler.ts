@@ -7,9 +7,10 @@
 import { inject, injectable } from 'inversify';
 
 import { TeamSubscriptionDB } from '@gitpod/gitpod-db/lib/team-subscription-db';
+import { TeamSubscription2DB } from '@gitpod/gitpod-db/lib/team-subscription-2-db';
 import { log, LogContext } from '@gitpod/gitpod-protocol/lib/util/logging';
 import { Plans } from '@gitpod/gitpod-protocol/lib/plans';
-import { TeamSubscription } from '@gitpod/gitpod-protocol/lib/team-subscription-protocol';
+import { TeamSubscription, TeamSubscription2 } from '@gitpod/gitpod-protocol/lib/team-subscription-protocol';
 import { getCancelledAt, getStartDate } from './chargebee-subscription-helper';
 import { Chargebee as chargebee } from './chargebee-types';
 import { EventHandler } from './chargebee-event-handler';
@@ -20,6 +21,7 @@ import { Config } from '../config';
 export class TeamSubscriptionHandler implements EventHandler<chargebee.SubscriptionEventV2> {
     @inject(Config) protected readonly config: Config;
     @inject(TeamSubscriptionDB) protected readonly db: TeamSubscriptionDB;
+    @inject(TeamSubscription2DB) protected readonly db2: TeamSubscription2DB;
     @inject(TeamSubscriptionService) protected readonly service: TeamSubscriptionService;
 
     canHandle(event: chargebee.Event<any>): boolean {
@@ -38,13 +40,13 @@ export class TeamSubscriptionHandler implements EventHandler<chargebee.Subscript
 
     async handleSingleEvent(event: chargebee.Event<chargebee.SubscriptionEventV2>): Promise<boolean> {
         const chargebeeSubscription = event.content.subscription;
-        const userId = chargebeeSubscription.customer_id;
+        const customerId = chargebeeSubscription.customer_id;
         const eventType = event.event_type;
 
         const logContext = this.userContext(event);
         log.info(logContext, `Start TeamSubscriptionHandler.handleSingleEvent`, { eventType });
         try {
-            await this.mapToTeamSubscription(userId, eventType, chargebeeSubscription);
+            await this.mapToTeamSubscription(customerId, eventType, chargebeeSubscription);
         } catch (error) {
             log.error(logContext, "Error in TeamSubscriptionHandler.handleSingleEvent", error);
             throw error;
@@ -53,7 +55,13 @@ export class TeamSubscriptionHandler implements EventHandler<chargebee.Subscript
         return true;
     }
 
-    async mapToTeamSubscription(userId: string, eventType: chargebee.EventType, chargebeeSubscription: chargebee.Subscription) {
+    async mapToTeamSubscription(customerId: string, eventType: chargebee.EventType, chargebeeSubscription: chargebee.Subscription) {
+        if (customerId.startsWith('team:')) {
+            const teamId = customerId.slice('team:'.length);
+            await this.mapToTeamSubscription2(teamId, eventType, chargebeeSubscription);
+            return;
+        }
+        const userId = customerId;
         await this.db.transaction(async (db) => {
             const subs = await db.findTeamSubscriptions({
                 userId,
@@ -90,6 +98,41 @@ export class TeamSubscriptionHandler implements EventHandler<chargebee.Subscript
                 }
                 oldSubscription.quantity = chargebeeSubscription.plan_quantity;
                 await db.storeTeamSubscriptionEntry(oldSubscription);
+            }
+        });
+    }
+
+    async mapToTeamSubscription2(teamId: string, eventType: chargebee.EventType, chargebeeSubscription: chargebee.Subscription) {
+        // TODO(janx)
+        await this.db2.transaction(async (db2) => {
+            const sub = await db2.findByPaymentRef(
+                teamId,
+                chargebeeSubscription.id,
+            );
+            if (!sub) {
+                // Sanity check: If we try to create too many slots here we OOM, so we error instead.
+                // const quantity = chargebeeSubscription.plan_quantity;
+                // if (quantity > this.config.maxTeamSlotsOnCreation) {
+                //     throw new Error(`(TS ${chargebeeSubscription.id}): nr of slots on creation (${quantity}) is higher than configured maximum (${this.config.maxTeamSlotsOnCreation}). Skipping creation!`);
+                // }
+
+                const ts2 = TeamSubscription2.create({
+                    teamId,
+                    paymentReference: chargebeeSubscription.id,
+                    planId: chargebeeSubscription.plan_id,
+                    startDate: getStartDate(chargebeeSubscription),
+                    endDate: chargebeeSubscription.cancelled_at ? getCancelledAt(chargebeeSubscription) : undefined,
+                });
+                await db2.storeEntry(ts2);
+                // await this.service.addSlots(ts, quantity);
+            } else {
+                if (eventType === 'subscription_cancelled') {
+                    const cancelledAt = getCancelledAt(chargebeeSubscription);
+                    sub.endDate = cancelledAt;
+                    // await this.service.deactivateAllSlots(sub, new Date(cancelledAt));
+                }
+                // sub.quantity = chargebeeSubscription.plan_quantity;
+                await db2.storeEntry(sub);
             }
         });
     }

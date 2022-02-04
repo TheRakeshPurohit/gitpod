@@ -54,6 +54,7 @@ export default function Menu() {
                 "projects",
                 "members",
                 "settings",
+                "plans",
                 // admin sub-pages
                 "users",
                 "workspaces",
@@ -141,6 +142,7 @@ export default function Menu() {
         Promise.all([
             server.getShowPaymentUI().then((v) => () => setShowPaymentUI(v)),
             server.getClientRegion().then((v) => () => {
+                // TODO(janx): Don't set if someone else already set it.
                 // @ts-ignore
                 setCurrency(countries[v]?.currency === "EUR" ? "EUR" : "USD");
             }),
@@ -188,7 +190,7 @@ export default function Menu() {
                 teamSettingsList.push({
                     title: "Settings",
                     link: `/t/${team.slug}/settings`,
-                    alternatives: getTeamSettingsMenu(team).flatMap((e) => e.link),
+                    alternatives: getTeamSettingsMenu({ team, showPaymentUI }).flatMap((e) => e.link),
                 });
             }
 

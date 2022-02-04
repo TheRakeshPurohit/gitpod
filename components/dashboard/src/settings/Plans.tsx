@@ -674,7 +674,7 @@ export default function () {
                         )}
                         <p className="text-sm">
                             <a
-                                className={`text-blue-light hover:underline" ${isChargebeeCustomer ? "" : "invisible"}`}
+                                className={`gp-link ${isChargebeeCustomer ? "" : "invisible"}`}
                                 href="javascript:void(0)"
                                 onClick={() => {
                                     ChargebeeClient.getOrCreate().then((chargebeeClient) =>
