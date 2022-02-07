@@ -23,7 +23,20 @@ export default function TeamPlans() {
     const team = getCurrentTeam(location, teams);
     const [members, setMembers] = useState<TeamMemberInfo[]>([]);
     const [teamSubscription, setTeamSubscription] = useState<TeamSubscription2 | undefined>();
-    const { showPaymentUI, currency, setCurrency } = useContext(PaymentContext);
+    const { showPaymentUI, currency, setCurrency, isChargebeeCustomer } = useContext(PaymentContext);
+
+    console.log(
+        "members",
+        members.length,
+        "showPaymentUI",
+        showPaymentUI,
+        "currency",
+        currency,
+        "isChargebeeCustomer",
+        isChargebeeCustomer,
+        "teamSubscription",
+        teamSubscription,
+    );
 
     useEffect(() => {
         if (!team) {
