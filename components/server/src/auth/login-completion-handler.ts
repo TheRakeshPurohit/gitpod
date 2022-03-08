@@ -88,7 +88,7 @@ export class LoginCompletionHandler {
         if (authHost) {
             increaseLoginCounter("succeeded", authHost);
 
-            /** no await */ trackLogin(user, request, authHost, this.analytics).catch((err) =>
+            /** no await */ trackLogin(user, request, authHost, this.analytics, this.subscriptionService).catch((err) =>
                 log.error({ userId: user.id }, err),
             );
         }
