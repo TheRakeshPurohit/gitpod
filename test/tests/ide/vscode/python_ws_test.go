@@ -75,6 +75,7 @@ func TestPythonExtWorkspace(t *testing.T) {
 				},
 			})
 			if err != nil {
+
 				t.Fatalf("cannot set ide to vscode insiders: %q", err)
 			}
 
