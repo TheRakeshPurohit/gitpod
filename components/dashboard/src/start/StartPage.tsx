@@ -5,7 +5,9 @@
  */
 
 import { useEffect } from "react";
+import Alert from "../components/Alert";
 import gitpodIconUA from "../icons/gitpod-ua.svg";
+import { gitpodHostUrl } from "../service/service";
 
 export enum StartPhase {
     Checking = 0,
@@ -74,6 +76,7 @@ export interface StartPageProps {
     error?: StartWorkspaceError;
     title?: string;
     children?: React.ReactNode;
+    showLatestIdeWarning?: boolean;
 }
 
 export interface StartWorkspaceError {
@@ -105,6 +108,24 @@ export function StartPage(props: StartPageProps) {
                 )}
                 {error && <StartError error={error} />}
                 {props.children}
+                {props.showLatestIdeWarning && (
+                    <Alert closable={true} type="warning" className="mt-4 w-96">
+                        <strong>Warning:</strong> You’ve opted in for using the latest release for the editor. If you
+                        run into any issues, please{" "}
+                        <a
+                            className="gp-link"
+                            target="_blank"
+                            href="https://github.com/gitpod-io/gitpod/issues/new?assignees=&labels=bug&template=bug_report.yml"
+                        >
+                            submit a bug report
+                        </a>{" "}
+                        or switch back to the stable release in{" "}
+                        <a className="gp-link" target="_blank" href={gitpodHostUrl.asPreferences().toString()}>
+                            user preferences
+                        </a>
+                        .
+                    </Alert>
+                )}
             </div>
         </div>
     );
