@@ -39,7 +39,7 @@ export class BitbucketServerAuthProvider extends GenericAuthProvider {
             ...oauth,
             authorizationUrl: oauth.authorizationUrl || `https://${this.params.host}/rest/oauth2/latest/authorize`,
             tokenUrl: oauth.tokenUrl || `https://${this.params.host}/rest/oauth2/latest/token`,
-            settingsUrl: oauth.settingsUrl || `https://${this.params.host}/plugins/servlet/oauth/users/access-tokens/`,
+            settingsUrl: oauth.settingsUrl,
             scope: BitbucketServerOAuthScopes.ALL.join(scopeSeparator),
             scopeSeparator,
         };
