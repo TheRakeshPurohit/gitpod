@@ -21,7 +21,7 @@ import (
 
 	corev1 "k8s.io/api/core/v1"
 
-	"io/fs"
+	// "io/fs"
 	"io/ioutil"
 
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
@@ -29,7 +29,7 @@ import (
 	// "io/ioutil"
 	// "log"
 	"os"
-	"path/filepath"
+	// "path/filepath"
 	// "gopkg.in/yaml.v2"
 	// "k8s.io/apimachinery/pkg/api/meta"
 	// "k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
@@ -42,7 +42,6 @@ var filterCmd = &cobra.Command{
 	Short: "",
 	Args:  cobra.ExactArgs(0),
 	Run: func(_ *cobra.Command, args []string) {
-		// filterFiles(args[0])
 		filterJson()
 	},
 }
@@ -66,36 +65,6 @@ func filterJson() {
 	for _, obj := range objs {
 		handle(obj)
 	}
-}
-
-func filterFiles(dir string) {
-	filepath.WalkDir(dir, func(path string, d fs.DirEntry, err error) error {
-		if d.IsDir() {
-			return nil
-		}
-
-		fmt.Printf("reading file: %s\n", path)
-		input, err := os.ReadFile(path)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "failed to read file: %s\n", path)
-			return nil
-		}
-
-		obj := unstructured.Unstructured{}
-		err = json.Unmarshal([]byte(input), &obj)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "failed to deserialize: %s\n", err)
-			return nil
-		}
-		// TODO gather all items in a list
-		// TODO to sorting based on GetKind/GetName
-		// TODO do filtering of labels on the generic unstructured objects (GetLabels/SetLabels)
-
-		// Then descend into special-handling per specific object
-		fmt.Printf("%v\n", obj)
-		handle(obj)
-		return nil
-	})
 }
 
 func handle(obj unstructured.Unstructured) {
