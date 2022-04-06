@@ -7,8 +7,9 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 
-	yaml "gopkg.in/yaml.v2"
+	// yaml "gopkg.in/yaml.v2"
 
 	// "io/ioutil"
 	// "log"
@@ -20,73 +21,81 @@ import (
 
 	corev1 "k8s.io/api/core/v1"
 
+	"io/fs"
+	"io/ioutil"
+
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
+
+	// "io/ioutil"
+	// "log"
+	"os"
+	"path/filepath"
+	// "gopkg.in/yaml.v2"
+	// "k8s.io/apimachinery/pkg/api/meta"
+	// "k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
+	// "k8s.io/client-go/kubernetes/scheme"
+	// "k8s.io/client-go/kubernetes/scheme"
 )
 
-// filterCmd represents the inject command
 var filterCmd = &cobra.Command{
 	Use:   "filter",
 	Short: "",
-	Args:  cobra.ExactArgs(1),
+	Args:  cobra.ExactArgs(0),
 	Run: func(_ *cobra.Command, args []string) {
-		filter(args[0])
+		// filterFiles(args[0])
+		filterJson()
 	},
 }
 
-func filter(dir string) {
-	deserJSON()
-	deserYAML()
-}
-
-func deserJSON() {
-
-	input := `
-	{
-		"apiVersion": "v1",
-		"kind": "ConfigMap",
-		"metadata": {
-           "name": "Test"
-    	},
-		"data": {
-			"config.json": "{ \"name\": \"lalalala\" }"
-	  	}
-	}
-	`
-
-	// read single JSON object
-	obj := unstructured.Unstructured{}
-	err := json.Unmarshal([]byte(input), &obj)
+func filterJson() {
+	inBytes, err := ioutil.ReadAll(os.Stdin)
 	if err != nil {
-		panic(err)
+		log.Fatalf("failed to read stdin: %s", err)
 	}
-	fmt.Printf("name: %s", obj.GetName())
 
+	objs := []unstructured.Unstructured{}
+	err = json.Unmarshal(inBytes, &objs)
+	if err != nil {
+		log.Fatalf("failed to unmarshal json: %s", err)
+	}
+
+	log.Printf("read %d items from stdin\n", len(objs))
 	// TODO gather all items in a list
 	// TODO to sorting based on GetKind/GetName
 	// TODO do filtering of labels on the generic unstructured objects (GetLabels/SetLabels)
-
-	// Then decent into special-handling per specific object
-	handle(obj)
+	for _, obj := range objs {
+		handle(obj)
+	}
 }
 
-func deserYAML() {
+func filterFiles(dir string) {
+	filepath.WalkDir(dir, func(path string, d fs.DirEntry, err error) error {
+		if d.IsDir() {
+			return nil
+		}
 
-	input := `
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: Test
-data:
-  config.json: test
-`
+		fmt.Printf("reading file: %s\n", path)
+		input, err := os.ReadFile(path)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "failed to read file: %s\n", path)
+			return nil
+		}
 
-	obj := unstructured.Unstructured{}
-	err := yaml.Unmarshal([]byte(input), &obj)
-	if err != nil {
-		panic(err)
-	}
+		obj := unstructured.Unstructured{}
+		err = json.Unmarshal([]byte(input), &obj)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "failed to deserialize: %s\n", err)
+			return nil
+		}
+		// TODO gather all items in a list
+		// TODO to sorting based on GetKind/GetName
+		// TODO do filtering of labels on the generic unstructured objects (GetLabels/SetLabels)
 
-	fmt.Printf("name: %s", obj.GetName())
+		// Then descend into special-handling per specific object
+		fmt.Printf("%v\n", obj)
+		handle(obj)
+		return nil
+	})
 }
 
 func handle(obj unstructured.Unstructured) {
@@ -94,12 +103,11 @@ func handle(obj unstructured.Unstructured) {
 	id := fmt.Sprintf("%s:%s", obj.GetKind(), obj.GetName())
 
 	switch id {
-	case "ConfigMap:Test":
+	case "ConfigMap:content-service":
 		var cm *corev1.ConfigMap
-		err := runtime.DefaultUnstructuredConverter.
-			FromUnstructured(obj.Object, &cm)
+		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &cm)
 		assertNoError(err)
-		fmt.Printf("content of config.json: %s", cm.Data["config.json"])
+		fmt.Printf("config.json:\n%s", cm.Data["config.json"])
 	// case *appsv1.DaemonSet:
 	// 	fmt.Printf("object is a daemonset: %s\n", v.Name)
 	// case *appsv1.StatefulSet:
