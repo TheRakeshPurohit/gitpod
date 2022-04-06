@@ -63,9 +63,10 @@ func (v version) Defaults(in interface{}) error {
 	return nil
 }
 
+// Config defines the v1 version structure of the gitpod config file
 type Config struct {
-	Kind       InstallationKind `json:"kind" validate:"required,installation_kind"`
-	Domain     string           `json:"domain" validate:"required,fqdn"`
+	Kind       InstallationKind `json:"kind" validate:"required,installation_kind" doc:"Installation type to run"`
+	Domain     string           `json:"domain" validate:"required,fqdn" doc:"The domain to deploy to"`
 	Metadata   Metadata         `json:"metadata"`
 	Repository string           `json:"repository" validate:"required,ascii"`
 
