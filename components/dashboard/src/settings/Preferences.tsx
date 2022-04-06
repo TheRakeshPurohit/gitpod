@@ -10,48 +10,39 @@ import InfoBox from "../components/InfoBox";
 import { PageWithSubMenu } from "../components/PageWithSubMenu";
 import PillLabel from "../components/PillLabel";
 import SelectableCard from "../components/SelectableCard";
+import SelectableCardSolid from "../components/SelectableCardSolid";
 import Tooltip from "../components/Tooltip";
 import { getGitpodService } from "../service/service";
 import { ThemeContext } from "../theme-context";
 import { UserContext } from "../user-context";
 import settingsMenu from "./settings-menu";
-import IDENone from "../icons/IDENone.svg";
-import IDENoneDark from "../icons/IDENoneDark.svg";
 import CheckBox from "../components/CheckBox";
 import { trackEvent } from "../Analytics";
+import { IDESettings } from "@gitpod/gitpod-protocol";
 
 type Theme = "light" | "dark" | "system";
 
-const DesktopNoneId = "none";
-const DesktopNone: IDEOption = {
-    image: "",
-    logo: IDENone,
-    orderKey: "-1",
-    title: "None",
-    type: "desktop",
-};
-
 export default function Preferences() {
     const { user } = useContext(UserContext);
-    const { setIsDark, isDark } = useContext(ThemeContext);
+    const { setIsDark } = useContext(ThemeContext);
 
-    const updateUserIDEInfo = async (defaultDesktopIde: string, defaultIde: string, useLatestVersion: boolean) => {
-        const useDesktopIde = defaultDesktopIde !== DesktopNoneId;
-        const desktopIde = useDesktopIde ? defaultDesktopIde : undefined;
+    const updateUserIDEInfo = async (selectedIde: string, useLatestVersion: boolean) => {
+        ideSettings.defaultIde = selectedIde;
+        ideSettings.useLatestVersion = useLatestVersion;
+        ideSettings.configVersion = "2.0";
+
         const additionalData = user?.additionalData ?? {};
-        const settings = additionalData.ideSettings ?? {};
-        settings.useDesktopIde = useDesktopIde;
-        settings.defaultIde = defaultIde;
-        settings.defaultDesktopIde = desktopIde;
-        settings.useLatestVersion = useLatestVersion;
-        additionalData.ideSettings = settings;
+        additionalData.ideSettings = ideSettings;
+        if (user != null) {
+            user.additionalData = additionalData;
+        }
+
+        // we need to change query for this track event
         getGitpodService()
             .server.trackEvent({
                 event: "ide_configuration_changed",
                 properties: {
-                    useDesktopIde,
                     defaultIde,
-                    defaultDesktopIde: desktopIde,
                     useLatestVersion,
                 },
             })
@@ -60,26 +51,43 @@ export default function Preferences() {
         await getGitpodService().server.updateLoggedInUser({ additionalData });
     };
 
-    const [defaultIde, setDefaultIde] = useState<string>(user?.additionalData?.ideSettings?.defaultIde || "");
-    const actuallySetDefaultIde = async (value: string) => {
-        await updateUserIDEInfo(defaultDesktopIde, value, useLatestVersion);
-        setDefaultIde(value);
+    const migrationIDESettings = (): IDESettings => {
+        if (user?.additionalData?.ideSettings?.configVersion === "2.0") {
+            return user.additionalData.ideSettings;
+        }
+        let newIDESetting = {} as IDESettings;
+        newIDESetting.configVersion = "2.0";
+        if (user?.additionalData?.ideSettings?.useDesktopIde === true) {
+            if (user.additionalData.ideSettings.defaultDesktopIde === "code-desktop") {
+                newIDESetting.defaultIde = "code-desktop";
+            } else if (user.additionalData.ideSettings.defaultDesktopIde === "code-desktop-insiders") {
+                newIDESetting.defaultIde = "code-desktop";
+                newIDESetting.useLatestVersion = true;
+            } else {
+                newIDESetting.defaultIde = user.additionalData.ideSettings.defaultDesktopIde;
+                newIDESetting.useLatestVersion = user.additionalData.ideSettings.useLatestVersion;
+            }
+        } else {
+            newIDESetting.defaultIde = user?.additionalData?.ideSettings?.defaultIde || "";
+            newIDESetting.useLatestVersion = user?.additionalData?.ideSettings?.defaultIde === "code-latest";
+        }
+        return newIDESetting;
     };
 
-    const [defaultDesktopIde, setDefaultDesktopIde] = useState<string>(
-        (user?.additionalData?.ideSettings?.useDesktopIde && user?.additionalData?.ideSettings?.defaultDesktopIde) ||
-            DesktopNoneId,
-    );
-    const actuallySetDefaultDesktopIde = async (value: string) => {
-        await updateUserIDEInfo(value, defaultIde, useLatestVersion);
-        setDefaultDesktopIde(value);
+    const ideSettings = migrationIDESettings();
+
+    const [defaultIde, setDefaultIde] = useState<string>(ideSettings?.defaultIde || "");
+    const actuallySetDefaultIde = async (value: string) => {
+        await updateUserIDEInfo(value, useLatestVersion);
+        setDefaultIde(value);
     };
 
     const [useLatestVersion, setUseLatestVersion] = useState<boolean>(
         user?.additionalData?.ideSettings?.useLatestVersion ?? false,
     );
+
     const actuallySetUseLatestVersion = async (value: boolean) => {
-        await updateUserIDEInfo(defaultDesktopIde, defaultIde, value);
+        await updateUserIDEInfo(defaultIde, value);
         setUseLatestVersion(value);
     };
 
@@ -87,14 +95,13 @@ export default function Preferences() {
     useEffect(() => {
         (async () => {
             const ideopts = await getGitpodService().server.getIDEOptions();
-            ideopts.options[DesktopNoneId] = DesktopNone;
-            setIdeOptions(ideopts);
-            if (!defaultIde) {
+            delete ideopts.options["code-latest"];
+            delete ideopts.options["code-desktop-insiders"];
+            if (!defaultIde || ideopts.options[defaultIde] == null) {
                 setDefaultIde(ideopts.defaultIde);
             }
-            if (!defaultDesktopIde) {
-                setDefaultDesktopIde(ideopts.defaultDesktopIde);
-            }
+            setIdeOptions(ideopts);
+            console.log(ideopts);
         })();
     }, []);
 
@@ -112,8 +119,7 @@ export default function Preferences() {
         setTheme(theme);
     };
 
-    const browserIdeOptions = ideOptions && orderedIdeOptions(ideOptions, "browser");
-    const desktopIdeOptions = ideOptions && orderedIdeOptions(ideOptions, "desktop");
+    const allIdeOptions = ideOptions && orderedIdeOptions(ideOptions);
 
     const [dotfileRepo, setDotfileRepo] = useState<string>(user?.additionalData?.dotfileRepo || "");
     const actuallySetDotfileRepo = async (value: string) => {
@@ -132,14 +138,14 @@ export default function Preferences() {
             <PageWithSubMenu subMenu={settingsMenu} title="Preferences" subtitle="Configure user preferences.">
                 {ideOptions && (
                     <>
-                        {browserIdeOptions && (
+                        {allIdeOptions && (
                             <>
-                                <h3>Browser Editor</h3>
+                                <h3>Editor</h3>
                                 <p className="text-base text-gray-500 dark:text-gray-400">
-                                    Choose the default editor for opening workspaces in the browser.
+                                    Choose the editor for opening workspaces.
                                 </p>
-                                <div className="my-4 gap-4 flex flex-wrap">
-                                    {browserIdeOptions.map(([id, option]) => {
+                                <div className="my-4 gap-4 flex flex-wrap max-w-2xl">
+                                    {allIdeOptions.map(([id, option]) => {
                                         const selected = defaultIde === id;
                                         const onSelect = () => actuallySetDefaultIde(id);
                                         return renderIdeOption(option, selected, onSelect);
@@ -149,38 +155,6 @@ export default function Preferences() {
                                     <InfoBox className="my-5 max-w-2xl">
                                         <ul>
                                             {ideOptions.options[defaultIde].notes?.map((x, idx) => (
-                                                <li className={idx > 0 ? "mt-2" : ""}>{x}</li>
-                                            ))}
-                                        </ul>
-                                    </InfoBox>
-                                )}
-                            </>
-                        )}
-                        {desktopIdeOptions && (
-                            <>
-                                <h3 className="mt-12 flex">
-                                    Desktop Editor
-                                    <PillLabel type="warn" className="font-semibold py-0.5 px-2 self-center">
-                                        Beta
-                                    </PillLabel>
-                                </h3>
-                                <p className="text-base text-gray-500 dark:text-gray-400">
-                                    Optionally, choose the default desktop editor for opening workspaces.
-                                </p>
-                                <div className="my-4 gap-4 flex flex-wrap max-w-2xl">
-                                    {desktopIdeOptions.map(([id, option]) => {
-                                        const selected = defaultDesktopIde === id;
-                                        const onSelect = () => actuallySetDefaultDesktopIde(id);
-                                        if (id === DesktopNoneId) {
-                                            option.logo = isDark ? IDENoneDark : IDENone;
-                                        }
-                                        return renderIdeOption(option, selected, onSelect);
-                                    })}
-                                </div>
-                                {ideOptions.options[defaultDesktopIde]?.notes && (
-                                    <InfoBox className="my-5 max-w-2xl">
-                                        <ul>
-                                            {ideOptions.options[defaultDesktopIde].notes?.map((x, idx) => (
                                                 <li className={idx > 0 ? "mt-2" : ""}>{x}</li>
                                             ))}
                                         </ul>
@@ -210,7 +184,7 @@ export default function Preferences() {
                         )}
                         <CheckBox
                             title="Latest Release"
-                            desc="Include the latest Early Access Program (EAP) version for each JetBrains IDE."
+                            desc="Use the latest version for each editor. Insiders for VS Code, EAP for JetBrains IDEs."
                             checked={useLatestVersion}
                             onChange={(e) => actuallySetUseLatestVersion(e.target.checked)}
                         />
@@ -301,10 +275,10 @@ export default function Preferences() {
     );
 }
 
-function orderedIdeOptions(ideOptions: IDEOptions, type: "browser" | "desktop") {
+function orderedIdeOptions(ideOptions: IDEOptions) {
     // TODO: Maybe convert orderKey to number before sort?
     return Object.entries(ideOptions.options)
-        .filter(([_, x]) => x.type === type && !x.hidden)
+        .filter(([_, x]) => !x.hidden)
         .sort((a, b) => {
             const keyA = a[1].orderKey || a[0];
             const keyB = b[1].orderKey || b[0];
@@ -314,14 +288,14 @@ function orderedIdeOptions(ideOptions: IDEOptions, type: "browser" | "desktop") 
 
 function renderIdeOption(option: IDEOption, selected: boolean, onSelect: () => void): JSX.Element {
     const card = (
-        <SelectableCard className="w-36 h-40" title={option.title} selected={selected} onClick={onSelect}>
+        <SelectableCardSolid className="w-36 h-40" title={option.title} selected={selected} onClick={onSelect}>
             <div className="flex justify-center mt-3">
                 <img className="w-16 filter-grayscale self-center" src={option.logo} alt="logo" />
             </div>
             {option.label ? (
                 <div
                     className={`font-semibold text-sm ${
-                        selected ? "text-green-500" : "text-gray-500 dark:text-gray-400"
+                        selected ? "text-gray-100 dark:text-gray-600" : "text-gray-600 dark:text-gray-500"
                     } uppercase mt-2 px-3 py-1 self-center`}
                 >
                     {option.label}
@@ -329,7 +303,7 @@ function renderIdeOption(option: IDEOption, selected: boolean, onSelect: () => v
             ) : (
                 <></>
             )}
-        </SelectableCard>
+        </SelectableCardSolid>
     );
 
     if (option.tooltip) {

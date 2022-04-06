@@ -56,6 +56,7 @@ import {
     ImageConfigFile,
     ProjectEnvVar,
     ImageBuildLogInfo,
+    IDESettings,
 } from "@gitpod/gitpod-protocol";
 import { IAnalyticsWriter } from "@gitpod/gitpod-protocol/lib/analytics";
 import { log } from "@gitpod/gitpod-protocol/lib/util/logging";
@@ -522,26 +523,70 @@ export class WorkspaceStarter {
         excludeFeatureFlags: NamedWorkspaceFeatureFlag[],
         ideConfig: IDEConfig,
     ): Promise<WorkspaceInstance> {
+        const migrationIDESettings = (): IDESettings => {
+            if (user?.additionalData?.ideSettings?.configVersion === "2.0") {
+                return user.additionalData.ideSettings;
+            }
+            let newIDESetting = {} as IDESettings;
+            newIDESetting.configVersion = "2.0";
+            if (user?.additionalData?.ideSettings?.useDesktopIde === true) {
+                if (user.additionalData.ideSettings.defaultDesktopIde === "code-desktop") {
+                    newIDESetting.defaultIde = "code-desktop";
+                } else if (user.additionalData.ideSettings.defaultDesktopIde === "code-desktop-insiders") {
+                    newIDESetting.defaultIde = "code-desktop";
+                    newIDESetting.useLatestVersion = true;
+                } else {
+                    newIDESetting.defaultIde = user.additionalData.ideSettings.defaultDesktopIde;
+                    newIDESetting.useLatestVersion = user.additionalData.ideSettings.useLatestVersion;
+                }
+            } else {
+                newIDESetting.defaultIde = user?.additionalData?.ideSettings?.defaultIde || "";
+                newIDESetting.useLatestVersion = user?.additionalData?.ideSettings?.defaultIde === "code-latest";
+            }
+            return newIDESetting;
+        };
+        const ideSettings = migrationIDESettings();
+        const ideChoice = ideSettings.defaultIde;
+        const useLatest = !!ideSettings.useLatestVersion;
+
         // TODO(cw): once we allow changing the IDE in the workspace config (i.e. .gitpod.yml), we must
         //           give that value precedence over the default choice.
+        const defaultIDEOption = ideConfig.ideOptions.options[ideConfig.ideOptions.defaultIde];
         const configuration: WorkspaceInstanceConfiguration = {
-            ideImage: ideConfig.ideOptions.options[ideConfig.ideOptions.defaultIde].image,
+            ideImage: useLatest ? defaultIDEOption.latestImage ?? defaultIDEOption.image : defaultIDEOption.image,
             supervisorImage: ideConfig.supervisorImage,
+            ideConfig: {
+                // TODO(hw): set false when latestImage not found
+                useLatest,
+            },
         };
 
-        const ideChoice = user.additionalData?.ideSettings?.defaultIde;
         if (!!ideChoice) {
-            const mappedImage = ideConfig.ideOptions.options[ideChoice];
-            if (!!mappedImage && mappedImage.image) {
-                configuration.ideImage = mappedImage.image;
-            } else if (this.authService.hasPermission(user, "ide-settings")) {
-                // if the IDE choice isn't one of the preconfiured choices, we assume its the image name.
-                // For now, this feature requires special permissions.
-                configuration.ideImage = ideChoice;
+            const mappedOption = ideConfig.ideOptions.options[ideChoice];
+            if (mappedOption.type === "browser") {
+                if (mappedOption.image != null) {
+                    configuration.ideImage = useLatest
+                        ? mappedOption?.latestImage ?? mappedOption?.image
+                        : mappedOption?.image;
+                } else if (this.authService.hasPermission(user, "ide-settings")) {
+                    // if the IDE choice isn't one of the preconfiured choices, we assume its the image name.
+                    // For now, this feature requires special permissions.
+                    configuration.ideImage = ideChoice;
+                }
+            } else {
+                const mappedOption = ideConfig.ideOptions.options[ideChoice];
+                if (!!mappedOption && mappedOption.image) {
+                    configuration.desktopIdeImage = useLatest
+                        ? mappedOption.latestImage ?? mappedOption.image
+                        : mappedOption.image;
+                } else if (this.authService.hasPermission(user, "ide-settings")) {
+                    // if the IDE choice isn't one of the preconfiured choices, we assume its the image name.
+                    // For now, this feature requires special permissions.
+                    configuration.desktopIdeImage = ideChoice;
+                }
             }
         }
 
-        const useLatest = !!user.additionalData?.ideSettings?.useLatestVersion;
         const referrerIde = this.resolveReferrerIDE(workspace, user, ideConfig);
         if (referrerIde) {
             configuration.desktopIdeImage = useLatest
@@ -551,8 +596,8 @@ export class WorkspaceStarter {
                 // A user does not have IDE settings configured yet configure it with a referrer ide as default.
                 const additionalData = user?.additionalData || {};
                 const settings = additionalData.ideSettings || {};
-                settings.useDesktopIde = true;
-                settings.defaultDesktopIde = referrerIde.id;
+                settings.defaultIde = referrerIde.id;
+                settings.configVersion = "2.0";
                 additionalData.ideSettings = settings;
                 user.additionalData = additionalData;
                 this.userDB
@@ -561,23 +606,6 @@ export class WorkspaceStarter {
                     .catch((e) => {
                         log.error({ userId: user.id }, "cannot configure default desktop ide", e);
                     });
-            }
-        } else {
-            const useDesktopIdeChoice = user.additionalData?.ideSettings?.useDesktopIde || false;
-            if (useDesktopIdeChoice) {
-                const desktopIdeChoice = user.additionalData?.ideSettings?.defaultDesktopIde;
-                if (!!desktopIdeChoice) {
-                    const mappedImage = ideConfig.ideOptions.options[desktopIdeChoice];
-                    if (!!mappedImage && mappedImage.image) {
-                        configuration.desktopIdeImage = useLatest
-                            ? mappedImage.latestImage ?? mappedImage.image
-                            : mappedImage.image;
-                    } else if (this.authService.hasPermission(user, "ide-settings")) {
-                        // if the IDE choice isn't one of the preconfiured choices, we assume its the image name.
-                        // For now, this feature requires special permissions.
-                        configuration.desktopIdeImage = desktopIdeChoice;
-                    }
-                }
             }
         }
 
