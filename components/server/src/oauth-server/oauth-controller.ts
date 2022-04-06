@@ -9,13 +9,10 @@ import { UserDB } from "@gitpod/gitpod-db/lib/user-db";
 import { User } from "@gitpod/gitpod-protocol";
 import { log } from "@gitpod/gitpod-protocol/lib/util/logging";
 import { OAuthRequest, OAuthResponse } from "@jmondi/oauth2-server";
-import {
-    handleExpressResponse,
-    handleExpressError,
-  } from "@jmondi/oauth2-server/dist/adapters/express"
+import { handleExpressResponse, handleExpressError } from "@jmondi/oauth2-server/dist/adapters/express";
 import * as express from "express";
 import { inject, injectable } from "inversify";
-import { URL } from 'url';
+import { URL } from "url";
 import { Config } from "../config";
 import { clientRepository, createAuthorizationServer } from "./oauth-authorization-server";
 
@@ -67,21 +64,28 @@ export class OAuthController {
 
             const client = await clientRepository.getByIdentifier(clientID);
             if (client) {
-                const normalizedRedirectUri = new URL(req.query.redirect_uri);
-                normalizedRedirectUri.search = '';
+                if (typeof req.query.redirect_uri !== "string") {
+                    log.error(req.query.redirect_uri ? "Missing redirect URI" : "Invalid format of redirect URI");
+                    res.sendStatus(400);
+                    return false;
+                }
 
-                if (!client.redirectUris.some(u => new URL(u).toString() === normalizedRedirectUri.toString())) {
-                    log.error(`/oauth/authorize: invalid returnTo URL: "${req.query.redirect_uri}"`)
+                const normalizedRedirectUri = new URL(req.query.redirect_uri);
+                normalizedRedirectUri.search = "";
+
+                if (!client.redirectUris.some((u) => new URL(u).toString() === normalizedRedirectUri.toString())) {
+                    log.error(`/oauth/authorize: invalid returnTo URL: "${req.query.redirect_uri}"`);
                     res.sendStatus(400);
                     return false;
                 }
             } else {
-                log.error(`/oauth/authorize unknown client id: "${clientID}"`)
+                log.error(`/oauth/authorize unknown client id: "${clientID}"`);
                 res.sendStatus(400);
                 return false;
             }
+
             const redirectUri = new URL(req.query.redirect_uri);
-            redirectUri.searchParams.append('approved', 'no');
+            redirectUri.searchParams.append("approved", "no");
             res.redirect(redirectUri.toString());
             return false;
         } else if (wasApproved == "yes") {
