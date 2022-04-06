@@ -53,13 +53,19 @@ func deserJSON() {
 	}
 	`
 
+	// read single JSON object
 	obj := unstructured.Unstructured{}
 	err := json.Unmarshal([]byte(input), &obj)
 	if err != nil {
 		panic(err)
 	}
-
 	fmt.Printf("name: %s", obj.GetName())
+
+	// TODO gather all items in a list
+	// TODO to sorting based on GetKind/GetName
+	// TODO do filtering of labels on the generic unstructured objects (GetLabels/SetLabels)
+
+	// Then decent into special-handling per specific object
 	handle(obj)
 }
 
