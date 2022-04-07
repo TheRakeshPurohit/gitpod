@@ -16,21 +16,25 @@ class GitpodTerminalClientService(session: ClientProjectSession) {
     init {
         runInEdt {
             val project = session.project
+            val terminalView = TerminalView.getInstance(project)
             val backendTerminalManager = BackendTerminalManager.getInstance(project)
-//            val terminalView = TerminalView.getInstance(project)
-//            for (widget in terminalView.widgets) {
-//                val widgetContent = terminalView.toolWindow.contentManager.getContent(widget)
-//                val terminalTitle = widgetContent.getUserData(TITLE_KEY)
-//                if (terminalTitle != null) {
-//                    backendTerminalManager.stopSharingTerminal(widget as ShellTerminalWidget)
-//                    backendTerminalManager.shareTerminal(widget, randomId())
-//                }
-//            }
+            for (widget in terminalView.widgets) {
+                val widgetContent = terminalView.toolWindow.contentManager.getContent(widget)
+                val terminalTitle = widgetContent.getUserData(TITLE_KEY)
+                if (terminalTitle != null) {
+                    backendTerminalManager.stopSharingTerminal(widget as ShellTerminalWidget)
+                    backendTerminalManager.shareTerminal(widget, randomId())
+                    // The following deprecated method needs to be used, otherwise not all terminals appear
+                    // when the Thin Client connects.
+                    // val terminalRunner = TerminalView.getRunnerByContent(widgetContent)
+                    // @Suppress("DEPRECATION") terminalRunner?.openSessionInDirectory(widget, "")
+                }
+            }
             backendTerminalManager.connectClientToAllSharedTerminals(session.clientId)
         }
     }
 
-//    private fun randomId() = List(16) {
-//        (('a'..'z') + ('A'..'Z') + ('0'..'9')).random()
-//    }.joinToString("")
+    private fun randomId() = List(16) {
+        (('a'..'z') + ('A'..'Z') + ('0'..'9')).random()
+    }.joinToString("")
 }
