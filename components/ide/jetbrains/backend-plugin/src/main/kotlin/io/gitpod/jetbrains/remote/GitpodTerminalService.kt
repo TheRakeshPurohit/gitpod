@@ -165,9 +165,11 @@ class GitpodTerminalService(private val project: Project) : Disposable {
         shellTerminalWidget.executeCommand("gp tasks attach ${supervisorTerminal.alias}")
     }
 
-    private fun debug(message: String) {
-        if (!System.getenv("JB_DEV").toBoolean()) return
-
-        runInEdt { thisLogger().warn(message) }
+    private fun debug(message: String) = runInEdt {
+        if (!System.getenv("JB_DEV").toBoolean()) {
+            thisLogger().warn(message)
+        } else {
+            thisLogger().info(message)
+        }
     }
 }
