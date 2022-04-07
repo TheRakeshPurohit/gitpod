@@ -17,14 +17,14 @@ class GitpodTerminalClientService(session: ClientProjectSession) {
             val project = session.project
             val terminalView = TerminalView.getInstance(project)
             for (widget in terminalView.widgets) {
-                val widgetContent = terminalView.toolWindow.contentManager.getContent(widget)
-                val terminalRunner = TerminalView.getRunnerByContent(widgetContent)
+                // val widgetContent = terminalView.toolWindow.contentManager.getContent(widget)
+                // val terminalRunner = TerminalView.getRunnerByContent(widgetContent)
                 val backendTerminalManager = BackendTerminalManager.getInstance(project)
-                backendTerminalManager.shareTerminal(widget as ShellTerminalWidget, randomId())
+                backendTerminalManager.stopSharingTerminal(widget as ShellTerminalWidget)
+                backendTerminalManager.shareTerminal(widget, randomId())
                 // The following deprecated method needs to be used, otherwise not all terminals appear
                 // when the Thin Client connects.
-                @Suppress("DEPRECATION") terminalRunner?.openSessionInDirectory(widget, "")
-                widget.grabFocus()
+                // @Suppress("DEPRECATION") terminalRunner?.openSessionInDirectory(widget, "")
             }
         }
     }
