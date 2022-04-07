@@ -50,16 +50,6 @@ class GitpodTerminalService(private val project: Project) : Disposable {
             val terminalsList = getSupervisorTerminalsListAsync().await().terminalsList
             debug("Got a list of Supervisor terminals: $terminalsList")
             runInEdt {
-//                for (terminalWidget in terminalView.widgets) {
-//                    val terminalContent =
-//                            terminalView.toolWindow.contentManager.getContent(terminalWidget)
-//                    val terminalTitle = terminalContent.getUserData(TITLE_KEY)
-//                    if (terminalTitle != null) {
-//                        debug("Closing terminal $terminalTitle before opening it again.")
-//                        terminalWidget.close()
-//                    }
-//                }
-
                 if (tasksList.isEmpty() || terminalsList.isEmpty()) {
                     backendTerminalManager.createNewSharedTerminal("Gitpod", "Terminal")
                 } else {

@@ -7,6 +7,7 @@ package io.gitpod.jetbrains.remote
 import com.intellij.openapi.application.runInEdt
 import com.intellij.openapi.client.ClientProjectSession
 import com.jetbrains.rdserver.terminal.BackendTerminalManager
+import io.gitpod.jetbrains.remote.GitpodTerminalService.Companion.TITLE_KEY
 import org.jetbrains.plugins.terminal.ShellTerminalWidget
 import org.jetbrains.plugins.terminal.TerminalView
 
@@ -16,16 +17,20 @@ class GitpodTerminalClientService(session: ClientProjectSession) {
         runInEdt {
             val project = session.project
             val terminalView = TerminalView.getInstance(project)
+            val backendTerminalManager = BackendTerminalManager.getInstance(project)
             for (widget in terminalView.widgets) {
-                // val widgetContent = terminalView.toolWindow.contentManager.getContent(widget)
-                // val terminalRunner = TerminalView.getRunnerByContent(widgetContent)
-                val backendTerminalManager = BackendTerminalManager.getInstance(project)
-                backendTerminalManager.stopSharingTerminal(widget as ShellTerminalWidget)
-                backendTerminalManager.shareTerminal(widget, randomId())
-                // The following deprecated method needs to be used, otherwise not all terminals appear
-                // when the Thin Client connects.
-                // @Suppress("DEPRECATION") terminalRunner?.openSessionInDirectory(widget, "")
+                val widgetContent = terminalView.toolWindow.contentManager.getContent(widget)
+                val terminalTitle = widgetContent.getUserData(TITLE_KEY)
+                if (terminalTitle != null) {
+                    backendTerminalManager.stopSharingTerminal(widget as ShellTerminalWidget)
+                    backendTerminalManager.shareTerminal(widget, randomId())
+                    // The following deprecated method needs to be used, otherwise not all terminals appear
+                    // when the Thin Client connects.
+                    // val terminalRunner = TerminalView.getRunnerByContent(widgetContent)
+                    // @Suppress("DEPRECATION") terminalRunner?.openSessionInDirectory(widget, "")
+                }
             }
+            backendTerminalManager.connectClientToAllSharedTerminals(session.clientId)
         }
     }
 
