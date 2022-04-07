@@ -50,7 +50,7 @@ class GitpodTerminalService(private val project: Project) : Disposable {
             val terminalsList = getSupervisorTerminalsListAsync().await().terminalsList
             debug("Got a list of Supervisor terminals: $terminalsList")
             runInEdt {
-                if (tasksList.isEmpty() || terminalsList.isEmpty()) {
+                if (tasksList.isEmpty()) {
                     backendTerminalManager.createNewSharedTerminal("Gitpod", "Terminal")
                 } else {
                     val aliasToTerminalMap: MutableMap<String, TerminalOuterClass.Terminal> =
