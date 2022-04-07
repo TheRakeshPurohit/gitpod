@@ -26,7 +26,7 @@ class GitpodTerminalClientService(session: ClientProjectSession) {
                     backendTerminalManager.shareTerminal(widget, randomId())
                 }
             }
-            // backendTerminalManager.connectClientToAllSharedTerminals(session.clientId)
+            backendTerminalManager.connectClientToAllSharedTerminals(session.clientId)
         }
     }
 
