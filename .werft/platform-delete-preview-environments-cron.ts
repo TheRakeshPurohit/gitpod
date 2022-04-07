@@ -54,17 +54,18 @@ async function deletePreviewEnvironments() {
     }
     werft.done("Fetching previews");
 
-    // werft.phase("deleting previews")
-    // try {
-    //     const previewsToDelete = previews.filter(ns => !expectedPreviewEnvironmentNamespaces.has(ns))
-    //     // Trigger namespace deletion in parallel
-    //     const promises = previewsToDelete.map(preview => wipePreviewEnvironmentAndNamespace(helmInstallName, preview, CORE_DEV_KUBECONFIG_PATH, { slice: `Deleting preview ${preview}` }));
-    //     // But wait for all of them to finish before (or one of them to fail) before we continue
-    //     await Promise.all(promises)
-    // } catch (err) {
-    //     werft.fail("deleting previews", err)
-    // }
-    // werft.done("deleting previews")
+    werft.phase("deleting previews")
+    try {
+        const previewsToDelete = previews.filter(ns => !expectedPreviewEnvironmentNamespaces.has(ns))
+        previewsToDelete.forEach(previewNs => werft.log("Deleting previews", previewNs))
+        // Trigger namespace deletion in parallel
+        // const promises = previewsToDelete.map(preview => wipePreviewEnvironmentAndNamespace(helmInstallName, preview, CORE_DEV_KUBECONFIG_PATH, { slice: `Deleting preview ${preview}` }));
+        // // But wait for all of them to finish before (or one of them to fail) before we continue
+        // await Promise.all(promises)
+    } catch (err) {
+        werft.fail("deleting previews", err)
+    }
+    werft.done("deleting previews")
 }
 
 function getAllBranches(): string[] {
