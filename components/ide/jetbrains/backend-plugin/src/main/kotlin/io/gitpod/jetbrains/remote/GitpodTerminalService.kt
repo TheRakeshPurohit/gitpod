@@ -11,13 +11,15 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
 import com.intellij.openapi.wm.ToolWindowManager
 import com.intellij.openapi.wm.ex.ToolWindowManagerListener
+import com.intellij.remoteDev.util.onTerminationOrNow
 import com.jetbrains.rd.util.lifetime.Lifetime
 import com.jetbrains.rdserver.terminal.BackendTerminalManager
 import io.gitpod.supervisor.api.Status.*
 import io.gitpod.supervisor.api.StatusServiceGrpc
 import io.gitpod.supervisor.api.TerminalOuterClass
 import io.gitpod.supervisor.api.TerminalServiceGrpc
-import io.grpc.stub.StreamObserver
+import io.grpc.stub.ClientCallStreamObserver
+import io.grpc.stub.ClientResponseObserver
 import java.util.concurrent.CompletableFuture
 import kotlinx.coroutines.*
 import kotlinx.coroutines.future.await
@@ -102,7 +104,13 @@ class GitpodTerminalService(private val project: Project) : Disposable {
         val completableFuture = CompletableFuture<List<TaskStatus>>()
         val taskStatusRequest = TasksStatusRequest.newBuilder().setObserve(true).build()
         val taskStatusResponseObserver =
-                object : StreamObserver<TasksStatusResponse> {
+                object : ClientResponseObserver<TasksStatusRequest, TasksStatusResponse> {
+                    override fun beforeStart(request: ClientCallStreamObserver<TasksStatusRequest>) {
+                        lifetime.onTerminationOrNow {
+                            request.cancel(null, null)
+                        }
+                    }
+
                     override fun onNext(response: TasksStatusResponse) {
                         debug("Received task list: ${response.tasksList}")
 
@@ -156,7 +164,9 @@ class GitpodTerminalService(private val project: Project) : Disposable {
         shellTerminalWidget.executeCommand("gp tasks attach ${supervisorTerminal.alias}")
     }
 
-    private fun debug(message: String) = runInEdt {
-        if (System.getenv("JB_DEV").toBoolean()) thisLogger().warn(message)
+    private fun debug(message: String) {
+        if (!System.getenv("JB_DEV").toBoolean()) return
+
+        runInEdt { thisLogger().warn(message) }
     }
 }
