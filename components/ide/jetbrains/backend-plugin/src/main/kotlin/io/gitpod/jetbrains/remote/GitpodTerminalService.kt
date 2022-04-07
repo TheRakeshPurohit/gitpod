@@ -5,6 +5,7 @@
 package io.gitpod.jetbrains.remote
 
 import com.google.protobuf.ByteString
+import com.intellij.openapi.Disposable
 import com.intellij.openapi.application.runInEdt
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.project.Project
@@ -12,6 +13,7 @@ import com.intellij.openapi.util.Key
 import com.intellij.openapi.wm.ToolWindowManager
 import com.intellij.openapi.wm.ex.ToolWindowManagerListener
 import com.jediterm.terminal.TtyConnector
+import com.jetbrains.rd.util.lifetime.Lifetime
 import com.jetbrains.rdserver.terminal.BackendTerminalManager
 import com.jetbrains.rdserver.terminal.BackendTtyConnector
 import io.gitpod.supervisor.api.Status.*
@@ -20,65 +22,73 @@ import io.gitpod.supervisor.api.TerminalOuterClass
 import io.gitpod.supervisor.api.TerminalServiceGrpc
 import io.grpc.StatusRuntimeException
 import io.grpc.stub.StreamObserver
+import java.io.ByteArrayOutputStream
+import java.io.PipedInputStream
+import java.io.PipedOutputStream
+import java.util.concurrent.CompletableFuture
 import kotlinx.coroutines.*
+import kotlinx.coroutines.future.await
+import kotlinx.coroutines.guava.asDeferred
 import org.jetbrains.plugins.terminal.ShellTerminalWidget
 import org.jetbrains.plugins.terminal.TerminalTabState
 import org.jetbrains.plugins.terminal.TerminalToolWindowFactory
 import org.jetbrains.plugins.terminal.TerminalView
 import org.jetbrains.plugins.terminal.cloud.CloudTerminalProcess
 import org.jetbrains.plugins.terminal.cloud.CloudTerminalRunner
-import java.io.ByteArrayOutputStream
-import java.io.PipedInputStream
-import java.io.PipedOutputStream
 
-@Suppress("UnstableApiUsage")
-class GitpodTerminalService(private val project: Project) {
+@Suppress("UnstableApiUsage", "EXPERIMENTAL_IS_NOT_ENABLED")
+@OptIn(DelicateCoroutinesApi::class)
+class GitpodTerminalService(private val project: Project) : Disposable {
     companion object {
         val TITLE_KEY = Key.create<String>("TITLE_KEY")
     }
 
+    private val lifetime = Lifetime.Eternal.createNested()
     private val terminalView = TerminalView.getInstance(project)
     private val terminalServiceStub = TerminalServiceGrpc.newStub(GitpodManager.supervisorChannel)
+    private val terminalServiceFutureStub =
+            TerminalServiceGrpc.newFutureStub(GitpodManager.supervisorChannel)
     private val statusServiceStub = StatusServiceGrpc.newStub(GitpodManager.supervisorChannel)
     private val backendTerminalManager = BackendTerminalManager.getInstance(project)
 
+    override fun dispose() {
+        lifetime.terminate()
+    }
+
     init {
-        afterTerminalToolWindowGetsRegistered {
-            withSupervisorTasksList { tasksList ->
-                withSupervisorTerminalsList { terminalsList ->
-                    runInEdt {
-                        for (terminalWidget in terminalView.widgets) {
-                            val terminalContent = terminalView.toolWindow.contentManager.getContent(terminalWidget)
-                            val terminalTitle = terminalContent.getUserData(TITLE_KEY)
-                            if (terminalTitle != null) {
-                                debug("Closing terminal $terminalTitle before opening it again.")
-                                terminalWidget.close()
-                            }
-                        }
+        GlobalScope.launch {
+            getTerminalToolWindowRegisteredEvent().await()
+            val tasksList = getSupervisorTasksList().await()
+            val terminalsList = getSupervisorTerminalsList().await().terminalsList
+            debug("Got a list of Supervisor terminals: ${terminalsList}")
+            runInEdt {
+                for (terminalWidget in terminalView.widgets) {
+                    val terminalContent =
+                            terminalView.toolWindow.contentManager.getContent(terminalWidget)
+                    val terminalTitle = terminalContent.getUserData(TITLE_KEY)
+                    if (terminalTitle != null) {
+                        debug("Closing terminal $terminalTitle before opening it again.")
+                        terminalWidget.close()
+                    }
+                }
 
-                        if (tasksList.isEmpty() || terminalsList.isEmpty()) {
-                            backendTerminalManager.createNewSharedTerminal(
-                                    "GitpodTerminal",
-                                    "Terminal"
-                            )
-                        } else {
-                            val aliasToTerminalMap:
-                                    MutableMap<String, TerminalOuterClass.Terminal> =
-                                    mutableMapOf()
+                if (tasksList.isEmpty() || terminalsList.isEmpty()) {
+                    backendTerminalManager.createNewSharedTerminal("GitpodTerminal", "Terminal")
+                } else {
+                    val aliasToTerminalMap: MutableMap<String, TerminalOuterClass.Terminal> =
+                            mutableMapOf()
 
-                            for (terminal in terminalsList) {
-                                val terminalAlias = terminal.alias
-                                aliasToTerminalMap[terminalAlias] = terminal
-                            }
+                    for (terminal in terminalsList) {
+                        val terminalAlias = terminal.alias
+                        aliasToTerminalMap[terminalAlias] = terminal
+                    }
 
-                            for (task in tasksList) {
-                                val terminalAlias = task.terminal
-                                val terminal = aliasToTerminalMap[terminalAlias]
+                    for (task in tasksList) {
+                        val terminalAlias = task.terminal
+                        val terminal = aliasToTerminalMap[terminalAlias]
 
-                                if (terminal != null) {
-                                    createSharedTerminal(terminal)
-                                }
-                            }
+                        if (terminal != null) {
+                            createSharedTerminal(terminal)
                         }
                     }
                 }
@@ -86,7 +96,9 @@ class GitpodTerminalService(private val project: Project) {
         }
     }
 
-    private fun afterTerminalToolWindowGetsRegistered(action: () -> Unit) {
+    private fun getTerminalToolWindowRegisteredEvent(): CompletableFuture<Void> {
+        val completableFuture = CompletableFuture<Void>()
+
         debug("Waiting for TerminalToolWindow to be registered...")
         val toolWindowManagerListener =
                 object : ToolWindowManagerListener {
@@ -96,7 +108,7 @@ class GitpodTerminalService(private val project: Project) {
                     ) {
                         if (ids.contains(TerminalToolWindowFactory.TOOL_WINDOW_ID)) {
                             debug("TerminalToolWindow got registered!")
-                            action()
+                            completableFuture.complete(null)
                         }
                     }
                 }
@@ -104,11 +116,13 @@ class GitpodTerminalService(private val project: Project) {
         project.messageBus
                 .connect()
                 .subscribe(ToolWindowManagerListener.TOPIC, toolWindowManagerListener)
+
+        return completableFuture
     }
 
-    private fun withSupervisorTasksList(action: (tasksList: List<TaskStatus>) -> Unit) {
+    private fun getSupervisorTasksList(): CompletableFuture<List<TaskStatus>> {
+        val completableFuture = CompletableFuture<List<TaskStatus>>()
         val taskStatusRequest = TasksStatusRequest.newBuilder().setObserve(true).build()
-
         val taskStatusResponseObserver =
                 object : StreamObserver<TasksStatusResponse> {
                     override fun onNext(response: TasksStatusResponse) {
@@ -124,7 +138,7 @@ class GitpodTerminalService(private val project: Project) {
 
                         if (hasOpenedAllTasks) {
                             this.onCompleted()
-                            action(response.tasksList)
+                            completableFuture.complete(response.tasksList)
                         }
                     }
 
@@ -138,38 +152,18 @@ class GitpodTerminalService(private val project: Project) {
                                         "Got an error while trying to fetch tasks from Supervisor.",
                                         throwable
                                 )
+                        completableFuture.completeExceptionally(throwable)
                     }
                 }
 
         statusServiceStub.tasksStatus(taskStatusRequest, taskStatusResponseObserver)
+
+        return completableFuture
     }
 
-    private fun withSupervisorTerminalsList(
-            action: (terminalsList: List<TerminalOuterClass.Terminal>) -> Unit
-    ) {
+    private fun getSupervisorTerminalsList(): Deferred<TerminalOuterClass.ListTerminalsResponse> {
         val listTerminalsRequest = TerminalOuterClass.ListTerminalsRequest.newBuilder().build()
-
-        val listTerminalsResponseObserver =
-                object : StreamObserver<TerminalOuterClass.ListTerminalsResponse> {
-                    override fun onNext(response: TerminalOuterClass.ListTerminalsResponse) {
-                        debug("Got a list of Supervisor terminals: ${response.terminalsList}")
-                        action(response.terminalsList)
-                    }
-
-                    override fun onError(throwable: Throwable) {
-                        thisLogger()
-                                .error(
-                                        "Got an error while getting the list of Supervisor terminals.",
-                                        throwable
-                                )
-                    }
-
-                    override fun onCompleted() {
-                        debug("Successfully got the list of Supervisor terminals.")
-                    }
-                }
-
-        terminalServiceStub.list(listTerminalsRequest, listTerminalsResponseObserver)
+        return terminalServiceFutureStub.list(listTerminalsRequest).asDeferred()
     }
 
     private fun createSharedTerminal(supervisorTerminal: TerminalOuterClass.Terminal) {
@@ -196,8 +190,9 @@ class GitpodTerminalService(private val project: Project) {
         val shellTerminalWidget =
                 terminalView.widgets.find { widget ->
                     terminalView.toolWindow.contentManager.getContent(widget).tabName ==
-                    terminalRunnerId
-                } as ShellTerminalWidget
+                            terminalRunnerId
+                } as
+                        ShellTerminalWidget
 
         backendTerminalManager.shareTerminal(shellTerminalWidget, terminalRunnerId)
 
@@ -232,7 +227,10 @@ class GitpodTerminalService(private val project: Project) {
                         when {
                             response.hasTitle() -> {
                                 debug("Received terminal title: ${response.title}")
-                                val terminalContent = terminalView.toolWindow.contentManager.getContent(shellTerminalWidget)
+                                val terminalContent =
+                                        terminalView.toolWindow.contentManager.getContent(
+                                                shellTerminalWidget
+                                        )
                                 terminalContent.putUserData(TITLE_KEY, response.title)
                             }
                             response.hasData() -> {
@@ -299,8 +297,6 @@ class GitpodTerminalService(private val project: Project) {
                 TerminalOuterClass.WriteTerminalRequest.newBuilder()
                         .setAlias(supervisorTerminal.alias)
 
-        @Suppress("EXPERIMENTAL_IS_NOT_ENABLED")
-        @OptIn(DelicateCoroutinesApi::class)
         val watchTerminalInputJob =
                 GlobalScope.launch {
                     withContext(Dispatchers.IO) {

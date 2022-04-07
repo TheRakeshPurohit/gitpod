@@ -6,7 +6,6 @@ package io.gitpod.jetbrains.remote
 
 import com.intellij.openapi.application.runInEdt
 import com.intellij.openapi.client.ClientProjectSession
-import com.jetbrains.rdserver.terminal.BackendTerminalManager
 import org.jetbrains.plugins.terminal.TerminalView
 
 @Suppress("UnstableApiUsage")
