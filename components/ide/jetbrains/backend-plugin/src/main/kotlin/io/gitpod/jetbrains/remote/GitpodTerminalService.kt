@@ -32,6 +32,7 @@ import org.jetbrains.plugins.terminal.TerminalView
 class GitpodTerminalService(private val project: Project) : Disposable {
     companion object {
         val TITLE_KEY = Key.create<String>("TITLE_KEY")
+        val ALIAS_KEY = Key.create<String>("ALIAS_KEY")
     }
 
     private val lifetime = Lifetime.Eternal.createNested()
@@ -161,6 +162,7 @@ class GitpodTerminalService(private val project: Project) : Disposable {
         val terminalContent = terminalView.toolWindow.contentManager.getContent(shellTerminalWidget)
 
         terminalContent.putUserData(TITLE_KEY, supervisorTerminal.title)
+        terminalContent.putUserData(ALIAS_KEY, supervisorTerminal.alias)
 
         shellTerminalWidget.executeCommand("gp tasks attach ${supervisorTerminal.alias}")
     }

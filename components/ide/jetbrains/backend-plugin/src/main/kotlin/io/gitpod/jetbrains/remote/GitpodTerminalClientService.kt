@@ -7,7 +7,7 @@ package io.gitpod.jetbrains.remote
 import com.intellij.openapi.application.runInEdt
 import com.intellij.openapi.client.ClientProjectSession
 import com.jetbrains.rdserver.terminal.BackendTerminalManager
-import io.gitpod.jetbrains.remote.GitpodTerminalService.Companion.TITLE_KEY
+import io.gitpod.jetbrains.remote.GitpodTerminalService.Companion.ALIAS_KEY
 import org.jetbrains.plugins.terminal.ShellTerminalWidget
 import org.jetbrains.plugins.terminal.TerminalView
 
@@ -20,7 +20,7 @@ class GitpodTerminalClientService(session: ClientProjectSession) {
             val backendTerminalManager = BackendTerminalManager.getInstance(project)
             for (widget in terminalView.widgets) {
                 val widgetContent = terminalView.toolWindow.contentManager.getContent(widget)
-                val terminalTitle = widgetContent.getUserData(TITLE_KEY)
+                val terminalTitle = widgetContent.getUserData(ALIAS_KEY)
                 if (terminalTitle != null) {
                     backendTerminalManager.stopSharingTerminal(widget as ShellTerminalWidget)
                     backendTerminalManager.shareTerminal(widget, randomId())
