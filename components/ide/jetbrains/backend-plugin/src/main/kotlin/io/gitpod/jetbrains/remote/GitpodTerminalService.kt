@@ -25,7 +25,7 @@ import kotlinx.coroutines.guava.asDeferred
 import org.jetbrains.plugins.terminal.TerminalToolWindowFactory
 import org.jetbrains.plugins.terminal.TerminalView
 
-@Suppress("UnstableApiUsage", "EXPERIMENTAL_IS_NOT_ENABLED")
+@Suppress("UnstableApiUsage", "EXPERIMENTAL_IS_NOT_ENABLED", "OPT_IN_IS_NOT_ENABLED")
 @OptIn(DelicateCoroutinesApi::class)
 class GitpodTerminalService(private val project: Project) : Disposable {
     companion object {

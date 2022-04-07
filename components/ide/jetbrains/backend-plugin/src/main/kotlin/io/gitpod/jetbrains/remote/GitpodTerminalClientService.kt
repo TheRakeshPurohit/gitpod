@@ -24,13 +24,8 @@ class GitpodTerminalClientService(session: ClientProjectSession) {
                 if (terminalTitle != null) {
                     backendTerminalManager.stopSharingTerminal(widget as ShellTerminalWidget)
                     backendTerminalManager.shareTerminal(widget, randomId())
-                    // The following deprecated method needs to be used, otherwise not all terminals appear
-                    // when the Thin Client connects.
-                    // val terminalRunner = TerminalView.getRunnerByContent(widgetContent)
-                    // @Suppress("DEPRECATION") terminalRunner?.openSessionInDirectory(widget, "")
                 }
             }
-            backendTerminalManager.connectClientToAllSharedTerminals(session.clientId)
         }
     }
 
