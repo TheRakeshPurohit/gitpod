@@ -79,6 +79,8 @@ class GitpodTerminalService(private val project: Project) : Disposable {
     private fun getTerminalToolWindowRegisteredEvent(): CompletableFuture<Void> {
         val completableFuture = CompletableFuture<Void>()
 
+        val projectConnection = project.messageBus.connect()
+
         debug("Waiting for TerminalToolWindow to be registered...")
         val toolWindowManagerListener =
                 object : ToolWindowManagerListener {
@@ -89,13 +91,12 @@ class GitpodTerminalService(private val project: Project) : Disposable {
                         if (ids.contains(TerminalToolWindowFactory.TOOL_WINDOW_ID)) {
                             debug("TerminalToolWindow got registered!")
                             completableFuture.complete(null)
+                            projectConnection.dispose()
                         }
                     }
                 }
 
-        project.messageBus
-                .connect()
-                .subscribe(ToolWindowManagerListener.TOPIC, toolWindowManagerListener)
+        projectConnection.subscribe(ToolWindowManagerListener.TOPIC, toolWindowManagerListener)
 
         return completableFuture
     }
