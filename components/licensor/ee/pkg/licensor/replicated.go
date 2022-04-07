@@ -85,7 +85,8 @@ func defaultReplicatedLicense() *Evaluator {
 	// lic.Type = LicenseTypeReplicated
 
 	return &Evaluator{
-		lic: lic,
+		lic:           lic,
+		allowFallback: true,
 	}
 }
 
