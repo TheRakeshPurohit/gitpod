@@ -50,18 +50,18 @@ class GitpodTerminalService(private val project: Project) : Disposable {
             val terminalsList = getSupervisorTerminalsListAsync().await().terminalsList
             debug("Got a list of Supervisor terminals: $terminalsList")
             runInEdt {
-                for (terminalWidget in terminalView.widgets) {
-                    val terminalContent =
-                            terminalView.toolWindow.contentManager.getContent(terminalWidget)
-                    val terminalTitle = terminalContent.getUserData(TITLE_KEY)
-                    if (terminalTitle != null) {
-                        debug("Closing terminal $terminalTitle before opening it again.")
-                        terminalWidget.close()
-                    }
-                }
+//                for (terminalWidget in terminalView.widgets) {
+//                    val terminalContent =
+//                            terminalView.toolWindow.contentManager.getContent(terminalWidget)
+//                    val terminalTitle = terminalContent.getUserData(TITLE_KEY)
+//                    if (terminalTitle != null) {
+//                        debug("Closing terminal $terminalTitle before opening it again.")
+//                        terminalWidget.close()
+//                    }
+//                }
 
                 if (tasksList.isEmpty() || terminalsList.isEmpty()) {
-                    backendTerminalManager.createNewSharedTerminal("GitpodTerminal", "Terminal")
+                    backendTerminalManager.createNewSharedTerminal("Gitpod", "Terminal")
                 } else {
                     val aliasToTerminalMap: MutableMap<String, TerminalOuterClass.Terminal> =
                             mutableMapOf()
@@ -157,11 +157,7 @@ class GitpodTerminalService(private val project: Project) : Disposable {
     private fun createSharedTerminal(supervisorTerminal: TerminalOuterClass.Terminal) {
         debug("Creating shared terminal '${supervisorTerminal.title}' on Backend IDE")
 
-        val terminalRunnerId = supervisorTerminal.alias
-
-        val shellTerminalWidget = terminalView.createLocalShellWidget(project.basePath, terminalRunnerId)
-
-        backendTerminalManager.shareTerminal(shellTerminalWidget, terminalRunnerId)
+        val shellTerminalWidget = terminalView.createLocalShellWidget(project.basePath, supervisorTerminal.title)
 
         val terminalContent = terminalView.toolWindow.contentManager.getContent(shellTerminalWidget)
 

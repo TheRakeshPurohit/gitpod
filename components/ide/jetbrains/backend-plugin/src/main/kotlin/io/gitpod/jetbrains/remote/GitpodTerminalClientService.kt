@@ -6,6 +6,8 @@ package io.gitpod.jetbrains.remote
 
 import com.intellij.openapi.application.runInEdt
 import com.intellij.openapi.client.ClientProjectSession
+import com.jetbrains.rdserver.terminal.BackendTerminalManager
+import org.jetbrains.plugins.terminal.ShellTerminalWidget
 import org.jetbrains.plugins.terminal.TerminalView
 
 @Suppress("UnstableApiUsage")
@@ -17,10 +19,17 @@ class GitpodTerminalClientService(session: ClientProjectSession) {
             for (widget in terminalView.widgets) {
                 val widgetContent = terminalView.toolWindow.contentManager.getContent(widget)
                 val terminalRunner = TerminalView.getRunnerByContent(widgetContent)
+                val backendTerminalManager = BackendTerminalManager.getInstance(project)
+                backendTerminalManager.shareTerminal(widget as ShellTerminalWidget, randomId())
                 // The following deprecated method needs to be used, otherwise not all terminals appear
                 // when the Thin Client connects.
                 @Suppress("DEPRECATION") terminalRunner?.openSessionInDirectory(widget, "")
+                widget.grabFocus()
             }
         }
     }
+
+    private fun randomId() = List(16) {
+        (('a'..'z') + ('A'..'Z') + ('0'..'9')).random()
+    }.joinToString("")
 }
