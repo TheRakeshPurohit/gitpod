@@ -1610,7 +1610,11 @@ export class GitpodServerImpl implements GitpodServerWithTracing, Disposable {
         }
 
         try {
-            const imgbuilder = this.imageBuilderClientProvider.getDefault();
+            const imgbuilder = await this.imageBuilderClientProvider.getDefault(
+                {} as User,
+                {} as Workspace,
+                {} as WorkspaceInstance,
+            );
             const req = new LogsRequest();
             req.setCensored(true);
             req.setBuildRef(workspace.imageNameResolved);

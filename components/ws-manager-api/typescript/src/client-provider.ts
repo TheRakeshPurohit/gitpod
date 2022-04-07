@@ -120,6 +120,10 @@ export class WorkspaceManagerClientProvider implements Disposable {
     }
 
     public createClient(info: WorkspaceManagerConnectionInfo, grpcOptions?: object): WorkspaceManagerClient {
+        return new WorkspaceManagerClient(info.url, this.getCredentials(info), this.getGRPCOptions(info, grpcOptions));
+    }
+
+    public getCredentials(info: WorkspaceManagerConnectionInfo): grpc.ChannelCredentials {
         let credentials: grpc.ChannelCredentials;
         if (info.tls) {
             const rootCerts = Buffer.from(info.tls.ca, "base64");
@@ -131,11 +135,15 @@ export class WorkspaceManagerClientProvider implements Disposable {
             credentials = grpc.credentials.createInsecure();
         }
 
+        return credentials;
+    }
+
+    public getGRPCOptions(info: WorkspaceManagerConnectionInfo, grpcOptions?: object): Partial<grpc.ClientOptions> {
         const options: Partial<grpc.ClientOptions> = {
             ...grpcOptions,
             'grpc.ssl_target_name_override': "ws-manager",  // this makes sure we can call ws-manager with a URL different to "ws-manager"
         };
-        return new WorkspaceManagerClient(info.url, credentials, options);
+        return options;
     }
 
     public dispose() {
