@@ -12,6 +12,7 @@ import com.intellij.openapi.project.ModuleListener
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.projectRoots.ProjectJdkTable
 import com.intellij.openapi.projectRoots.Sdk
+import com.intellij.openapi.roots.ModuleRootManager
 import com.intellij.openapi.roots.ModuleRootModificationUtil
 import com.intellij.openapi.roots.ProjectRootManager
 import com.intellij.util.application
@@ -25,17 +26,10 @@ class GitpodProjectManager(
         private val project: Project
 ) {
 
-    init {
-        configureSdks()
-    }
-
     /**
      * It is a workaround for https://youtrack.jetbrains.com/issue/GTW-88
      */
-    private fun configureSdks() {
-        if (application.isHeadlessEnvironment) {
-            return
-        }
+    init {
         val pendingSdk = CompletableFuture<Sdk>()
         application.invokeLaterOnWriteThread {
             application.runWriteAction {

@@ -14,5 +14,4 @@ packages:
       - "src/main/resources/*"
     config:
       commands:
-        - ["./gradlew", "-PsupervisorApiProjectPath=components-supervisor-api-java--lib/", "-PgitpodProtocolProjectPath=components-gitpod-protocol-java--lib/", "runPluginVerifier"]
         - ["./gradlew", "-PsupervisorApiProjectPath=components-supervisor-api-java--lib/", "-PgitpodProtocolProjectPath=components-gitpod-protocol-java--lib/", "buildPlugin"]
