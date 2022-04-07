@@ -9,6 +9,8 @@ import { CORE_DEV_KUBECONFIG_PATH } from './jobs/build/const';
 // Will be set once tracing has been initialized
 let werft: Werft
 
+const previewsToDelete = [];
+
 Tracing.initialize()
     .then(() => {
         werft = new Werft("delete-preview-environment-cron")
@@ -54,9 +56,19 @@ async function deletePreviewEnvironments() {
     }
     werft.done("Fetching previews");
 
+
+    werft.phase("checking activity")
+    const promises: Promise<any>[] = [];
+    previews.forEach(previewNS => {
+        promises.push(checkDB(previewNS));
+    })
+    await Promise.all(promises);
+
+    werft.log("previewToDelete", previewsToDelete)
+
     werft.phase("deleting previews")
     try {
-        const previewsToDelete = previews.filter(ns => !expectedPreviewEnvironmentNamespaces.has(ns))
+        // const previewsToDelete = previews.filter(ns => !expectedPreviewEnvironmentNamespaces.has(ns))
         previewsToDelete.forEach(previewNs => werft.log("Deleting previews", previewNs))
         // Trigger namespace deletion in parallel
         // const promises = previewsToDelete.map(preview => wipePreviewEnvironmentAndNamespace(helmInstallName, preview, CORE_DEV_KUBECONFIG_PATH, { slice: `Deleting preview ${preview}` }));
@@ -66,6 +78,37 @@ async function deletePreviewEnvironments() {
         werft.fail("deleting previews", err)
     }
     werft.done("deleting previews")
+}
+
+async function checkDB(previewNS) {
+
+    werft.log("checking namespace", previewNS)
+
+    const statusNS = exec(`KUBECONFIG=${CORE_DEV_KUBECONFIG_PATH} kubectl get ns ${previewNS} -o jsonpath='{.status.phase}'`, { silent: true})
+
+    if ( statusNS == "Active") {
+
+        const statusDB = exec(`KUBECONFIG=${CORE_DEV_KUBECONFIG_PATH} kubectl get pods mysql-0 -n ${previewNS} -o jsonpath='{.status.phase}'`, { silent: true})
+
+        if (statusDB == "Running" ) {
+
+            const connectionToDb = `KUBECONFIG=${CORE_DEV_KUBECONFIG_PATH} kubectl get secret db-password -n ${previewNS} -o jsonpath='{.data.mysql-password}' | base64 -d | mysql --host=db.${previewNS}.svc.cluster.local --port=3306 --user=gitpod --database=gitpod -s -N -p`
+
+            const latestInstanceTimeout = 24
+            const latestInstance = exec(`${connectionToDb} --execute="SELECT creationTime FROM d_b_workspace_instance WHERE creationTime > DATE_SUB(NOW(), INTERVAL '${latestInstanceTimeout}' HOUR) LIMIT 1"`, { silent: true })
+
+            const latestUserTimeout = 24
+            const latestUser= exec(`${connectionToDb} --execute="SELECT creationDate FROM d_b_user WHERE creationDate > DATE_SUB(NOW(), INTERVAL '${latestUserTimeout}' HOUR) LIMIT 1"`, { silent: true })
+
+            const heartbeatTimeout = 24
+            const heartbeat= exec(`${connectionToDb} --execute="SELECT lastSeen FROM d_b_workspace_instance_user WHERE lastSeen > DATE_SUB(NOW(), INTERVAL '${heartbeatTimeout}' HOUR) LIMIT 1"`, { silent: true })
+
+            if ( !(heartbeat.length > 4) && !(latestInstance.length > 4) && !(latestUser.length > 4) ) {
+                previewsToDelete.push(previewNS)
+            }
+        }
+    }
+
 }
 
 function getAllBranches(): string[] {
