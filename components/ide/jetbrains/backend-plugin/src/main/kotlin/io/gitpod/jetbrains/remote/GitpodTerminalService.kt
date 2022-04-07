@@ -166,7 +166,7 @@ class GitpodTerminalService(private val project: Project) : Disposable {
     }
 
     private fun debug(message: String) = runInEdt {
-        if (!System.getenv("JB_DEV").toBoolean()) {
+        if (System.getenv("JB_DEV").toBoolean()) {
             thisLogger().warn(message)
         } else {
             thisLogger().info(message)
