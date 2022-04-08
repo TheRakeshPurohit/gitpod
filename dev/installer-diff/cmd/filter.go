@@ -77,22 +77,22 @@ func handle(obj unstructured.Unstructured) {
 		var cm *corev1.ConfigMap
 		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &cm)
 		assertNoError(err)
-		printJsonDataFields(cm, "config.json")
+		printJsonDataFields(cm.Data, "config.json")
 	case "ConfigMap:auth-providers-config":
 		var cm *corev1.ConfigMap
 		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &cm)
 		assertNoError(err)
-		printJsonDataFields(cm, "auth-providers.json")
+		printJsonDataFields(cm.Data, "auth-providers.json")
 	case "ConfigMap:blobserve-config":
 		var cm *corev1.ConfigMap
 		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &cm)
 		assertNoError(err)
-		printJsonDataFields(cm, "config.json")
+		printJsonDataFields(cm.Data, "config.json")
 	case "ConfigMap:image-builder-mk3-config":
 		var cm *corev1.ConfigMap
 		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &cm)
 		assertNoError(err)
-		printJsonDataFields(cm, "image-builder.json")
+		printJsonDataFields(cm.Data, "image-builder.json")
 	case "ConfigMap:proxy-config":
 		var cm *corev1.ConfigMap
 		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &cm)
@@ -105,7 +105,7 @@ func handle(obj unstructured.Unstructured) {
 		var cm *corev1.ConfigMap
 		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &cm)
 		assertNoError(err)
-		printJsonDataFields(cm, "config.json")
+		printJsonDataFields(cm.Data, "config.json")
 	case "ConfigMap:restarter-scripts":
 		var cm *corev1.ConfigMap
 		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &cm)
@@ -115,12 +115,12 @@ func handle(obj unstructured.Unstructured) {
 		var cm *corev1.ConfigMap
 		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &cm)
 		assertNoError(err)
-		printJsonDataFields(cm, "config.json")
+		printJsonDataFields(cm.Data, "config.json")
 	case "ConfigMap:workspace-template":
 		var cm *corev1.ConfigMap
 		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &cm)
 		assertNoError(err)
-		printJsonDataFields(cm,
+		printJsonDataFields(cm.Data,
 			"default.yaml",
 			"imagebuild.yaml",
 			"prebuild.yaml",
@@ -131,22 +131,37 @@ func handle(obj unstructured.Unstructured) {
 		var cm *corev1.ConfigMap
 		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &cm)
 		assertNoError(err)
-		printJsonDataFields(cm, "config.json")
+		printJsonDataFields(cm.Data, "config.json")
 	case "ConfigMap:ws-manager-bridge-config":
 		var cm *corev1.ConfigMap
 		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &cm)
 		assertNoError(err)
-		printJsonDataFields(cm, "ws-manager-bridge.json")
+		printJsonDataFields(cm.Data, "ws-manager-bridge.json")
 	case "ConfigMap:ws-manager-config":
 		var cm *corev1.ConfigMap
 		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &cm)
 		assertNoError(err)
-		printJsonDataFields(cm, "config.json")
+		printJsonDataFields(cm.Data, "config.json")
 	case "ConfigMap:ws-proxy-config":
 		var cm *corev1.ConfigMap
 		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &cm)
 		assertNoError(err)
-		printJsonDataFields(cm, "config.json")
+		printJsonDataFields(cm.Data, "config.json")
+	case "Secret:db-sync-config":
+		var sc *corev1.Secret
+		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &sc)
+		assertNoError(err)
+		printJsonDataFields(convertToStringMap(sc.Data), "db-sync-gitpod.json", "db-sync-sessions.json")
+	case "Secret:kedge-config":
+		var sc *corev1.Secret
+		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &sc)
+		assertNoError(err)
+		printJsonDataFields(convertToStringMap(sc.Data), "config.json")
+	case "Secret:kedge-config-gitpod":
+		var sc *corev1.Secret
+		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &sc)
+		assertNoError(err)
+		printJsonDataFields(convertToStringMap(sc.Data), "config.json")
 		// case *appsv1.DaemonSet:
 		// 	fmt.Printf("object is a daemonset: %s\n", v.Name)
 		// case *appsv1.StatefulSet:
@@ -184,13 +199,21 @@ func handle(obj unstructured.Unstructured) {
 	}
 }
 
-func printJsonDataFields(cm *corev1.ConfigMap, fields ...string) {
+func convertToStringMap(in map[string][]byte) map[string]string {
+	m := map[string]string{}
+	for k := range in {
+		m[k] = string(in[k])
+	}
+	return m
+}
+
+func printJsonDataFields(m map[string]string, fields ...string) {
 	for _, field := range fields {
 		fmt.Printf("--%s\n", field)
-		var m interface{}
-		err := json.Unmarshal([]byte(cm.Data[field]), &m)
+		var v interface{}
+		err := json.Unmarshal([]byte(m[field]), &v)
 		assertNoError(err)
-		b, err := json.MarshalIndent(m, "", " ")
+		b, err := json.MarshalIndent(v, "", " ")
 		assertNoError(err)
 		fmt.Println(string(b))
 	}
