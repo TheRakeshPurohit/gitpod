@@ -9,7 +9,7 @@ import { CORE_DEV_KUBECONFIG_PATH } from './jobs/build/const';
 // Will be set once tracing has been initialized
 let werft: Werft
 
-const previewsToDelete = [];
+let previewsToDelete = [];
 
 Tracing.initialize()
     .then(() => {
@@ -39,13 +39,6 @@ async function deletePreviewEnvironments() {
     }
     werft.done("prep")
 
-    werft.phase("Fetching branches");
-    const branches = getAllBranches();
-    // During the transition from the old preview names to the new ones we have to check for the existence of both the old or new
-    // preview name patterns before it is safe to delete a namespace.
-    const expectedPreviewEnvironmentNamespaces = new Set(branches.flatMap(branch => [parseBranch(branch), expectedNamespaceFromBranch(branch)]));
-    werft.done("Fetching branches");
-
     werft.phase("Fetching previews");
     let previews: string[]
     try {
@@ -56,19 +49,23 @@ async function deletePreviewEnvironments() {
     }
     werft.done("Fetching previews");
 
+    werft.phase("Fetching active branches");
+    const branches = getAllBranches();
+    // During the transition from the old preview names to the new ones we have to check for the existence of both the old or new
+    // preview name patterns before it is safe to delete a namespace.
+    const expectedPreviewEnvironmentNamespaces = new Set(branches.flatMap(branch => [parseBranch(branch), expectedNamespaceFromBranch(branch)]));
+    werft.done("Fetching active branches");
 
     werft.phase("checking activity")
-    const promises: Promise<any>[] = [];
     previews.forEach(previewNS => {
-        promises.push(checkDB(previewNS));
+        checkActivity(previewNS);
     })
-    await Promise.all(promises);
 
     werft.log("previewToDelete", previewsToDelete)
 
     werft.phase("deleting previews")
     try {
-        // const previewsToDelete = previews.filter(ns => !expectedPreviewEnvironmentNamespaces.has(ns))
+        previewsToDelete = previewsToDelete.concat(previews.filter(ns => !expectedPreviewEnvironmentNamespaces.has(ns)))
         previewsToDelete.forEach(previewNs => werft.log("Deleting previews", previewNs))
         // Trigger namespace deletion in parallel
         // const promises = previewsToDelete.map(preview => wipePreviewEnvironmentAndNamespace(helmInstallName, preview, CORE_DEV_KUBECONFIG_PATH, { slice: `Deleting preview ${preview}` }));
@@ -80,9 +77,9 @@ async function deletePreviewEnvironments() {
     werft.done("deleting previews")
 }
 
-async function checkDB(previewNS) {
+async function checkActivity(previewNS) {
 
-    werft.log("checking namespace", previewNS)
+    werft.log("checking activity", `Namespace: ${previewNS}`)
 
     const statusNS = exec(`KUBECONFIG=${CORE_DEV_KUBECONFIG_PATH} kubectl get ns ${previewNS} -o jsonpath='{.status.phase}'`, { silent: true})
 
@@ -90,7 +87,7 @@ async function checkDB(previewNS) {
 
         const statusDB = exec(`KUBECONFIG=${CORE_DEV_KUBECONFIG_PATH} kubectl get pods mysql-0 -n ${previewNS} -o jsonpath='{.status.phase}'`, { silent: true})
 
-        if (statusDB == "Running" ) {
+        if (statusDB.code == 0 && statusDB == "Running" ) {
 
             const connectionToDb = `KUBECONFIG=${CORE_DEV_KUBECONFIG_PATH} kubectl get secret db-password -n ${previewNS} -o jsonpath='{.data.mysql-password}' | base64 -d | mysql --host=db.${previewNS}.svc.cluster.local --port=3306 --user=gitpod --database=gitpod -s -N -p`
 
@@ -104,6 +101,7 @@ async function checkDB(previewNS) {
             const heartbeat= exec(`${connectionToDb} --execute="SELECT lastSeen FROM d_b_workspace_instance_user WHERE lastSeen > DATE_SUB(NOW(), INTERVAL '${heartbeatTimeout}' HOUR) LIMIT 1"`, { silent: true })
 
             if ( !(heartbeat.length > 4) && !(latestInstance.length > 4) && !(latestUser.length > 4) ) {
+                werft.log("checking activity", `The preview-environment ${previewNS} has no recent activity.`)
                 previewsToDelete.push(previewNS)
             }
         }
