@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"log"
 	"sort"
+	"strings"
 
 	// yaml "gopkg.in/yaml.v2"
 
@@ -20,11 +21,13 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	// "k8s.io/apimachinery/pkg/api/meta"
 
+	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 
 	// "io/fs"
 	"io/ioutil"
 
+	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 
 	// "io/ioutil"
@@ -78,12 +81,6 @@ func parseAsJsonArray() (objs []unstructured.Unstructured, err error) {
 		log.Fatalf("failed to read stdin: %s", err)
 	}
 
-	// make input look like a JSON array
-	// var bytes []byte
-	// bytes = append(bytes, '[')
-	// bytes = append(bytes, inBytes...)
-	// bytes = append(bytes, ']')
-
 	err = json.Unmarshal(inBytes, &objs)
 	if err != nil {
 		return nil, fmt.Errorf("failed to unmarshal json: %w", err)
@@ -95,8 +92,60 @@ var emptyMap = map[string]string{}
 func filterGenericStuff(obj *unstructured.Unstructured) {
 	// no .metadata.annotations
 	obj.SetAnnotations(emptyMap)
+	obj.SetNamespace("")
+    // # | yq d - '[*].metadata.creationTimestamp' \
+	obj.SetCreationTimestamp(v1.Time{})
+
+	obj.SetLabels(filterLabels(obj.GetLabels()))
+
+	switch obj.GetKind() {
+	case "Service":
+		svc := asService(obj)
+		svc.Spec.Selector = filterLabels(svc.Spec.Selector)
+	case "Deployment":
+		dep := asDeployment(obj)
+		dep.Spec.Template.ObjectMeta.Labels = filterLabels(dep.Spec.Template.ObjectMeta.Labels)
+		dep.Spec.Template.ObjectMeta.CreationTimestamp = v1.Time{}
+		dep.Spec.Template.CreationTimestamp = v1.Time{}
+		dep.Spec.Template.Spec.ImagePullSecrets = nil
+	}
+
 	// no .status
 	delete(obj.Object, "status")
+	delete(obj.Object, "automountServiceAccountToken")
+	delete(obj.Object, "imagePullSecrets")
+}
+
+func filterLabels(lbls map[string]string) map[string]string {
+	res := map[string]string{}
+	for k, v := range lbls {
+		switch {
+		case k == "stage":
+			continue
+		case k == "kind":
+			continue
+		case strings.HasPrefix(k, "helm.sh/"):
+			continue
+		case strings.HasPrefix(k, "app.kubernetes.io/"):
+			continue
+		}
+		res[k] = v
+	}
+	return res
+}
+
+func asDeployment(obj *unstructured.Unstructured) *appsv1.Deployment {
+	dep := appsv1.Deployment{}
+	err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &dep)
+	assertNoError(err)
+	return &dep
+}
+
+func asService(obj *unstructured.Unstructured) *corev1.Service {
+	svc := corev1.Service{}
+	err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &svc)
+	assertNoError(err)
+	return &svc
 }
 
 func handle(obj *unstructured.Unstructured) {
