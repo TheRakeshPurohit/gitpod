@@ -164,8 +164,14 @@ class GitpodTerminalService(private val project: Project) : Disposable {
         terminalContent.putUserData(TITLE_KEY, supervisorTerminal.title)
         terminalContent.putUserData(ALIAS_KEY, supervisorTerminal.alias)
 
+        backendTerminalManager.shareTerminal(shellTerminalWidget, randomId())
+
         shellTerminalWidget.executeCommand("gp tasks attach ${supervisorTerminal.alias}")
     }
+
+    private fun randomId() = List(16) {
+        (('a'..'z') + ('A'..'Z') + ('0'..'9')).random()
+    }.joinToString("")
 
     private fun debug(message: String) = runInEdt {
         if (System.getenv("JB_DEV").toBoolean()) {
