@@ -155,6 +155,13 @@ export function Login() {
                         They include, for example, cookies that enable you to log into secure areas of our Site or (on
                         other sites) use a shopping cart or make use of e-billing services.
                     </p>
+                    <label className="relative inline-block	w-12 h-7 rounded-3xl" style={{ backgroundColor: "grey" }}>
+                        <input className="opacity-0" type="checkbox"></input>
+                        <span
+                            className="absolute w-full h-full cursor-pointer"
+                            style={{ transition: "backgroundColor .4s ease-out" }}
+                        ></span>
+                    </label>
                     <h4>Analytical / Performance cookies</h4>
                     <p>
                         These allow us to recognise and count the number of visitors and to see how visitors move around
