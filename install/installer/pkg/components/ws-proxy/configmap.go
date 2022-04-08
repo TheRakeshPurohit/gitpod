@@ -56,7 +56,7 @@ func configmap(ctx *common.RenderContext) ([]runtime.Object, error) {
 			WorkspacePodConfig: &proxy.WorkspacePodConfig{
 				TheiaPort:       workspace.ContainerPort,
 				SupervisorPort:  workspace.SupervisorPort,
-				SupervisorImage: common.ImageName(ctx.Config.Repository, workspace.SupervisorImage, ctx.VersionManifest.Components.Workspace.Supervisor.Version),
+				SupervisorImage: common.ImageName(ctx.Config.Repository, workspace.SupervisorImage, ctx.VersionManifest.Components.Workspace.Supervisor.Version, &ctx.Config),
 			},
 			BuiltinPages: proxy.BuiltinPagesConfig{
 				Location: "/app/public",

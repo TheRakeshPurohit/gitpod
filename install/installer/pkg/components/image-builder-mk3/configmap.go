@@ -49,7 +49,7 @@ func configmap(ctx *common.RenderContext) ([]runtime.Object, error) {
 		PullSecret:               secretName,
 		PullSecretFile:           PullSecretFile,
 		BaseImageRepository:      fmt.Sprintf("%s/base-images", registryName),
-		BuilderImage:             common.ImageName(ctx.Config.Repository, BuilderImage, ctx.VersionManifest.Components.ImageBuilderMk3.BuilderImage.Version),
+		BuilderImage:             common.ImageName(ctx.Config.Repository, BuilderImage, ctx.VersionManifest.Components.ImageBuilderMk3.BuilderImage.Version, &ctx.Config),
 		WorkspaceImageRepository: fmt.Sprintf("%s/workspace-images", registryName),
 	}
 
@@ -58,7 +58,7 @@ func configmap(ctx *common.RenderContext) ([]runtime.Object, error) {
 		RefCache: config.RefCacheConfig{
 			Interval: util.Duration(time.Hour * 6).String(),
 			Refs: []string{
-				common.ImageName(common.ThirdPartyContainerRepo(ctx.Config.Repository, ""), workspace.DefaultWorkspaceImage, workspace.DefaultWorkspaceImageVersion),
+				common.ImageName(common.ThirdPartyContainerRepo(ctx.Config.Repository, ""), workspace.DefaultWorkspaceImage, workspace.DefaultWorkspaceImageVersion, &ctx.Config),
 			},
 		},
 		Service: config.Service{

@@ -43,13 +43,13 @@ func configmap(ctx *common.RenderContext) ([]runtime.Object, error) {
 			return nil
 		})
 		if resolveLatest {
-			return common.ImageName(ctx.Config.Repository, name, tag)
+			return common.ImageName(ctx.Config.Repository, name, tag, &ctx.Config)
 		}
-		return common.ImageName(ctx.Config.Repository, name, bundledLatest.Version)
+		return common.ImageName(ctx.Config.Repository, name, bundledLatest.Version, &ctx.Config)
 	}
 
 	idecfg := IDEConfig{
-		SupervisorImage: common.ImageName(ctx.Config.Repository, workspace.SupervisorImage, ctx.VersionManifest.Components.Workspace.Supervisor.Version),
+		SupervisorImage: common.ImageName(ctx.Config.Repository, workspace.SupervisorImage, ctx.VersionManifest.Components.Workspace.Supervisor.Version, &ctx.Config),
 		IDEOptions: IDEOptions{
 			IDEClients: map[string]IDEClient{
 				"vscode": {
@@ -80,7 +80,7 @@ func configmap(ctx *common.RenderContext) ([]runtime.Object, error) {
 					Title:    "VS Code",
 					Type:     typeBrowser,
 					Logo:     getIdeLogoPath("vscode"),
-					Image:    common.ImageName(ctx.Config.Repository, ide.CodeIDEImage, ide.CodeIDEImageStableVersion),
+					Image:    common.ImageName(ctx.Config.Repository, ide.CodeIDEImage, ide.CodeIDEImageStableVersion, &ctx.Config),
 				},
 				"code-latest": {
 					OrderKey:           pointer.String("01"),
@@ -97,7 +97,7 @@ func configmap(ctx *common.RenderContext) ([]runtime.Object, error) {
 					Title:    "VS Code",
 					Type:     typeDesktop,
 					Logo:     getIdeLogoPath("vscode"),
-					Image:    common.ImageName(ctx.Config.Repository, ide.CodeDesktopIDEImage, ctx.VersionManifest.Components.Workspace.DesktopIdeImages.CodeDesktopImage.Version),
+					Image:    common.ImageName(ctx.Config.Repository, ide.CodeDesktopIDEImage, ctx.VersionManifest.Components.Workspace.DesktopIdeImages.CodeDesktopImage.Version, &ctx.Config),
 				},
 				codeDesktopInsiders: {
 					OrderKey: pointer.String("03"),
@@ -106,14 +106,14 @@ func configmap(ctx *common.RenderContext) ([]runtime.Object, error) {
 					Logo:     getIdeLogoPath("vscodeInsiders"),
 					Tooltip:  pointer.String("Visual Studio Code Insiders for early adopters."),
 					Label:    pointer.String("Insiders"),
-					Image:    common.ImageName(ctx.Config.Repository, ide.CodeDesktopInsidersIDEImage, ctx.VersionManifest.Components.Workspace.DesktopIdeImages.CodeDesktopImageInsiders.Version),
+					Image:    common.ImageName(ctx.Config.Repository, ide.CodeDesktopInsidersIDEImage, ctx.VersionManifest.Components.Workspace.DesktopIdeImages.CodeDesktopImageInsiders.Version, &ctx.Config),
 				},
 				intellij: {
 					OrderKey:    pointer.String("04"),
 					Title:       "IntelliJ IDEA",
 					Type:        typeDesktop,
 					Logo:        getIdeLogoPath("intellijIdeaLogo"),
-					Image:       common.ImageName(ctx.Config.Repository, ide.IntelliJDesktopIDEImage, ctx.VersionManifest.Components.Workspace.DesktopIdeImages.IntelliJImage.Version),
+					Image:       common.ImageName(ctx.Config.Repository, ide.IntelliJDesktopIDEImage, ctx.VersionManifest.Components.Workspace.DesktopIdeImages.IntelliJImage.Version, &ctx.Config),
 					LatestImage: resolveLatestImage(ide.IntelliJDesktopIDEImage, "latest", ctx.VersionManifest.Components.Workspace.DesktopIdeImages.IntelliJLatestImage),
 				},
 				goland: {
@@ -121,7 +121,7 @@ func configmap(ctx *common.RenderContext) ([]runtime.Object, error) {
 					Title:       "GoLand",
 					Type:        typeDesktop,
 					Logo:        getIdeLogoPath("golandLogo"),
-					Image:       common.ImageName(ctx.Config.Repository, ide.GoLandDesktopIdeImage, ctx.VersionManifest.Components.Workspace.DesktopIdeImages.GoLandImage.Version),
+					Image:       common.ImageName(ctx.Config.Repository, ide.GoLandDesktopIdeImage, ctx.VersionManifest.Components.Workspace.DesktopIdeImages.GoLandImage.Version, &ctx.Config),
 					LatestImage: resolveLatestImage(ide.GoLandDesktopIdeImage, "latest", ctx.VersionManifest.Components.Workspace.DesktopIdeImages.GoLandLatestImage),
 				},
 				pycharm: {
@@ -129,7 +129,7 @@ func configmap(ctx *common.RenderContext) ([]runtime.Object, error) {
 					Title:       "PyCharm",
 					Type:        typeDesktop,
 					Logo:        getIdeLogoPath("pycharmLogo"),
-					Image:       common.ImageName(ctx.Config.Repository, ide.PyCharmDesktopIdeImage, ctx.VersionManifest.Components.Workspace.DesktopIdeImages.PyCharmImage.Version),
+					Image:       common.ImageName(ctx.Config.Repository, ide.PyCharmDesktopIdeImage, ctx.VersionManifest.Components.Workspace.DesktopIdeImages.PyCharmImage.Version, &ctx.Config),
 					LatestImage: resolveLatestImage(ide.PyCharmDesktopIdeImage, "latest", ctx.VersionManifest.Components.Workspace.DesktopIdeImages.PyCharmLatestImage),
 				},
 				phpstorm: {
@@ -137,7 +137,7 @@ func configmap(ctx *common.RenderContext) ([]runtime.Object, error) {
 					Title:       "PhpStorm",
 					Type:        typeDesktop,
 					Logo:        getIdeLogoPath("phpstormLogo"),
-					Image:       common.ImageName(ctx.Config.Repository, ide.PhpStormDesktopIdeImage, ctx.VersionManifest.Components.Workspace.DesktopIdeImages.PhpStormImage.Version),
+					Image:       common.ImageName(ctx.Config.Repository, ide.PhpStormDesktopIdeImage, ctx.VersionManifest.Components.Workspace.DesktopIdeImages.PhpStormImage.Version, &ctx.Config),
 					LatestImage: resolveLatestImage(ide.PhpStormDesktopIdeImage, "latest", ctx.VersionManifest.Components.Workspace.DesktopIdeImages.PhpStormLatestImage),
 				},
 			},

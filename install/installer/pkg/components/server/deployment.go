@@ -169,7 +169,7 @@ func deployment(ctx *common.RenderContext) ([]runtime.Object, error) {
 						InitContainers: []corev1.Container{*common.DatabaseWaiterContainer(ctx), *common.MessageBusWaiterContainer(ctx)},
 						Containers: []corev1.Container{{
 							Name:            Component,
-							Image:           common.ImageName(ctx.Config.Repository, Component, ctx.VersionManifest.Components.Server.Version),
+							Image:           common.ImageName(ctx.Config.Repository, Component, ctx.VersionManifest.Components.Server.Version, &ctx.Config),
 							ImagePullPolicy: corev1.PullIfNotPresent,
 							Resources: corev1.ResourceRequirements{
 								Requests: corev1.ResourceList{

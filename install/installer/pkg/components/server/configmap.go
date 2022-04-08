@@ -37,7 +37,7 @@ func configmap(ctx *common.RenderContext) ([]runtime.Object, error) {
 			TimeoutSeconds:  300,
 		},
 		WorkspaceDefaults: WorkspaceDefaults{
-			WorkspaceImage:      common.ImageName(common.ThirdPartyContainerRepo(ctx.Config.Repository, ""), workspace.DefaultWorkspaceImage, workspace.DefaultWorkspaceImageVersion),
+			WorkspaceImage:      common.ImageName(common.ThirdPartyContainerRepo(ctx.Config.Repository, ""), workspace.DefaultWorkspaceImage, workspace.DefaultWorkspaceImageVersion, &ctx.Config),
 			PreviewFeatureFlags: []NamedWorkspaceFeatureFlag{},
 			DefaultFeatureFlags: []NamedWorkspaceFeatureFlag{},
 			TimeoutDefault:      ctx.Config.Workspace.TimeoutDefault,

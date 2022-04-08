@@ -179,7 +179,7 @@ func daemonset(ctx *common.RenderContext) ([]runtime.Object, error) {
 					},
 					Containers: []corev1.Container{{
 						Name:            Component,
-						Image:           common.ImageName(ctx.Config.Repository, Component, ctx.VersionManifest.Components.RegistryFacade.Version),
+						Image:           common.ImageName(ctx.Config.Repository, Component, ctx.VersionManifest.Components.RegistryFacade.Version, &ctx.Config),
 						ImagePullPolicy: corev1.PullIfNotPresent,
 						Args:            []string{"run", "/mnt/config/config.json"},
 						Resources: corev1.ResourceRequirements{

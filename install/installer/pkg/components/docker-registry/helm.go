@@ -23,7 +23,7 @@ var Helm = common.CompositeHelmFunc(
 			return nil, err
 		}
 
-		repository := fmt.Sprintf("%s/library/registry", common.ThirdPartyContainerRepo(cfg.Config.Repository, common.DockerRegistryURL))
+		repository := common.RepoName(common.ThirdPartyContainerRepo(cfg.Config.Repository, common.DockerRegistryURL), "library/registry", &cfg.Config)
 
 		registryValues := []string{
 			helm.KeyValue(fmt.Sprintf("docker-registry.podAnnotations.%s", strings.Replace(common.AnnotationConfigChecksum, ".", "\\.", -1)), secretHash),

@@ -116,7 +116,7 @@ func deployment(ctx *common.RenderContext) ([]runtime.Object, error) {
 						Containers: []corev1.Container{{
 							Name:            Component,
 							Args:            []string{"run", "/config/config.json"},
-							Image:           common.ImageName(ctx.Config.Repository, Component, ctx.VersionManifest.Components.WSProxy.Version),
+							Image:           common.ImageName(ctx.Config.Repository, Component, ctx.VersionManifest.Components.WSProxy.Version, &ctx.Config),
 							ImagePullPolicy: corev1.PullIfNotPresent,
 							Resources: corev1.ResourceRequirements{
 								Requests: corev1.ResourceList{

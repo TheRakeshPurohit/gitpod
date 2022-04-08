@@ -68,7 +68,7 @@ func statefulset(ctx *common.RenderContext) ([]runtime.Object, error) {
 					}},
 					Containers: []v1.Container{{
 						Name:  Component,
-						Image: common.ImageName(ctx.Config.Repository, Component, ctx.VersionManifest.Components.OpenVSXProxy.Version),
+						Image: common.ImageName(ctx.Config.Repository, Component, ctx.VersionManifest.Components.OpenVSXProxy.Version, &ctx.Config),
 						Args:  []string{"/config/config.json"},
 						ReadinessProbe: &v1.Probe{
 							ProbeHandler: v1.ProbeHandler{
