@@ -466,7 +466,9 @@ func (m *Manager) createDefiniteWorkspacePod(startContext *startWorkspaceContext
 			Affinity:                     affinity,
 			// pavel: needed for PVC to have proper permissions
 			SecurityContext: &corev1.PodSecurityContext{
-				FSGroup: &gitpodGUID,
+				RunAsUser:  &gitpodGUID,
+				RunAsGroup: &gitpodGUID,
+				FSGroup:    &gitpodGUID,
 			},
 			Containers: []corev1.Container{
 				*workspaceContainer,
