@@ -22,6 +22,7 @@ import fresh from "./images/welcome/fresh.svg";
 import prebuild from "./images/welcome/prebuild.svg";
 import exclamation from "./images/exclamation.svg";
 import { getURLHash } from "./App";
+import Modal from "./components/Modal";
 
 function Item(props: { icon: string; iconSize?: string; text: string }) {
     const iconSize = props.iconSize || 28;
@@ -67,6 +68,7 @@ export function Login() {
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
     const [providerFromContext, setProviderFromContext] = useState<AuthProviderInfo>();
     const [showCookieBanner, setShowCookieBanner] = useState<boolean>(true);
+    const [showCookieSettings, setShowCookieSettings] = useState<boolean>(false);
 
     const showWelcome = !hasLoggedInBefore() && !hasVisitedMarketingWebsiteBefore() && !urlHash.startsWith("https://");
 
@@ -133,13 +135,41 @@ export function Login() {
         }
     };
 
-    const closeCookieBanner = () => {
-        console.log("hit");
+    const closeCookieBanner = (response: string) => {
         setShowCookieBanner(false);
+    };
+
+    const openCookieSettings = () => {
+        console.log(showCookieSettings);
+        setShowCookieSettings(true);
     };
 
     return (
         <div id="login-container" className="z-50 flex w-screen h-screen">
+            {showCookieSettings && (
+                <Modal visible={showCookieSettings} onClose={() => setShowCookieSettings(false)}>
+                    <h3>Cookie settings</h3>
+                    <h4>Strictly necessary cookies</h4>
+                    <p>
+                        These are cookies that are required for the operation of our Site and under our terms with you.
+                        They include, for example, cookies that enable you to log into secure areas of our Site or (on
+                        other sites) use a shopping cart or make use of e-billing services.
+                    </p>
+                    <h4>Analytical / Performance cookies</h4>
+                    <p>
+                        These allow us to recognise and count the number of visitors and to see how visitors move around
+                        our site when they are using it. This helps us improve the way our Website works, for example,
+                        by ensuring that users are finding what they are looking for easily.
+                    </p>
+                    <h4>Targeting/Advertising cookies</h4>
+                    <p>
+                        These cookies record your visit to our Website, the pages you have visited and the links you
+                        have followed. We will use this information subject to your choices and preferences to make our
+                        Website and the advertising displayed on it more relevant to your interests. We may also share
+                        this information with third parties for this purpose.
+                    </p>
+                </Modal>
+            )}
             {showWelcome ? (
                 <div id="feature-section" className="flex-grow bg-gray-100 dark:bg-gray-800 w-1/2 hidden lg:block">
                     <div id="feature-section-column" className="flex max-w-xl h-full mx-auto pt-6">
@@ -258,12 +288,26 @@ export function Login() {
                             </a>
                             for more info.
                         </p>
-                        <button
-                            className="bg-off-white rounded-lg hover:bg-white text-xs text-gray-600"
-                            onClick={() => closeCookieBanner()}
-                        >
-                            Accept Cookies
-                        </button>
+                        <div className="flex gap-1">
+                            <button
+                                className="py-3 bg-sand-dark underline text-xs text-gray-400 hover:text-gray-600"
+                                onClick={() => openCookieSettings()}
+                            >
+                                Modify settings
+                            </button>
+                            <button
+                                className="bg-off-white rounded-lg hover:bg-white text-xs text-gray-600"
+                                onClick={() => closeCookieBanner("accepted")}
+                            >
+                                Accept Cookies
+                            </button>
+                            <button
+                                className="bg-off-white rounded-lg hover:bg-white text-xs text-gray-600"
+                                onClick={() => closeCookieBanner("rejected")}
+                            >
+                                Reject All
+                            </button>
+                        </div>
                     </div>
                 )}
             </div>
