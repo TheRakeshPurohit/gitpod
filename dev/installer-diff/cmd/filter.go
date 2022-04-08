@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"strings"
+	"sort"
 
 	// yaml "gopkg.in/yaml.v2"
 
@@ -28,7 +28,6 @@ import (
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 
 	// "io/ioutil"
-	// "log"
 	"os"
 	// "path/filepath"
 	// "gopkg.in/yaml.v2"
@@ -43,34 +42,67 @@ var filterCmd = &cobra.Command{
 	Short: "",
 	Args:  cobra.ExactArgs(0),
 	Run: func(_ *cobra.Command, args []string) {
-		filterJson()
+		objs, err := parseAsJsonArray()
+		if err != nil {
+			log.Panic(err)
+		}
+
+		// sort by .kind and .metadata.name
+		sort.SliceStable(objs, func(i, j int) bool {
+			id := func(i int) string {
+				return fmt.Sprintf("%s:%s", objs[i].GetKind(), objs[i].GetName())
+			}
+			return id(i) < id(j)
+		})
+
+		for _, obj := range objs {
+			// filter out generic stuff: .status, .metadata.annotations, etc.
+			filterGenericStuff(&obj)
+
+			// handle specific objects
+			// handle(&obj)
+		}
+
+		// pretty print to stdout
+		bytes, err := json.MarshalIndent(objs, "", "  ")
+		if err != nil {
+			log.Panic(fmt.Errorf("unable to print output: %w", err))
+		}
+		fmt.Print(string(bytes))
 	},
 }
 
-func filterJson() {
+func parseAsJsonArray() (objs []unstructured.Unstructured, err error) {
 	inBytes, err := ioutil.ReadAll(os.Stdin)
 	if err != nil {
 		log.Fatalf("failed to read stdin: %s", err)
 	}
 
-	objs := []unstructured.Unstructured{}
+	// make input look like a JSON array
+	// var bytes []byte
+	// bytes = append(bytes, '[')
+	// bytes = append(bytes, inBytes...)
+	// bytes = append(bytes, ']')
+
 	err = json.Unmarshal(inBytes, &objs)
 	if err != nil {
-		log.Fatalf("failed to unmarshal json: %s", err)
+		return nil, fmt.Errorf("failed to unmarshal json: %w", err)
 	}
-
-	// TODO gather all items in a list
-	// TODO to sorting based on GetKind/GetName
-	// TODO do filtering of labels on the generic unstructured objects (GetLabels/SetLabels)
-	for _, obj := range objs {
-		handle(obj)
-	}
+	return objs, nil
 }
 
-func handle(obj unstructured.Unstructured) {
+var emptyMap = map[string]string{}
+func filterGenericStuff(obj *unstructured.Unstructured) {
+	// no .metadata.annotations
+	obj.SetAnnotations(emptyMap)
+	// no .status
+	delete(obj.Object, "status")
+}
+
+func handle(obj *unstructured.Unstructured) {
 	id := fmt.Sprintf("%s:%s", obj.GetKind(), obj.GetName())
 
-	fmt.Printf("--%s:%s\n", strings.ToUpper(obj.GetKind()), obj.GetName())
+	//fmt.Printf("--%s:%s\n", strings.ToUpper(obj.GetKind()), obj.GetName())
 
 	switch id {
 	case "ConfigMap:content-service-config":
@@ -209,7 +241,7 @@ func convertToStringMap(in map[string][]byte) map[string]string {
 
 func printJsonDataFields(m map[string]string, fields ...string) {
 	for _, field := range fields {
-		fmt.Printf("--%s\n", field)
+		// fmt.Printf("--%s\n", field)
 		var v interface{}
 		err := json.Unmarshal([]byte(m[field]), &v)
 		assertNoError(err)
