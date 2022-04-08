@@ -448,6 +448,7 @@ func (m *Manager) createDefiniteWorkspacePod(startContext *startWorkspaceContext
 		},
 	}
 
+	gitpodGUID := int64(33333)
 	pod := corev1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:        fmt.Sprintf("%s-%s", prefix, req.Id),
@@ -463,6 +464,10 @@ func (m *Manager) createDefiniteWorkspacePod(startContext *startWorkspaceContext
 			SchedulerName:                m.Config.SchedulerName,
 			EnableServiceLinks:           &boolFalse,
 			Affinity:                     affinity,
+			// pavel: needed for PVC to have proper permissions
+			SecurityContext: &corev1.PodSecurityContext{
+				FSGroup: &gitpodGUID,
+			},
 			Containers: []corev1.Container{
 				*workspaceContainer,
 			},
