@@ -162,7 +162,7 @@ export function Login() {
                     </div>
                 </div>
             ) : null}
-            <div id="login-section" className={"flex-grow flex w-full" + (showWelcome ? " lg:w-1/2" : "")}>
+            <div id="login-section" className={"flex-grow w-full" + (showWelcome ? " lg:w-1/2" : "")}>
                 <div
                     id="login-section-column"
                     className={"flex-grow max-w-2xl flex flex-col h-100 mx-auto" + (showWelcome ? " lg:my-0" : "")}
@@ -238,27 +238,22 @@ export function Login() {
                             )}
                         </div>
                     </div>
-                    <div className="flex-none mx-auto h-20 text-center">
-                        <span className="text-gray-400">
-                            By signing in, you agree to our{" "}
-                            <a
-                                className="gp-link hover:text-gray-600"
-                                target="gitpod-terms"
-                                href="https://www.gitpod.io/terms/"
-                            >
-                                terms of service
-                            </a>{" "}
-                            and{" "}
-                            <a
-                                className="gp-link hover:text-gray-600"
-                                target="gitpod-privacy"
-                                href="https://www.gitpod.io/privacy/"
-                            >
-                                privacy policy
-                            </a>
-                            .
-                        </span>
-                    </div>
+                </div>
+                <div className="flex justify-between items-center mx-auto h-12 px-4 py-2 text-center text-xs text-gray-600 bg-sand-dark w-full bottom-0 left-0 fixed">
+                    <p className="text-gray-600">
+                        The website uses cookies to enhance the user experience. Read our{" "}
+                        <a
+                            className="gp-link hover:text-gray-600"
+                            target="gitpod-privacy"
+                            href="https://www.gitpod.io/privacy/"
+                        >
+                            privacy policy{" "}
+                        </a>
+                        for more info.
+                    </p>
+                    <button className="bg-off-white rounded-lg hover:bg-white text-xs text-gray-600">
+                        Accept Cookies
+                    </button>
                 </div>
             </div>
         </div>
