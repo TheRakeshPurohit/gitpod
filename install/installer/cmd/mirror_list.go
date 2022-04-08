@@ -139,7 +139,9 @@ func generateMirrorList(cfgVersion string, cfg *configv1.Config) ([]mirrorListRe
 
 		images = append(images, mirrorListRepo{
 			Original: img,
-			Target:   target,
+			Target: common.RepoName("", target, &configv1.Config{
+				Repository: targetRepo,
+			}),
 		})
 	}
 

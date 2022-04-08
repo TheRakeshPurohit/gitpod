@@ -5,8 +5,10 @@
 package common_test
 
 import (
-	"github.com/gitpod-io/gitpod/installer/pkg/common"
 	"testing"
+
+	"github.com/gitpod-io/gitpod/installer/pkg/common"
+	"github.com/gitpod-io/gitpod/installer/pkg/config/v1"
 
 	"github.com/google/go-cmp/cmp"
 )
@@ -20,6 +22,7 @@ func TestRepoName(t *testing.T) {
 		Repo        string
 		Name        string
 		Expectation Expectation
+		CfgRepo     string
 	}{
 		{
 			Name: "gitpod-io/workspace-full",
@@ -41,6 +44,54 @@ func TestRepoName(t *testing.T) {
 				Panics: true,
 			},
 		},
+		// Custom repo, no namespace
+		{
+			Name: "gitpod-io/workspace-full",
+			Expectation: Expectation{
+				Result: "some.registry.com/workspace-full",
+			},
+			CfgRepo: "some.registry.com",
+		},
+		{
+			Repo: "some-repo.com",
+			Name: "some-image",
+			Expectation: Expectation{
+				Result: "some.registry.com/some-image",
+			},
+			CfgRepo: "some.registry.com",
+		},
+		{
+			Repo: "some-repo",
+			Name: "not@avalid#image-name",
+			Expectation: Expectation{
+				Panics: true,
+			},
+			CfgRepo: "some.registry.com",
+		},
+		// Custom repo, namespace
+		{
+			Name: "gitpod-io/workspace-full",
+			Expectation: Expectation{
+				Result: "some.registry.com/gitpod/workspace-full",
+			},
+			CfgRepo: "some.registry.com/gitpod",
+		},
+		{
+			Repo: "some-repo.com",
+			Name: "some-image",
+			Expectation: Expectation{
+				Result: "some.registry.com/gitpod/some-image",
+			},
+			CfgRepo: "some.registry.com/gitpod",
+		},
+		{
+			Repo: "some-repo",
+			Name: "not@avalid#image-name",
+			Expectation: Expectation{
+				Panics: true,
+			},
+			CfgRepo: "some.registry.com/gitpod",
+		},
 	}
 
 	for _, test := range tests {
@@ -52,7 +103,16 @@ func TestRepoName(t *testing.T) {
 						act.Panics = true
 					}
 				}()
-				act.Result = common.RepoName(test.Repo, test.Name)
+				cfg := config.Config{
+					Repository: func() string {
+						if test.CfgRepo == "" {
+							return common.GitpodContainerRegistry
+						}
+
+						return test.CfgRepo
+					}(),
+				}
+				act.Result = common.RepoName(test.Repo, test.Name, &cfg)
 			}()
 
 			if diff := cmp.Diff(test.Expectation, act); diff != "" {

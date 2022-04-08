@@ -248,7 +248,7 @@ func DatabaseEnv(cfg *config.Config) (res []corev1.EnvVar) {
 func DatabaseWaiterContainer(ctx *RenderContext) *corev1.Container {
 	return &corev1.Container{
 		Name:  "database-waiter",
-		Image: ImageName(ctx.Config.Repository, "service-waiter", ctx.VersionManifest.Components.ServiceWaiter.Version),
+		Image: ImageName(ctx.Config.Repository, "service-waiter", ctx.VersionManifest.Components.ServiceWaiter.Version, &ctx.Config),
 		Args: []string{
 			"-v",
 			"database",
@@ -266,7 +266,7 @@ func DatabaseWaiterContainer(ctx *RenderContext) *corev1.Container {
 func MessageBusWaiterContainer(ctx *RenderContext) *corev1.Container {
 	return &corev1.Container{
 		Name:  "msgbus-waiter",
-		Image: ImageName(ctx.Config.Repository, "service-waiter", ctx.VersionManifest.Components.ServiceWaiter.Version),
+		Image: ImageName(ctx.Config.Repository, "service-waiter", ctx.VersionManifest.Components.ServiceWaiter.Version, &ctx.Config),
 		Args: []string{
 			"-v",
 			"messagebus",
@@ -284,7 +284,7 @@ func MessageBusWaiterContainer(ctx *RenderContext) *corev1.Container {
 func KubeRBACProxyContainer(ctx *RenderContext) *corev1.Container {
 	return &corev1.Container{
 		Name:  "kube-rbac-proxy",
-		Image: ImageName(ThirdPartyContainerRepo(ctx.Config.Repository, KubeRBACProxyRepo), KubeRBACProxyImage, KubeRBACProxyTag),
+		Image: ImageName(ThirdPartyContainerRepo(ctx.Config.Repository, KubeRBACProxyRepo), KubeRBACProxyImage, KubeRBACProxyTag, &ctx.Config),
 		Args: []string{
 			"--v=5",
 			"--logtostderr",
@@ -339,7 +339,7 @@ func Affinity(orLabels ...string) *corev1.Affinity {
 	}
 }
 
-func RepoName(repo, name string) string {
+func RepoName(repo, name string, cfg *config.Config) string {
 	var ref string
 	if repo == "" {
 		ref = name
@@ -350,11 +350,26 @@ func RepoName(repo, name string) string {
 	if err != nil {
 		panic(fmt.Sprintf("cannot parse image repo %s: %v", ref, err))
 	}
-	return pref.String()
+
+	prefString := pref.String()
+
+	if cfg.Repository != GitpodContainerRegistry {
+		// If not in the Gitpod registry, don't use namespaces unless specified in the config.
+		// This is to match the KOTS registry format of no namespace in the name
+		s := strings.Split(prefString, "/")
+
+		noNamespace := []string{
+			cfg.Repository,
+			s[len(s)-1],
+		}
+		return strings.Join(noNamespace, "/")
+	}
+
+	return prefString
 }
 
-func ImageName(repo, name, tag string) string {
-	ref := fmt.Sprintf("%s:%s", RepoName(repo, name), tag)
+func ImageName(repo, name, tag string, cfg *config.Config) string {
+	ref := fmt.Sprintf("%s:%s", RepoName(repo, name, cfg), tag)
 	pref, err := reference.ParseNamed(ref)
 	if err != nil {
 		panic(fmt.Sprintf("cannot parse image ref %s: %v", ref, err))
