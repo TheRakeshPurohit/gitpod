@@ -124,6 +124,12 @@ func filterLabels(lbls map[string]string) map[string]string {
 			continue
 		case k == "kind":
 			continue
+		case k == "chart":
+			continue
+		case k == "heritage":
+			continue
+		case k == "kind":
+			continue
 		case strings.HasPrefix(k, "helm.sh/"):
 			continue
 		case strings.HasPrefix(k, "app.kubernetes.io/"):
