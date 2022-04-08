@@ -7,6 +7,7 @@ export async function validateChanges(werft: Werft, config: JobConfig) {
     try {
         branchNameCheck(werft, config)
         preCommitCheck(werft)
+        typecheckWerftJobs(werft)
     } catch (err) {
         werft.fail('validate-changes', err);
     }
@@ -39,4 +40,15 @@ async function preCommitCheck(werft: Werft) {
         throw new Error(preCommitCmd.stderr.toString().trim())
     }
     werft.done("pre-commit checks")
+}
+
+async function typecheckWerftJobs(werft: Werft) {
+    const slice = "Typecheck Typescript Werft files";
+    try {
+        exec("cd .werft && tsc --noEmit", { slice });
+        werft.log(slice, 'No compilation errors.')
+    } catch (e) {
+        throw new Error(e);
+    }
+    werft.done(slice);
 }
