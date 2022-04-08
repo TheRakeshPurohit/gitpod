@@ -66,6 +66,7 @@ export function Login() {
     const [authProviders, setAuthProviders] = useState<AuthProviderInfo[]>([]);
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
     const [providerFromContext, setProviderFromContext] = useState<AuthProviderInfo>();
+    const [showCookieBanner, setShowCookieBanner] = useState<boolean>(true);
 
     const showWelcome = !hasLoggedInBefore() && !hasVisitedMarketingWebsiteBefore() && !urlHash.startsWith("https://");
 
@@ -130,6 +131,11 @@ export function Login() {
         } catch (error) {
             console.log(error);
         }
+    };
+
+    const closeCookieBanner = () => {
+        console.log("hit");
+        setShowCookieBanner(false);
     };
 
     return (
@@ -239,22 +245,27 @@ export function Login() {
                         </div>
                     </div>
                 </div>
-                <div className="flex justify-between items-center mx-auto h-12 px-4 py-2 text-center text-xs text-gray-600 bg-sand-dark w-full bottom-0 left-0 fixed">
-                    <p className="text-gray-600">
-                        The website uses cookies to enhance the user experience. Read our{" "}
-                        <a
-                            className="gp-link hover:text-gray-600"
-                            target="gitpod-privacy"
-                            href="https://www.gitpod.io/privacy/"
+                {showCookieBanner && (
+                    <div className="flex justify-between items-center mx-auto h-12 px-4 py-2 text-center text-xs text-gray-600 bg-sand-dark w-full bottom-0 left-0 fixed">
+                        <p className="text-gray-600">
+                            The website uses cookies to enhance the user experience. Read our{" "}
+                            <a
+                                className="gp-link hover:text-gray-600"
+                                target="gitpod-privacy"
+                                href="https://www.gitpod.io/privacy/"
+                            >
+                                privacy policy{" "}
+                            </a>
+                            for more info.
+                        </p>
+                        <button
+                            className="bg-off-white rounded-lg hover:bg-white text-xs text-gray-600"
+                            onClick={() => closeCookieBanner()}
                         >
-                            privacy policy{" "}
-                        </a>
-                        for more info.
-                    </p>
-                    <button className="bg-off-white rounded-lg hover:bg-white text-xs text-gray-600">
-                        Accept Cookies
-                    </button>
-                </div>
+                            Accept Cookies
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );
