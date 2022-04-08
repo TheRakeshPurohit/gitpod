@@ -128,7 +128,7 @@ func filterLabels(lbls map[string]string) map[string]string {
 			continue
 		case k == "heritage":
 			continue
-		case k == "kind":
+		case k == "release":
 			continue
 		case strings.HasPrefix(k, "helm.sh/"):
 			continue
