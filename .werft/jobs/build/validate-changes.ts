@@ -5,9 +5,11 @@ import { JobConfig } from "./job-config";
 export async function validateChanges(werft: Werft, config: JobConfig) {
     werft.phase('validate-changes', 'validating changes');
     try {
-        branchNameCheck(werft, config)
-        preCommitCheck(werft)
-        typecheckWerftJobs(werft)
+        await Promise.all([
+            branchNameCheck(werft, config),
+            preCommitCheck(werft),
+            typecheckWerftJobs(werft)
+        ])
     } catch (err) {
         werft.fail('validate-changes', err);
     }
@@ -20,7 +22,7 @@ export async function validateChanges(werft: Werft, config: JobConfig) {
 // and k8s has a limit of 63 characters. We use 13 characters for the "gitpod-build-" prefix and 5
 // more for the ".<BUILD NUMBER>" ending. That leaves us 45 characters for the branch name.
 // See Werft source https://github.com/csweichel/werft/blob/057cfae0fd7bb1a7b05f89d1b162348378d74e71/pkg/werft/service.go#L376
-async function branchNameCheck(werft: Werft, config: JobConfig) {
+async function branchNameCheck(werft: Werft, config: JobConfig): Promise<void> {
     if (!config.noPreview) {
         const maxBranchNameLength = 45;
         werft.log("check-branchname", `Checking if branch name is shorter than ${maxBranchNameLength} characters.`)
@@ -32,7 +34,7 @@ async function branchNameCheck(werft: Werft, config: JobConfig) {
     }
 }
 
-async function preCommitCheck(werft: Werft) {
+async function preCommitCheck(werft: Werft): Promise<void> {
     werft.log("pre-commit checks", "Running pre-commit hooks.")
     const preCommitCmd = exec(`pre-commit run --show-diff-on-failure`, { slice: "pre-commit checks" });
 
@@ -42,7 +44,7 @@ async function preCommitCheck(werft: Werft) {
     werft.done("pre-commit checks")
 }
 
-async function typecheckWerftJobs(werft: Werft) {
+async function typecheckWerftJobs(werft: Werft): Promise<void> {
     const slice = "Typecheck Typescript Werft files";
     try {
         exec("cd .werft && tsc --noEmit", { slice });
