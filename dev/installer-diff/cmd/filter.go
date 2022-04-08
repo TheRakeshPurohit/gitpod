@@ -72,11 +72,78 @@ func handle(obj unstructured.Unstructured) {
 	id := fmt.Sprintf("%s:%s", obj.GetKind(), obj.GetName())
 
 	switch id {
-	case "ConfigMap:content-service":
+	case "ConfigMap:content-service-config":
 		var cm *corev1.ConfigMap
 		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &cm)
 		assertNoError(err)
 		fmt.Printf("config.json:\n%s", cm.Data["config.json"])
+	case "ConfigMap:auth-providers-config":
+		var cm *corev1.ConfigMap
+		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &cm)
+		assertNoError(err)
+		fmt.Printf("auth-providers.json:\n%s", cm.Data["auth-providers.json"])
+	case "ConfigMap:blobserve-config":
+		var cm *corev1.ConfigMap
+		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &cm)
+		assertNoError(err)
+		fmt.Printf("config.json:\n%s", cm.Data["config.json"])
+	case "ConfigMap:image-builder-mk3-config":
+		var cm *corev1.ConfigMap
+		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &cm)
+		assertNoError(err)
+		fmt.Printf("image-builder.json:\n%s", cm.Data["image-builder.json"])
+	case "ConfigMap:proxy-config":
+		var cm *corev1.ConfigMap
+		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &cm)
+		assertNoError(err)
+		fmt.Printf("vhost.empty:\n%s", cm.Data["vhost.empty"])
+		fmt.Printf("vhost.kedge:\n%s", cm.Data["vhost.kedge"])
+		fmt.Printf("vhost.open-vsx:\n%s", cm.Data["vhost.open-vsx"])
+		fmt.Printf("vhost.payment-endpoint:\n%s", cm.Data["vhost.payment-endpoint"])
+	case "ConfigMap:registry-facade-config":
+		var cm *corev1.ConfigMap
+		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &cm)
+		assertNoError(err)
+		fmt.Printf("config.json:\n%s", cm.Data["config.json"])
+	case "ConfigMap:restarter-scripts":
+		var cm *corev1.ConfigMap
+		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &cm)
+		assertNoError(err)
+		fmt.Printf("run.sh:\n%s", cm.Data["run.sh"])
+	case "ConfigMap:server-config":
+		var cm *corev1.ConfigMap
+		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &cm)
+		assertNoError(err)
+		fmt.Printf("config.json:\n%s", cm.Data["config.json"])
+	case "ConfigMap:workspace-template":
+		var cm *corev1.ConfigMap
+		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &cm)
+		assertNoError(err)
+		fmt.Printf("default.yaml:\n%s", cm.Data["default.yaml"])
+		fmt.Printf("imagebuild.yaml:\n%s", cm.Data["imagebuild.yaml"])
+		fmt.Printf("prebuild.yaml:\n%s", cm.Data["prebuild.yaml"])
+		fmt.Printf("probe.yaml:\n%s", cm.Data["probe.yaml"])
+		fmt.Printf("regular.yaml:\n%s", cm.Data["regular.yaml"])
+	case "ConfigMap:ws-daemon-config":
+		var cm *corev1.ConfigMap
+		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &cm)
+		assertNoError(err)
+		fmt.Printf("config.json:\n%s", cm.Data["config.json"])
+	case "ConfigMap:ws-manager-bridge-config":
+		var cm *corev1.ConfigMap
+		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &cm)
+		assertNoError(err)
+		fmt.Printf("ws-manager-bridge.json:\n%s", cm.Data["ws-manager-bridge.json"])
+	case "ConfigMap:ws-manager-config":
+		var cm *corev1.ConfigMap
+		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &cm)
+		assertNoError(err)
+		fmt.Printf("config.json:%s\n", cm.Data["config.json"])
+	case "ConfigMap:ws-proxy-config":
+		var cm *corev1.ConfigMap
+		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.Object, &cm)
+		assertNoError(err)
+		fmt.Printf("config.json:%s\n", cm.Data["config.json"])
 	// case *appsv1.DaemonSet:
 	// 	fmt.Printf("object is a daemonset: %s\n", v.Name)
 	// case *appsv1.StatefulSet:
@@ -110,7 +177,7 @@ func handle(obj unstructured.Unstructured) {
 	// case *networkingv1.NetworkPolicy:
 	// 	fmt.Printf("object is a networkpolicy: %s\n", v.Name)
 	default:
-		fmt.Printf("unhandled object kind: %s\n", id)
+		fmt.Printf("\nunhandled object kind: %s\n", id)
 	}
 }
 
