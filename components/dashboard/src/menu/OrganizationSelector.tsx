@@ -14,16 +14,16 @@ import { useOrgBillingMode } from "../data/billing-mode/org-billing-mode-query";
 import { useIsOwner, useListOrganizationMembers, useHasRolePermission } from "../data/organizations/members-query";
 import { isAllowedToCreateOrganization } from "@gitpod/public-api-common/lib/user-utils";
 import { OrganizationRole } from "@gitpod/public-api/lib/gitpod/v1/organization_pb";
-import { useInstallationConfiguration } from "../data/installation/default-workspace-image-query";
 import { useFeatureFlag } from "../data/featureflag-query";
 import { PlusIcon } from "lucide-react";
+import { useInstallationConfiguration } from "../data/installation/installation-config-query";
 
 export default function OrganizationSelector() {
     const user = useCurrentUser();
     const orgs = useOrganizations();
     const currentOrg = useCurrentOrg();
     const members = useListOrganizationMembers().data ?? [];
-    const owner = useIsOwner();
+    const isOwner = useIsOwner();
     const hasMemberPermission = useHasRolePermission(OrganizationRole.MEMBER);
     const { data: billingMode } = useOrgBillingMode();
     const getOrgURL = useGetOrgURL();
@@ -77,15 +77,27 @@ export default function OrganizationSelector() {
                 separator: true,
                 link: "/members",
             });
-            linkEntries.push({
-                title: "Usage",
-                customContent: <LinkEntry>Usage</LinkEntry>,
-                active: false,
-                separator: false,
-                link: "/usage",
-            });
+            if (isDedicated) {
+                if (isOwner) {
+                    linkEntries.push({
+                        title: "Insights",
+                        customContent: <LinkEntry>Insights</LinkEntry>,
+                        active: false,
+                        separator: false,
+                        link: "/insights",
+                    });
+                }
+            } else {
+                linkEntries.push({
+                    title: "Usage",
+                    customContent: <LinkEntry>Usage</LinkEntry>,
+                    active: false,
+                    separator: false,
+                    link: "/usage",
+                });
+            }
             // Show billing if user is an owner of current org
-            if (owner) {
+            if (isOwner) {
                 if (billingMode?.mode === "usage-based") {
                     linkEntries.push({
                         title: "Billing",

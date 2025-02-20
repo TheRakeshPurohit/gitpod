@@ -4,40 +4,43 @@
  * See License.AGPL.txt in the project root for license information.
  */
 
-import { FunctionComponent, useCallback, useEffect, useMemo, useState } from "react";
-import Header from "../components/Header";
-import { WorkspaceEntry } from "./WorkspaceEntry";
-import { ItemsList } from "../components/ItemsList";
-import Arrow from "../components/Arrow";
-import ConfirmationModal from "../components/ConfirmationModal";
-import { useListWorkspacesQuery } from "../data/workspaces/list-workspaces-query";
-import { EmptyWorkspacesContent } from "./EmptyWorkspacesContent";
-import { WorkspacesSearchBar } from "./WorkspacesSearchBar";
 import { hoursBefore, isDateSmallerOrEqual } from "@gitpod/gitpod-protocol/lib/util/timeutil";
-import { useDeleteInactiveWorkspacesMutation } from "../data/workspaces/delete-inactive-workspaces-mutation";
-import { useToast } from "../components/toasts/Toasts";
 import { Workspace, WorkspacePhase_Phase } from "@gitpod/public-api/lib/gitpod/v1/workspace_pb";
 import { Button } from "@podkit/buttons/Button";
-import { VideoCarousel } from "./VideoCarousel";
-import { BlogBanners } from "./BlogBanners";
-import { Book, BookOpen, Building, ChevronRight, Code, Video } from "lucide-react";
-import { ReactComponent as GitpodStrokedSVG } from "../icons/gitpod-stroked.svg";
-import PersonalizedContent from "./PersonalizedContent";
-import { useListenToWorkspacesWSMessages as useListenToWorkspacesStatusUpdates } from "../data/workspaces/listen-to-workspace-ws-messages";
-import { Subheading } from "@podkit/typography/Headings";
-import { useCurrentOrg } from "../data/organizations/orgs-query";
-import { Link } from "react-router-dom";
-import { useOrgSettingsQuery } from "../data/organizations/org-settings-query";
-import Modal, { ModalBaseFooter, ModalBody, ModalHeader } from "../components/Modal";
-import { VideoSection } from "../onboarding/VideoSection";
-import { trackVideoClick } from "../Analytics";
 import { cn } from "@podkit/lib/cn";
-import { useInstallationConfiguration } from "../data/installation/default-workspace-image-query";
-import { useUpdateCurrentUserMutation } from "../data/current-user/update-mutation";
-import { useUserLoader } from "../hooks/use-user-loader";
+import { Subheading } from "@podkit/typography/Headings";
+import { Book, BookOpen, Building, ChevronRight, Code, Video } from "lucide-react";
+import { FunctionComponent, useCallback, useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import { trackVideoClick } from "../Analytics";
+import Arrow from "../components/Arrow";
+import ConfirmationModal from "../components/ConfirmationModal";
+import Header from "../components/Header";
+import { ItemsList } from "../components/ItemsList";
+import Modal, { ModalBaseFooter, ModalBody, ModalHeader } from "../components/Modal";
+import PillLabel from "../components/PillLabel";
+import { useToast } from "../components/toasts/Toasts";
 import Tooltip from "../components/Tooltip";
+import { useUpdateCurrentUserMutation } from "../data/current-user/update-mutation";
 import { useFeatureFlag } from "../data/featureflag-query";
-import { useOrgSuggestedRepos } from "../data/organizations/suggested-repositories-query";
+import { useSuggestedRepositories } from "../data/git-providers/suggested-repositories-query";
+import { useOrgSettingsQuery } from "../data/organizations/org-settings-query";
+import { useCurrentOrg } from "../data/organizations/orgs-query";
+import { SuggestedOrgRepository, useOrgSuggestedRepos } from "../data/organizations/suggested-repositories-query";
+import { useDeleteInactiveWorkspacesMutation } from "../data/workspaces/delete-inactive-workspaces-mutation";
+import { useListWorkspacesQuery } from "../data/workspaces/list-workspaces-query";
+import { useListenToWorkspacesWSMessages as useListenToWorkspacesStatusUpdates } from "../data/workspaces/listen-to-workspace-ws-messages";
+import { useUserLoader } from "../hooks/use-user-loader";
+import { ReactComponent as GitpodStrokedSVG } from "../icons/gitpod-stroked.svg";
+import { VideoSection } from "../onboarding/VideoSection";
+import { OrganizationJoinModal } from "../teams/onboarding/OrganizationJoinModal";
+import { BlogBanners } from "./BlogBanners";
+import { EmptyWorkspacesContent } from "./EmptyWorkspacesContent";
+import PersonalizedContent from "./PersonalizedContent";
+import { VideoCarousel } from "./VideoCarousel";
+import { WorkspaceEntry } from "./WorkspaceEntry";
+import { WorkspacesSearchBar } from "./WorkspacesSearchBar";
+import { useInstallationConfiguration } from "../data/installation/installation-config-query";
 
 export const GETTING_STARTED_DISMISSAL_KEY = "workspace-list-getting-started";
 
@@ -130,7 +133,25 @@ const WorkspacesPage: FunctionComponent = () => {
         }
     }, [user?.profile?.coachmarksDismissals]);
 
+    const { data: userSuggestedRepos } = useSuggestedRepositories({ excludeConfigurations: false });
     const { data: orgSuggestedRepos } = useOrgSuggestedRepos();
+
+    const suggestedRepos = useMemo(() => {
+        const userSuggestions =
+            userSuggestedRepos
+                ?.filter((repo) => {
+                    const autostartMatch = user?.workspaceAutostartOptions.find((option) => {
+                        return option.cloneUrl.includes(repo.url);
+                    });
+                    return autostartMatch;
+                })
+                .slice(0, 3) ?? [];
+        const orgSuggestions = (orgSuggestedRepos ?? []).filter((repo) => {
+            return !userSuggestions.find((userSuggestion) => userSuggestion.configurationId === repo.configurationId); // don't show duplicates from user's autostart options
+        });
+
+        return [...userSuggestions, ...orgSuggestions].slice(0, 3);
+    }, [userSuggestedRepos, user, orgSuggestedRepos]);
 
     const toggleGettingStarted = useCallback(
         (show: boolean) => {
@@ -162,6 +183,8 @@ const WorkspacesPage: FunctionComponent = () => {
         setVideoModalVisible(false);
     }, []);
 
+    const welcomeMessage = orgSettings?.onboardingSettings?.welcomeMessage;
+
     return (
         <>
             <Header
@@ -192,53 +215,103 @@ const WorkspacesPage: FunctionComponent = () => {
                     </div>
 
                     {showGettingStarted && (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:px-28 px-4 pb-4">
-                            <Card onClick={() => setVideoModalVisible(true)}>
-                                <Video className="flex-shrink-0" size={24} />
-                                <div className="min-w-0">
-                                    <CardTitle>Learn how Gitpod works</CardTitle>
-                                    <CardDescription>
-                                        We've put together resources for you to get the most our of Gitpod.
-                                    </CardDescription>
-                                </div>
-                            </Card>
+                        <>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:px-28 px-4 pb-4">
+                                <Card onClick={() => setVideoModalVisible(true)}>
+                                    <Video className="flex-shrink-0" size={24} />
+                                    <div className="min-w-0">
+                                        <CardTitle>Learn how Gitpod works</CardTitle>
+                                        <CardDescription>
+                                            We've put together resources for you to get the most our of Gitpod.
+                                        </CardDescription>
+                                    </div>
+                                </Card>
 
-                            {orgSettings?.onboardingSettings?.internalLink ? (
-                                <Card href={orgSettings.onboardingSettings.internalLink} isLinkExternal>
-                                    <Building className="flex-shrink-0" size={24} />
+                                {orgSettings?.onboardingSettings?.internalLink ? (
+                                    <Card href={orgSettings.onboardingSettings.internalLink} isLinkExternal>
+                                        <Building className="flex-shrink-0" size={24} />
+                                        <div className="min-w-0">
+                                            <CardTitle>Learn more about Gitpod at {org?.name}</CardTitle>
+                                            <CardDescription>
+                                                Read through the internal Gitpod landing page of your organization.
+                                            </CardDescription>
+                                        </div>
+                                    </Card>
+                                ) : (
+                                    <Card href={"/new?showExamples=true"}>
+                                        <Code className="flex-shrink-0" size={24} />
+                                        <div className="min-w-0">
+                                            <CardTitle>Open a sample repository</CardTitle>
+                                            <CardDescription>
+                                                Explore{" "}
+                                                {orgSuggestedRepos?.length
+                                                    ? "repositories recommended by your organization"
+                                                    : "a sample repository"}
+                                                to quickly experience Gitpod.
+                                            </CardDescription>
+                                        </div>
+                                    </Card>
+                                )}
+
+                                <Card href="https://www.gitpod.io/docs/introduction" isLinkExternal>
+                                    <Book className="flex-shrink-0" size={24} />
                                     <div className="min-w-0">
-                                        <CardTitle>Learn more about Gitpod at {org?.name}</CardTitle>
+                                        <CardTitle>Visit the docs</CardTitle>
                                         <CardDescription>
-                                            Read through the internal Gitpod landing page of your organization.
+                                            We have extensive documentation to help if you get stuck.
                                         </CardDescription>
                                     </div>
                                 </Card>
-                            ) : (
-                                <Card href={"/new?showExamples=true"}>
-                                    <Code className="flex-shrink-0" size={24} />
-                                    <div className="min-w-0">
-                                        <CardTitle>Open a sample repository</CardTitle>
-                                        <CardDescription>
-                                            Explore{" "}
-                                            {orgSuggestedRepos?.length
-                                                ? "repositories recommended by your organization"
-                                                : "a sample repository"}
-                                            to quickly experience Gitpod.
-                                        </CardDescription>
+                            </div>
+
+                            {suggestedRepos.length > 0 && (
+                                <>
+                                    <Subheading className="font-semibold text-pk-content-primary mb-2 app-container">
+                                        Suggested
+                                    </Subheading>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:px-28 px-4">
+                                        {suggestedRepos.map((repo) => {
+                                            const isOrgSuggested =
+                                                (repo as SuggestedOrgRepository).orgSuggested ?? false;
+
+                                            return (
+                                                <Card
+                                                    key={repo.url}
+                                                    href={`/new#${repo.url}`}
+                                                    className={cn(
+                                                        "border-[0.5px] hover:bg-pk-surface-tertiary transition-colors w-full",
+                                                        {
+                                                            "border-[#D79A45]": isOrgSuggested,
+                                                            "border-pk-border-base": !isOrgSuggested,
+                                                        },
+                                                    )}
+                                                >
+                                                    <div className="min-w-0 w-full space-y-1.5">
+                                                        <CardTitle className="flex flex-row items-center gap-2 w-full">
+                                                            <span className="truncate block min-w-0 text-base">
+                                                                {repo.configurationName || repo.repoName}
+                                                            </span>
+                                                            {isOrgSuggested && (
+                                                                <PillLabel
+                                                                    className="capitalize bg-kumquat-light shrink-0 text-sm"
+                                                                    type="warn"
+                                                                >
+                                                                    Recommended
+                                                                </PillLabel>
+                                                            )}
+                                                        </CardTitle>
+                                                        <CardDescription className="truncate text-sm opacity-75">
+                                                            {repo.url}
+                                                        </CardDescription>
+                                                    </div>
+                                                </Card>
+                                            );
+                                        })}
                                     </div>
-                                </Card>
+                                </>
                             )}
-
-                            <Card href="https://www.gitpod.io/docs/introduction" isLinkExternal>
-                                <Book className="flex-shrink-0" size={24} />
-                                <div className="min-w-0">
-                                    <CardTitle>Visit the docs</CardTitle>
-                                    <CardDescription>
-                                        We have extensive documentation to help if you get stuck.
-                                    </CardDescription>
-                                </div>
-                            </Card>
-                        </div>
+                        </>
                     )}
                     <Modal
                         visible={isVideoModalVisible}
@@ -407,6 +480,10 @@ const WorkspacesPage: FunctionComponent = () => {
                 ) : (
                     <EmptyWorkspacesContent />
                 ))}
+
+            {isEnterpriseOnboardingEnabled && isDedicatedInstallation && welcomeMessage && user && (
+                <OrganizationJoinModal welcomeMessage={welcomeMessage} user={user} />
+            )}
         </>
     );
 };

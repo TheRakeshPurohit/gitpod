@@ -40,7 +40,6 @@ import { TraceContext } from "@gitpod/gitpod-protocol/lib/util/tracing";
 import { ContextParser } from "../workspace/context-parser-service";
 import { UnauthorizedError } from "../errors";
 import { LazyOrganizationService } from "../billing/entitlement-service-ubp";
-import { SubjectId } from "../auth/subject-id";
 
 // to resolve circular dependency issues
 export const LazyPrebuildManager = Symbol("LazyPrebuildManager");
@@ -354,18 +353,7 @@ export class ProjectsService {
                     await db.deleteProjectEnvironmentVariable(envVar.id);
                 }
 
-                await runWithSubjectId(SubjectId.fromUserId(userId), async () => {
-                    const orgSettings = await organizationService.getSettings(userId, orgId!);
-                    const repoRecommendations = orgSettings.onboardingSettings?.recommendedRepositories;
-                    if (repoRecommendations) {
-                        const updatedRepoRecommendations = repoRecommendations.filter((id) => id !== projectId);
-                        if (updatedRepoRecommendations.length !== repoRecommendations.length) {
-                            await organizationService.updateSettings(userId, orgId!, {
-                                onboardingSettings: { recommendedRepositories: updatedRepoRecommendations },
-                            });
-                        }
-                    }
-                });
+                await organizationService.onProjectDeletion(userId, orgId, projectId);
 
                 await this.auth.removeProjectFromOrg(userId, orgId, projectId);
             });
@@ -440,6 +428,16 @@ export class ProjectsService {
         const existingProject = await this.projectDB.findProjectById(partialProject.id);
         if (!existingProject) {
             throw new ApplicationError(ErrorCodes.NOT_FOUND, `Project ${partialProject.id} not found.`);
+        }
+
+        // In case we are altering the "enableDockerdAuthentication": require org write_settings permission, so users
+        // can't inadvertently share credentials an owner configured
+        if (
+            partialProject?.settings?.enableDockerdAuthentication !==
+                existingProject.settings?.enableDockerdAuthentication &&
+            partialProject?.settings?.enableDockerdAuthentication
+        ) {
+            await this.auth.checkPermissionOnOrganization(user.id, "write_settings", existingProject.teamId);
         }
 
         // Merge settings so that clients don't need to pass previous value all the time
