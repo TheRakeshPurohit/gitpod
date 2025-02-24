@@ -31,6 +31,7 @@ import { WorkspaceClassesEnterpriseCallout } from "./policies/WorkspaceClassesEn
 import { EditorOptions } from "./policies/EditorOptions";
 import { RolePermissionsRestrictions } from "./policies/RoleRestrictions";
 import { OrgWorkspaceClassesOptions } from "./policies/OrgWorkspaceClassesOptions";
+import { useDefaultOrgTimeoutQuery } from "../data/organizations/default-org-timeout-query";
 
 export default function TeamPoliciesPage() {
     useDocumentTitle("Organization Settings - Policies");
@@ -46,6 +47,8 @@ export default function TeamPoliciesPage() {
     const [allowTimeoutChangeByMembers, setAllowTimeoutChangeByMembers] = useState<boolean | undefined>(undefined);
     const [workspaceTimeoutSettingError, setWorkspaceTimeoutSettingError] = useState<string | undefined>(undefined);
 
+    const defaultOrgTimeout = useDefaultOrgTimeoutQuery();
+
     const handleUpdateTeamSettings = useCallback(
         async (newSettings: Partial<PlainMessage<OrganizationSettings>>, options?: { throwMutateError?: boolean }) => {
             if (!org?.id) {
@@ -55,10 +58,7 @@ export default function TeamPoliciesPage() {
                 throw new Error("no organization settings change permission");
             }
             try {
-                await updateTeamSettings.mutateAsync({
-                    ...settings,
-                    ...newSettings,
-                });
+                await updateTeamSettings.mutateAsync(newSettings);
                 setWorkspaceTimeoutSettingError(undefined);
                 toast("Organization settings updated");
             } catch (error) {
@@ -69,7 +69,7 @@ export default function TeamPoliciesPage() {
                 console.error(error);
             }
         },
-        [updateTeamSettings, org?.id, isOwner, settings, toast],
+        [updateTeamSettings, org?.id, isOwner, toast],
     );
 
     useEffect(() => {
@@ -100,7 +100,7 @@ export default function TeamPoliciesPage() {
 
             handleUpdateTeamSettings({
                 timeoutSettings: {
-                    inactivity: workspaceTimeout ? converter.toDuration(workspaceTimeout) : undefined,
+                    inactivity: converter.toDurationOpt(workspaceTimeout),
                     denyUserTimeouts: !allowTimeoutChangeByMembers,
                 },
             });
@@ -159,7 +159,9 @@ export default function TeamPoliciesPage() {
                                 hint={
                                     <span>
                                         Use minutes or hours, like <span className="font-semibold">30m</span> or{" "}
-                                        <span className="font-semibold">2h</span>
+                                        <span className="font-semibold">2h</span>. If not set, your organization's
+                                        default of <span className="font-semibold">{defaultOrgTimeout}</span> will be
+                                        used.
                                     </span>
                                 }
                             >
@@ -185,7 +187,7 @@ export default function TeamPoliciesPage() {
                                     !isOwner ||
                                     !isPaidOrDedicated ||
                                     (workspaceTimeout ===
-                                        converter.toDurationString(settings?.timeoutSettings?.inactivity) &&
+                                        converter.toDurationStringOpt(settings?.timeoutSettings?.inactivity) &&
                                         allowTimeoutChangeByMembers === !settings?.timeoutSettings?.denyUserTimeouts)
                                 }
                             >

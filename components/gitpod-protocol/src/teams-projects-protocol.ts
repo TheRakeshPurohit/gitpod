@@ -28,6 +28,11 @@ export interface ProjectSettings {
     restrictedWorkspaceClasses?: string[];
 
     restrictedEditorNames?: string[];
+
+    /**
+     * Enable automatic authentication for docker daemon with all credentials specified in GITPOD_IMAGE_AUTH
+     */
+    enableDockerdAuthentication?: boolean;
 }
 export namespace PrebuildSettings {
     export type BranchStrategy = "default-branch" | "all-branches" | "matched-branches";
@@ -276,6 +281,18 @@ export interface OnboardingSettings {
      * the repository IDs of the repositories that are recommended for members to start with
      */
     recommendedRepositories?: string[];
+
+    /**
+     * the welcome message for new members of the organization
+     */
+    welcomeMessage?: WelcomeMessage;
+}
+
+export interface WelcomeMessage {
+    enabled?: boolean;
+    featuredMemberId?: string;
+    featuredMemberResolvedAvatarUrl?: string;
+    message?: string;
 }
 
 export type TeamMemberInfo = OrgMemberInfo;
