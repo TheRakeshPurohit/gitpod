@@ -4,7 +4,7 @@
  * See License.AGPL.txt in the project root for license information.
  */
 
-import { WorkspaceInstance, PortVisibility, PortProtocol } from "./workspace-instance";
+import { WorkspaceInstance, PortVisibility, PortProtocol, WorkspaceInstanceMetrics } from "./workspace-instance";
 import { RoleOrPermission } from "./permission";
 import { Project } from "./teams-projects-protocol";
 import { createHash } from "crypto";
@@ -279,6 +279,26 @@ export namespace EnvVar {
 
     export function is(data: any): data is EnvVar {
         return data.hasOwnProperty("name") && data.hasOwnProperty("value");
+    }
+
+    /**
+     * Extracts the "host:credentials" pairs from the GITPOD_IMAGE_AUTH environment variable.
+     * @param envVars
+     * @returns A map of host to credentials
+     */
+    export function getGitpodImageAuth(envVars: EnvVarWithValue[]): Map<string, string> {
+        const res = new Map<string, string>();
+        const imageAuth = envVars.find((e) => e.name === EnvVar.GITPOD_IMAGE_AUTH_ENV_VAR_NAME);
+        if (!imageAuth) {
+            return res;
+        }
+
+        (imageAuth.value || "")
+            .split(",")
+            .map((e) => e.trim().split(":"))
+            .filter((e) => e.length == 2)
+            .forEach((e) => res.set(e[0], e[1]));
+        return res;
     }
 }
 
@@ -1370,6 +1390,7 @@ export namespace WorkspaceInstancePortsChangedEvent {
 export interface WorkspaceSession {
     workspace: Workspace;
     instance: WorkspaceInstance;
+    metrics?: WorkspaceInstanceMetrics;
 }
 export interface WorkspaceInfo {
     workspace: Workspace;

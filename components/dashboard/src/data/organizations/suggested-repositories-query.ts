@@ -6,11 +6,12 @@
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
-import { configurationClient, organizationClient } from "../../service/public-api";
+import { configurationClient } from "../../service/public-api";
 import { useCurrentOrg } from "./orgs-query";
 import { SuggestedRepository } from "@gitpod/public-api/lib/gitpod/v1/scm_pb";
 import { PlainMessage } from "@bufbuild/protobuf";
 import { Configuration } from "@gitpod/public-api/lib/gitpod/v1/configuration_pb";
+import { useOrgSettingsQuery } from "./org-settings-query";
 
 export function useOrgRepoSuggestionsInvalidator() {
     const organizationId = useCurrentOrg().data?.id;
@@ -27,13 +28,12 @@ export type SuggestedOrgRepository = PlainMessage<SuggestedRepository> & {
 
 export function useOrgSuggestedRepos() {
     const organizationId = useCurrentOrg().data?.id;
+    const { data: orgSettings, isLoading: isOrgSettingsLoading } = useOrgSettingsQuery();
+
     const query = useQuery<SuggestedOrgRepository[], Error>(
         getQueryKey(organizationId),
         async () => {
-            const response = await organizationClient.getOrganizationSettings({
-                organizationId,
-            });
-            const repos = response.settings?.onboardingSettings?.recommendedRepositories ?? [];
+            const repos = orgSettings?.onboardingSettings?.recommendedRepositories ?? [];
 
             const suggestions: SuggestedOrgRepository[] = [];
             for (const configurationId of repos) {
@@ -58,7 +58,7 @@ export function useOrgSuggestedRepos() {
             return suggestions;
         },
         {
-            enabled: !!organizationId,
+            enabled: !!organizationId && !isOrgSettingsLoading,
             cacheTime: 1000 * 60 * 60 * 24 * 7, // 1 week
             staleTime: 1000 * 60 * 5, // 5 minutes
         },

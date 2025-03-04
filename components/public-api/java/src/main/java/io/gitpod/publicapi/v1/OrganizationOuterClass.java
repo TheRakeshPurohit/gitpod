@@ -166,7 +166,8 @@ public final class OrganizationOuterClass {
 
   /**
    * <pre>
-   * OrganizationPermissions define permissions that are restrictable using RoleRestrictions
+   * OrganizationPermissions define permissions that are restrictable using
+   * RoleRestrictions
    * </pre>
    *
    * Protobuf enum {@code gitpod.v1.OrganizationPermission}
@@ -3527,7 +3528,9 @@ public final class OrganizationOuterClass {
 
     /**
      * <pre>
-     * internal_link is the link to an internal onboarding page for the organization, possibly featuring a custom onboarding guide and other resources
+     * internal_link is the link to an internal onboarding page for the
+     * organization, possibly featuring a custom onboarding guide and other
+     * resources
      * </pre>
      *
      * <code>optional string internal_link = 1 [json_name = "internalLink"];</code>
@@ -3536,7 +3539,9 @@ public final class OrganizationOuterClass {
     boolean hasInternalLink();
     /**
      * <pre>
-     * internal_link is the link to an internal onboarding page for the organization, possibly featuring a custom onboarding guide and other resources
+     * internal_link is the link to an internal onboarding page for the
+     * organization, possibly featuring a custom onboarding guide and other
+     * resources
      * </pre>
      *
      * <code>optional string internal_link = 1 [json_name = "internalLink"];</code>
@@ -3545,7 +3550,9 @@ public final class OrganizationOuterClass {
     java.lang.String getInternalLink();
     /**
      * <pre>
-     * internal_link is the link to an internal onboarding page for the organization, possibly featuring a custom onboarding guide and other resources
+     * internal_link is the link to an internal onboarding page for the
+     * organization, possibly featuring a custom onboarding guide and other
+     * resources
      * </pre>
      *
      * <code>optional string internal_link = 1 [json_name = "internalLink"];</code>
@@ -3556,7 +3563,8 @@ public final class OrganizationOuterClass {
 
     /**
      * <pre>
-     * recommended_repositories are the repositories that are recommended for new org members
+     * recommended_repositories are the repositories that are recommended for new
+     * org members
      * </pre>
      *
      * <code>repeated string recommended_repositories = 2 [json_name = "recommendedRepositories"];</code>
@@ -3566,7 +3574,8 @@ public final class OrganizationOuterClass {
         getRecommendedRepositoriesList();
     /**
      * <pre>
-     * recommended_repositories are the repositories that are recommended for new org members
+     * recommended_repositories are the repositories that are recommended for new
+     * org members
      * </pre>
      *
      * <code>repeated string recommended_repositories = 2 [json_name = "recommendedRepositories"];</code>
@@ -3575,7 +3584,8 @@ public final class OrganizationOuterClass {
     int getRecommendedRepositoriesCount();
     /**
      * <pre>
-     * recommended_repositories are the repositories that are recommended for new org members
+     * recommended_repositories are the repositories that are recommended for new
+     * org members
      * </pre>
      *
      * <code>repeated string recommended_repositories = 2 [json_name = "recommendedRepositories"];</code>
@@ -3585,7 +3595,8 @@ public final class OrganizationOuterClass {
     java.lang.String getRecommendedRepositories(int index);
     /**
      * <pre>
-     * recommended_repositories are the repositories that are recommended for new org members
+     * recommended_repositories are the repositories that are recommended for new
+     * org members
      * </pre>
      *
      * <code>repeated string recommended_repositories = 2 [json_name = "recommendedRepositories"];</code>
@@ -3594,8 +3605,62 @@ public final class OrganizationOuterClass {
      */
     com.google.protobuf.ByteString
         getRecommendedRepositoriesBytes(int index);
+
+    /**
+     * <pre>
+     * update_recommended_repositories specifies whether recommended_repositories
+     * should be updated.
+     * This field **will not** be specified in server responses.
+     * </pre>
+     *
+     * <code>optional bool update_recommended_repositories = 3 [json_name = "updateRecommendedRepositories"];</code>
+     * @return Whether the updateRecommendedRepositories field is set.
+     */
+    boolean hasUpdateRecommendedRepositories();
+    /**
+     * <pre>
+     * update_recommended_repositories specifies whether recommended_repositories
+     * should be updated.
+     * This field **will not** be specified in server responses.
+     * </pre>
+     *
+     * <code>optional bool update_recommended_repositories = 3 [json_name = "updateRecommendedRepositories"];</code>
+     * @return The updateRecommendedRepositories.
+     */
+    boolean getUpdateRecommendedRepositories();
+
+    /**
+     * <pre>
+     * welcome_message is the welcome message for the organization
+     * </pre>
+     *
+     * <code>optional .gitpod.v1.OnboardingSettings.WelcomeMessage welcome_message = 4 [json_name = "welcomeMessage"];</code>
+     * @return Whether the welcomeMessage field is set.
+     */
+    boolean hasWelcomeMessage();
+    /**
+     * <pre>
+     * welcome_message is the welcome message for the organization
+     * </pre>
+     *
+     * <code>optional .gitpod.v1.OnboardingSettings.WelcomeMessage welcome_message = 4 [json_name = "welcomeMessage"];</code>
+     * @return The welcomeMessage.
+     */
+    io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage getWelcomeMessage();
+    /**
+     * <pre>
+     * welcome_message is the welcome message for the organization
+     * </pre>
+     *
+     * <code>optional .gitpod.v1.OnboardingSettings.WelcomeMessage welcome_message = 4 [json_name = "welcomeMessage"];</code>
+     */
+    io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessageOrBuilder getWelcomeMessageOrBuilder();
   }
   /**
+   * <pre>
+   * onboarding_settings are the settings for the organization's onboarding
+   * </pre>
+   *
    * Protobuf type {@code gitpod.v1.OnboardingSettings}
    */
   public static final class OnboardingSettings extends
@@ -3635,13 +3700,1202 @@ public final class OrganizationOuterClass {
               io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.class, io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.Builder.class);
     }
 
+    public interface WelcomeMessageOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:gitpod.v1.OnboardingSettings.WelcomeMessage)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <pre>
+       * enabled specifies whether the welcome message is enabled
+       * </pre>
+       *
+       * <code>optional bool enabled = 1 [json_name = "enabled"];</code>
+       * @return Whether the enabled field is set.
+       */
+      boolean hasEnabled();
+      /**
+       * <pre>
+       * enabled specifies whether the welcome message is enabled
+       * </pre>
+       *
+       * <code>optional bool enabled = 1 [json_name = "enabled"];</code>
+       * @return The enabled.
+       */
+      boolean getEnabled();
+
+      /**
+       * <pre>
+       * message is the welcome message for the organization
+       * </pre>
+       *
+       * <code>optional string message = 2 [json_name = "message"];</code>
+       * @return Whether the message field is set.
+       */
+      boolean hasMessage();
+      /**
+       * <pre>
+       * message is the welcome message for the organization
+       * </pre>
+       *
+       * <code>optional string message = 2 [json_name = "message"];</code>
+       * @return The message.
+       */
+      java.lang.String getMessage();
+      /**
+       * <pre>
+       * message is the welcome message for the organization
+       * </pre>
+       *
+       * <code>optional string message = 2 [json_name = "message"];</code>
+       * @return The bytes for message.
+       */
+      com.google.protobuf.ByteString
+          getMessageBytes();
+
+      /**
+       * <pre>
+       * featured_member_id is the ID of the member to show in the welcome message
+       * </pre>
+       *
+       * <code>optional string featured_member_id = 4 [json_name = "featuredMemberId"];</code>
+       * @return Whether the featuredMemberId field is set.
+       */
+      boolean hasFeaturedMemberId();
+      /**
+       * <pre>
+       * featured_member_id is the ID of the member to show in the welcome message
+       * </pre>
+       *
+       * <code>optional string featured_member_id = 4 [json_name = "featuredMemberId"];</code>
+       * @return The featuredMemberId.
+       */
+      java.lang.String getFeaturedMemberId();
+      /**
+       * <pre>
+       * featured_member_id is the ID of the member to show in the welcome message
+       * </pre>
+       *
+       * <code>optional string featured_member_id = 4 [json_name = "featuredMemberId"];</code>
+       * @return The bytes for featuredMemberId.
+       */
+      com.google.protobuf.ByteString
+          getFeaturedMemberIdBytes();
+
+      /**
+       * <pre>
+       * featured_member_resolved_avatar_url is the avatar URL that is resolved
+       * from the featured_member_id by the server
+       * This field **can not** be set in the request.
+       * </pre>
+       *
+       * <code>optional string featured_member_resolved_avatar_url = 5 [json_name = "featuredMemberResolvedAvatarUrl"];</code>
+       * @return Whether the featuredMemberResolvedAvatarUrl field is set.
+       */
+      boolean hasFeaturedMemberResolvedAvatarUrl();
+      /**
+       * <pre>
+       * featured_member_resolved_avatar_url is the avatar URL that is resolved
+       * from the featured_member_id by the server
+       * This field **can not** be set in the request.
+       * </pre>
+       *
+       * <code>optional string featured_member_resolved_avatar_url = 5 [json_name = "featuredMemberResolvedAvatarUrl"];</code>
+       * @return The featuredMemberResolvedAvatarUrl.
+       */
+      java.lang.String getFeaturedMemberResolvedAvatarUrl();
+      /**
+       * <pre>
+       * featured_member_resolved_avatar_url is the avatar URL that is resolved
+       * from the featured_member_id by the server
+       * This field **can not** be set in the request.
+       * </pre>
+       *
+       * <code>optional string featured_member_resolved_avatar_url = 5 [json_name = "featuredMemberResolvedAvatarUrl"];</code>
+       * @return The bytes for featuredMemberResolvedAvatarUrl.
+       */
+      com.google.protobuf.ByteString
+          getFeaturedMemberResolvedAvatarUrlBytes();
+    }
+    /**
+     * Protobuf type {@code gitpod.v1.OnboardingSettings.WelcomeMessage}
+     */
+    public static final class WelcomeMessage extends
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:gitpod.v1.OnboardingSettings.WelcomeMessage)
+        WelcomeMessageOrBuilder {
+    private static final long serialVersionUID = 0L;
+      static {
+        com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+          com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+          /* major= */ 4,
+          /* minor= */ 27,
+          /* patch= */ 2,
+          /* suffix= */ "",
+          WelcomeMessage.class.getName());
+      }
+      // Use WelcomeMessage.newBuilder() to construct.
+      private WelcomeMessage(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+        super(builder);
+      }
+      private WelcomeMessage() {
+        message_ = "";
+        featuredMemberId_ = "";
+        featuredMemberResolvedAvatarUrl_ = "";
+      }
+
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return io.gitpod.publicapi.v1.OrganizationOuterClass.internal_static_gitpod_v1_OnboardingSettings_WelcomeMessage_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return io.gitpod.publicapi.v1.OrganizationOuterClass.internal_static_gitpod_v1_OnboardingSettings_WelcomeMessage_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage.class, io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage.Builder.class);
+      }
+
+      private int bitField0_;
+      public static final int ENABLED_FIELD_NUMBER = 1;
+      private boolean enabled_ = false;
+      /**
+       * <pre>
+       * enabled specifies whether the welcome message is enabled
+       * </pre>
+       *
+       * <code>optional bool enabled = 1 [json_name = "enabled"];</code>
+       * @return Whether the enabled field is set.
+       */
+      @java.lang.Override
+      public boolean hasEnabled() {
+        return ((bitField0_ & 0x00000001) != 0);
+      }
+      /**
+       * <pre>
+       * enabled specifies whether the welcome message is enabled
+       * </pre>
+       *
+       * <code>optional bool enabled = 1 [json_name = "enabled"];</code>
+       * @return The enabled.
+       */
+      @java.lang.Override
+      public boolean getEnabled() {
+        return enabled_;
+      }
+
+      public static final int MESSAGE_FIELD_NUMBER = 2;
+      @SuppressWarnings("serial")
+      private volatile java.lang.Object message_ = "";
+      /**
+       * <pre>
+       * message is the welcome message for the organization
+       * </pre>
+       *
+       * <code>optional string message = 2 [json_name = "message"];</code>
+       * @return Whether the message field is set.
+       */
+      @java.lang.Override
+      public boolean hasMessage() {
+        return ((bitField0_ & 0x00000002) != 0);
+      }
+      /**
+       * <pre>
+       * message is the welcome message for the organization
+       * </pre>
+       *
+       * <code>optional string message = 2 [json_name = "message"];</code>
+       * @return The message.
+       */
+      @java.lang.Override
+      public java.lang.String getMessage() {
+        java.lang.Object ref = message_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          message_ = s;
+          return s;
+        }
+      }
+      /**
+       * <pre>
+       * message is the welcome message for the organization
+       * </pre>
+       *
+       * <code>optional string message = 2 [json_name = "message"];</code>
+       * @return The bytes for message.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getMessageBytes() {
+        java.lang.Object ref = message_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b =
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          message_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int FEATURED_MEMBER_ID_FIELD_NUMBER = 4;
+      @SuppressWarnings("serial")
+      private volatile java.lang.Object featuredMemberId_ = "";
+      /**
+       * <pre>
+       * featured_member_id is the ID of the member to show in the welcome message
+       * </pre>
+       *
+       * <code>optional string featured_member_id = 4 [json_name = "featuredMemberId"];</code>
+       * @return Whether the featuredMemberId field is set.
+       */
+      @java.lang.Override
+      public boolean hasFeaturedMemberId() {
+        return ((bitField0_ & 0x00000004) != 0);
+      }
+      /**
+       * <pre>
+       * featured_member_id is the ID of the member to show in the welcome message
+       * </pre>
+       *
+       * <code>optional string featured_member_id = 4 [json_name = "featuredMemberId"];</code>
+       * @return The featuredMemberId.
+       */
+      @java.lang.Override
+      public java.lang.String getFeaturedMemberId() {
+        java.lang.Object ref = featuredMemberId_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          featuredMemberId_ = s;
+          return s;
+        }
+      }
+      /**
+       * <pre>
+       * featured_member_id is the ID of the member to show in the welcome message
+       * </pre>
+       *
+       * <code>optional string featured_member_id = 4 [json_name = "featuredMemberId"];</code>
+       * @return The bytes for featuredMemberId.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getFeaturedMemberIdBytes() {
+        java.lang.Object ref = featuredMemberId_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b =
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          featuredMemberId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int FEATURED_MEMBER_RESOLVED_AVATAR_URL_FIELD_NUMBER = 5;
+      @SuppressWarnings("serial")
+      private volatile java.lang.Object featuredMemberResolvedAvatarUrl_ = "";
+      /**
+       * <pre>
+       * featured_member_resolved_avatar_url is the avatar URL that is resolved
+       * from the featured_member_id by the server
+       * This field **can not** be set in the request.
+       * </pre>
+       *
+       * <code>optional string featured_member_resolved_avatar_url = 5 [json_name = "featuredMemberResolvedAvatarUrl"];</code>
+       * @return Whether the featuredMemberResolvedAvatarUrl field is set.
+       */
+      @java.lang.Override
+      public boolean hasFeaturedMemberResolvedAvatarUrl() {
+        return ((bitField0_ & 0x00000008) != 0);
+      }
+      /**
+       * <pre>
+       * featured_member_resolved_avatar_url is the avatar URL that is resolved
+       * from the featured_member_id by the server
+       * This field **can not** be set in the request.
+       * </pre>
+       *
+       * <code>optional string featured_member_resolved_avatar_url = 5 [json_name = "featuredMemberResolvedAvatarUrl"];</code>
+       * @return The featuredMemberResolvedAvatarUrl.
+       */
+      @java.lang.Override
+      public java.lang.String getFeaturedMemberResolvedAvatarUrl() {
+        java.lang.Object ref = featuredMemberResolvedAvatarUrl_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          featuredMemberResolvedAvatarUrl_ = s;
+          return s;
+        }
+      }
+      /**
+       * <pre>
+       * featured_member_resolved_avatar_url is the avatar URL that is resolved
+       * from the featured_member_id by the server
+       * This field **can not** be set in the request.
+       * </pre>
+       *
+       * <code>optional string featured_member_resolved_avatar_url = 5 [json_name = "featuredMemberResolvedAvatarUrl"];</code>
+       * @return The bytes for featuredMemberResolvedAvatarUrl.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getFeaturedMemberResolvedAvatarUrlBytes() {
+        java.lang.Object ref = featuredMemberResolvedAvatarUrl_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b =
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          featuredMemberResolvedAvatarUrl_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      private byte memoizedIsInitialized = -1;
+      @java.lang.Override
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      @java.lang.Override
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (((bitField0_ & 0x00000001) != 0)) {
+          output.writeBool(1, enabled_);
+        }
+        if (((bitField0_ & 0x00000002) != 0)) {
+          com.google.protobuf.GeneratedMessage.writeString(output, 2, message_);
+        }
+        if (((bitField0_ & 0x00000004) != 0)) {
+          com.google.protobuf.GeneratedMessage.writeString(output, 4, featuredMemberId_);
+        }
+        if (((bitField0_ & 0x00000008) != 0)) {
+          com.google.protobuf.GeneratedMessage.writeString(output, 5, featuredMemberResolvedAvatarUrl_);
+        }
+        getUnknownFields().writeTo(output);
+      }
+
+      @java.lang.Override
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (((bitField0_ & 0x00000001) != 0)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeBoolSize(1, enabled_);
+        }
+        if (((bitField0_ & 0x00000002) != 0)) {
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(2, message_);
+        }
+        if (((bitField0_ & 0x00000004) != 0)) {
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(4, featuredMemberId_);
+        }
+        if (((bitField0_ & 0x00000008) != 0)) {
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(5, featuredMemberResolvedAvatarUrl_);
+        }
+        size += getUnknownFields().getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage)) {
+          return super.equals(obj);
+        }
+        io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage other = (io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage) obj;
+
+        if (hasEnabled() != other.hasEnabled()) return false;
+        if (hasEnabled()) {
+          if (getEnabled()
+              != other.getEnabled()) return false;
+        }
+        if (hasMessage() != other.hasMessage()) return false;
+        if (hasMessage()) {
+          if (!getMessage()
+              .equals(other.getMessage())) return false;
+        }
+        if (hasFeaturedMemberId() != other.hasFeaturedMemberId()) return false;
+        if (hasFeaturedMemberId()) {
+          if (!getFeaturedMemberId()
+              .equals(other.getFeaturedMemberId())) return false;
+        }
+        if (hasFeaturedMemberResolvedAvatarUrl() != other.hasFeaturedMemberResolvedAvatarUrl()) return false;
+        if (hasFeaturedMemberResolvedAvatarUrl()) {
+          if (!getFeaturedMemberResolvedAvatarUrl()
+              .equals(other.getFeaturedMemberResolvedAvatarUrl())) return false;
+        }
+        if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+        return true;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        if (hasEnabled()) {
+          hash = (37 * hash) + ENABLED_FIELD_NUMBER;
+          hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+              getEnabled());
+        }
+        if (hasMessage()) {
+          hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
+          hash = (53 * hash) + getMessage().hashCode();
+        }
+        if (hasFeaturedMemberId()) {
+          hash = (37 * hash) + FEATURED_MEMBER_ID_FIELD_NUMBER;
+          hash = (53 * hash) + getFeaturedMemberId().hashCode();
+        }
+        if (hasFeaturedMemberResolvedAvatarUrl()) {
+          hash = (37 * hash) + FEATURED_MEMBER_RESOLVED_AVATAR_URL_FIELD_NUMBER;
+          hash = (53 * hash) + getFeaturedMemberResolvedAvatarUrl().hashCode();
+        }
+        hash = (29 * hash) + getUnknownFields().hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input);
+      }
+      public static io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      public static io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+
+      public static io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input);
+      }
+      public static io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      @java.lang.Override
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      @java.lang.Override
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code gitpod.v1.OnboardingSettings.WelcomeMessage}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:gitpod.v1.OnboardingSettings.WelcomeMessage)
+          io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessageOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return io.gitpod.publicapi.v1.OrganizationOuterClass.internal_static_gitpod_v1_OnboardingSettings_WelcomeMessage_descriptor;
+        }
+
+        @java.lang.Override
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return io.gitpod.publicapi.v1.OrganizationOuterClass.internal_static_gitpod_v1_OnboardingSettings_WelcomeMessage_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage.class, io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage.Builder.class);
+        }
+
+        // Construct using io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage.newBuilder()
+        private Builder() {
+
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          super(parent);
+
+        }
+        @java.lang.Override
+        public Builder clear() {
+          super.clear();
+          bitField0_ = 0;
+          enabled_ = false;
+          message_ = "";
+          featuredMemberId_ = "";
+          featuredMemberResolvedAvatarUrl_ = "";
+          return this;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return io.gitpod.publicapi.v1.OrganizationOuterClass.internal_static_gitpod_v1_OnboardingSettings_WelcomeMessage_descriptor;
+        }
+
+        @java.lang.Override
+        public io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage getDefaultInstanceForType() {
+          return io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage.getDefaultInstance();
+        }
+
+        @java.lang.Override
+        public io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage build() {
+          io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        @java.lang.Override
+        public io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage buildPartial() {
+          io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage result = new io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage(this);
+          if (bitField0_ != 0) { buildPartial0(result); }
+          onBuilt();
+          return result;
+        }
+
+        private void buildPartial0(io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage result) {
+          int from_bitField0_ = bitField0_;
+          int to_bitField0_ = 0;
+          if (((from_bitField0_ & 0x00000001) != 0)) {
+            result.enabled_ = enabled_;
+            to_bitField0_ |= 0x00000001;
+          }
+          if (((from_bitField0_ & 0x00000002) != 0)) {
+            result.message_ = message_;
+            to_bitField0_ |= 0x00000002;
+          }
+          if (((from_bitField0_ & 0x00000004) != 0)) {
+            result.featuredMemberId_ = featuredMemberId_;
+            to_bitField0_ |= 0x00000004;
+          }
+          if (((from_bitField0_ & 0x00000008) != 0)) {
+            result.featuredMemberResolvedAvatarUrl_ = featuredMemberResolvedAvatarUrl_;
+            to_bitField0_ |= 0x00000008;
+          }
+          result.bitField0_ |= to_bitField0_;
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage) {
+            return mergeFrom((io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage other) {
+          if (other == io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage.getDefaultInstance()) return this;
+          if (other.hasEnabled()) {
+            setEnabled(other.getEnabled());
+          }
+          if (other.hasMessage()) {
+            message_ = other.message_;
+            bitField0_ |= 0x00000002;
+            onChanged();
+          }
+          if (other.hasFeaturedMemberId()) {
+            featuredMemberId_ = other.featuredMemberId_;
+            bitField0_ |= 0x00000004;
+            onChanged();
+          }
+          if (other.hasFeaturedMemberResolvedAvatarUrl()) {
+            featuredMemberResolvedAvatarUrl_ = other.featuredMemberResolvedAvatarUrl_;
+            bitField0_ |= 0x00000008;
+            onChanged();
+          }
+          this.mergeUnknownFields(other.getUnknownFields());
+          onChanged();
+          return this;
+        }
+
+        @java.lang.Override
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          if (extensionRegistry == null) {
+            throw new java.lang.NullPointerException();
+          }
+          try {
+            boolean done = false;
+            while (!done) {
+              int tag = input.readTag();
+              switch (tag) {
+                case 0:
+                  done = true;
+                  break;
+                case 8: {
+                  enabled_ = input.readBool();
+                  bitField0_ |= 0x00000001;
+                  break;
+                } // case 8
+                case 18: {
+                  message_ = input.readStringRequireUtf8();
+                  bitField0_ |= 0x00000002;
+                  break;
+                } // case 18
+                case 34: {
+                  featuredMemberId_ = input.readStringRequireUtf8();
+                  bitField0_ |= 0x00000004;
+                  break;
+                } // case 34
+                case 42: {
+                  featuredMemberResolvedAvatarUrl_ = input.readStringRequireUtf8();
+                  bitField0_ |= 0x00000008;
+                  break;
+                } // case 42
+                default: {
+                  if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                    done = true; // was an endgroup tag
+                  }
+                  break;
+                } // default:
+              } // switch (tag)
+            } // while (!done)
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.unwrapIOException();
+          } finally {
+            onChanged();
+          } // finally
+          return this;
+        }
+        private int bitField0_;
+
+        private boolean enabled_ ;
+        /**
+         * <pre>
+         * enabled specifies whether the welcome message is enabled
+         * </pre>
+         *
+         * <code>optional bool enabled = 1 [json_name = "enabled"];</code>
+         * @return Whether the enabled field is set.
+         */
+        @java.lang.Override
+        public boolean hasEnabled() {
+          return ((bitField0_ & 0x00000001) != 0);
+        }
+        /**
+         * <pre>
+         * enabled specifies whether the welcome message is enabled
+         * </pre>
+         *
+         * <code>optional bool enabled = 1 [json_name = "enabled"];</code>
+         * @return The enabled.
+         */
+        @java.lang.Override
+        public boolean getEnabled() {
+          return enabled_;
+        }
+        /**
+         * <pre>
+         * enabled specifies whether the welcome message is enabled
+         * </pre>
+         *
+         * <code>optional bool enabled = 1 [json_name = "enabled"];</code>
+         * @param value The enabled to set.
+         * @return This builder for chaining.
+         */
+        public Builder setEnabled(boolean value) {
+
+          enabled_ = value;
+          bitField0_ |= 0x00000001;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * enabled specifies whether the welcome message is enabled
+         * </pre>
+         *
+         * <code>optional bool enabled = 1 [json_name = "enabled"];</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearEnabled() {
+          bitField0_ = (bitField0_ & ~0x00000001);
+          enabled_ = false;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object message_ = "";
+        /**
+         * <pre>
+         * message is the welcome message for the organization
+         * </pre>
+         *
+         * <code>optional string message = 2 [json_name = "message"];</code>
+         * @return Whether the message field is set.
+         */
+        public boolean hasMessage() {
+          return ((bitField0_ & 0x00000002) != 0);
+        }
+        /**
+         * <pre>
+         * message is the welcome message for the organization
+         * </pre>
+         *
+         * <code>optional string message = 2 [json_name = "message"];</code>
+         * @return The message.
+         */
+        public java.lang.String getMessage() {
+          java.lang.Object ref = message_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            message_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <pre>
+         * message is the welcome message for the organization
+         * </pre>
+         *
+         * <code>optional string message = 2 [json_name = "message"];</code>
+         * @return The bytes for message.
+         */
+        public com.google.protobuf.ByteString
+            getMessageBytes() {
+          java.lang.Object ref = message_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b =
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            message_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <pre>
+         * message is the welcome message for the organization
+         * </pre>
+         *
+         * <code>optional string message = 2 [json_name = "message"];</code>
+         * @param value The message to set.
+         * @return This builder for chaining.
+         */
+        public Builder setMessage(
+            java.lang.String value) {
+          if (value == null) { throw new NullPointerException(); }
+          message_ = value;
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * message is the welcome message for the organization
+         * </pre>
+         *
+         * <code>optional string message = 2 [json_name = "message"];</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearMessage() {
+          message_ = getDefaultInstance().getMessage();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * message is the welcome message for the organization
+         * </pre>
+         *
+         * <code>optional string message = 2 [json_name = "message"];</code>
+         * @param value The bytes for message to set.
+         * @return This builder for chaining.
+         */
+        public Builder setMessageBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) { throw new NullPointerException(); }
+          checkByteStringIsUtf8(value);
+          message_ = value;
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object featuredMemberId_ = "";
+        /**
+         * <pre>
+         * featured_member_id is the ID of the member to show in the welcome message
+         * </pre>
+         *
+         * <code>optional string featured_member_id = 4 [json_name = "featuredMemberId"];</code>
+         * @return Whether the featuredMemberId field is set.
+         */
+        public boolean hasFeaturedMemberId() {
+          return ((bitField0_ & 0x00000004) != 0);
+        }
+        /**
+         * <pre>
+         * featured_member_id is the ID of the member to show in the welcome message
+         * </pre>
+         *
+         * <code>optional string featured_member_id = 4 [json_name = "featuredMemberId"];</code>
+         * @return The featuredMemberId.
+         */
+        public java.lang.String getFeaturedMemberId() {
+          java.lang.Object ref = featuredMemberId_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            featuredMemberId_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <pre>
+         * featured_member_id is the ID of the member to show in the welcome message
+         * </pre>
+         *
+         * <code>optional string featured_member_id = 4 [json_name = "featuredMemberId"];</code>
+         * @return The bytes for featuredMemberId.
+         */
+        public com.google.protobuf.ByteString
+            getFeaturedMemberIdBytes() {
+          java.lang.Object ref = featuredMemberId_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b =
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            featuredMemberId_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <pre>
+         * featured_member_id is the ID of the member to show in the welcome message
+         * </pre>
+         *
+         * <code>optional string featured_member_id = 4 [json_name = "featuredMemberId"];</code>
+         * @param value The featuredMemberId to set.
+         * @return This builder for chaining.
+         */
+        public Builder setFeaturedMemberId(
+            java.lang.String value) {
+          if (value == null) { throw new NullPointerException(); }
+          featuredMemberId_ = value;
+          bitField0_ |= 0x00000004;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * featured_member_id is the ID of the member to show in the welcome message
+         * </pre>
+         *
+         * <code>optional string featured_member_id = 4 [json_name = "featuredMemberId"];</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearFeaturedMemberId() {
+          featuredMemberId_ = getDefaultInstance().getFeaturedMemberId();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * featured_member_id is the ID of the member to show in the welcome message
+         * </pre>
+         *
+         * <code>optional string featured_member_id = 4 [json_name = "featuredMemberId"];</code>
+         * @param value The bytes for featuredMemberId to set.
+         * @return This builder for chaining.
+         */
+        public Builder setFeaturedMemberIdBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) { throw new NullPointerException(); }
+          checkByteStringIsUtf8(value);
+          featuredMemberId_ = value;
+          bitField0_ |= 0x00000004;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object featuredMemberResolvedAvatarUrl_ = "";
+        /**
+         * <pre>
+         * featured_member_resolved_avatar_url is the avatar URL that is resolved
+         * from the featured_member_id by the server
+         * This field **can not** be set in the request.
+         * </pre>
+         *
+         * <code>optional string featured_member_resolved_avatar_url = 5 [json_name = "featuredMemberResolvedAvatarUrl"];</code>
+         * @return Whether the featuredMemberResolvedAvatarUrl field is set.
+         */
+        public boolean hasFeaturedMemberResolvedAvatarUrl() {
+          return ((bitField0_ & 0x00000008) != 0);
+        }
+        /**
+         * <pre>
+         * featured_member_resolved_avatar_url is the avatar URL that is resolved
+         * from the featured_member_id by the server
+         * This field **can not** be set in the request.
+         * </pre>
+         *
+         * <code>optional string featured_member_resolved_avatar_url = 5 [json_name = "featuredMemberResolvedAvatarUrl"];</code>
+         * @return The featuredMemberResolvedAvatarUrl.
+         */
+        public java.lang.String getFeaturedMemberResolvedAvatarUrl() {
+          java.lang.Object ref = featuredMemberResolvedAvatarUrl_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            featuredMemberResolvedAvatarUrl_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <pre>
+         * featured_member_resolved_avatar_url is the avatar URL that is resolved
+         * from the featured_member_id by the server
+         * This field **can not** be set in the request.
+         * </pre>
+         *
+         * <code>optional string featured_member_resolved_avatar_url = 5 [json_name = "featuredMemberResolvedAvatarUrl"];</code>
+         * @return The bytes for featuredMemberResolvedAvatarUrl.
+         */
+        public com.google.protobuf.ByteString
+            getFeaturedMemberResolvedAvatarUrlBytes() {
+          java.lang.Object ref = featuredMemberResolvedAvatarUrl_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b =
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            featuredMemberResolvedAvatarUrl_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <pre>
+         * featured_member_resolved_avatar_url is the avatar URL that is resolved
+         * from the featured_member_id by the server
+         * This field **can not** be set in the request.
+         * </pre>
+         *
+         * <code>optional string featured_member_resolved_avatar_url = 5 [json_name = "featuredMemberResolvedAvatarUrl"];</code>
+         * @param value The featuredMemberResolvedAvatarUrl to set.
+         * @return This builder for chaining.
+         */
+        public Builder setFeaturedMemberResolvedAvatarUrl(
+            java.lang.String value) {
+          if (value == null) { throw new NullPointerException(); }
+          featuredMemberResolvedAvatarUrl_ = value;
+          bitField0_ |= 0x00000008;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * featured_member_resolved_avatar_url is the avatar URL that is resolved
+         * from the featured_member_id by the server
+         * This field **can not** be set in the request.
+         * </pre>
+         *
+         * <code>optional string featured_member_resolved_avatar_url = 5 [json_name = "featuredMemberResolvedAvatarUrl"];</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearFeaturedMemberResolvedAvatarUrl() {
+          featuredMemberResolvedAvatarUrl_ = getDefaultInstance().getFeaturedMemberResolvedAvatarUrl();
+          bitField0_ = (bitField0_ & ~0x00000008);
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * featured_member_resolved_avatar_url is the avatar URL that is resolved
+         * from the featured_member_id by the server
+         * This field **can not** be set in the request.
+         * </pre>
+         *
+         * <code>optional string featured_member_resolved_avatar_url = 5 [json_name = "featuredMemberResolvedAvatarUrl"];</code>
+         * @param value The bytes for featuredMemberResolvedAvatarUrl to set.
+         * @return This builder for chaining.
+         */
+        public Builder setFeaturedMemberResolvedAvatarUrlBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) { throw new NullPointerException(); }
+          checkByteStringIsUtf8(value);
+          featuredMemberResolvedAvatarUrl_ = value;
+          bitField0_ |= 0x00000008;
+          onChanged();
+          return this;
+        }
+
+        // @@protoc_insertion_point(builder_scope:gitpod.v1.OnboardingSettings.WelcomeMessage)
+      }
+
+      // @@protoc_insertion_point(class_scope:gitpod.v1.OnboardingSettings.WelcomeMessage)
+      private static final io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage();
+      }
+
+      public static io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<WelcomeMessage>
+          PARSER = new com.google.protobuf.AbstractParser<WelcomeMessage>() {
+        @java.lang.Override
+        public WelcomeMessage parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          Builder builder = newBuilder();
+          try {
+            builder.mergeFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.setUnfinishedMessage(builder.buildPartial());
+          } catch (com.google.protobuf.UninitializedMessageException e) {
+            throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+          } catch (java.io.IOException e) {
+            throw new com.google.protobuf.InvalidProtocolBufferException(e)
+                .setUnfinishedMessage(builder.buildPartial());
+          }
+          return builder.buildPartial();
+        }
+      };
+
+      public static com.google.protobuf.Parser<WelcomeMessage> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<WelcomeMessage> getParserForType() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
     private int bitField0_;
     public static final int INTERNAL_LINK_FIELD_NUMBER = 1;
     @SuppressWarnings("serial")
     private volatile java.lang.Object internalLink_ = "";
     /**
      * <pre>
-     * internal_link is the link to an internal onboarding page for the organization, possibly featuring a custom onboarding guide and other resources
+     * internal_link is the link to an internal onboarding page for the
+     * organization, possibly featuring a custom onboarding guide and other
+     * resources
      * </pre>
      *
      * <code>optional string internal_link = 1 [json_name = "internalLink"];</code>
@@ -3653,7 +4907,9 @@ public final class OrganizationOuterClass {
     }
     /**
      * <pre>
-     * internal_link is the link to an internal onboarding page for the organization, possibly featuring a custom onboarding guide and other resources
+     * internal_link is the link to an internal onboarding page for the
+     * organization, possibly featuring a custom onboarding guide and other
+     * resources
      * </pre>
      *
      * <code>optional string internal_link = 1 [json_name = "internalLink"];</code>
@@ -3674,7 +4930,9 @@ public final class OrganizationOuterClass {
     }
     /**
      * <pre>
-     * internal_link is the link to an internal onboarding page for the organization, possibly featuring a custom onboarding guide and other resources
+     * internal_link is the link to an internal onboarding page for the
+     * organization, possibly featuring a custom onboarding guide and other
+     * resources
      * </pre>
      *
      * <code>optional string internal_link = 1 [json_name = "internalLink"];</code>
@@ -3701,7 +4959,8 @@ public final class OrganizationOuterClass {
         com.google.protobuf.LazyStringArrayList.emptyList();
     /**
      * <pre>
-     * recommended_repositories are the repositories that are recommended for new org members
+     * recommended_repositories are the repositories that are recommended for new
+     * org members
      * </pre>
      *
      * <code>repeated string recommended_repositories = 2 [json_name = "recommendedRepositories"];</code>
@@ -3713,7 +4972,8 @@ public final class OrganizationOuterClass {
     }
     /**
      * <pre>
-     * recommended_repositories are the repositories that are recommended for new org members
+     * recommended_repositories are the repositories that are recommended for new
+     * org members
      * </pre>
      *
      * <code>repeated string recommended_repositories = 2 [json_name = "recommendedRepositories"];</code>
@@ -3724,7 +4984,8 @@ public final class OrganizationOuterClass {
     }
     /**
      * <pre>
-     * recommended_repositories are the repositories that are recommended for new org members
+     * recommended_repositories are the repositories that are recommended for new
+     * org members
      * </pre>
      *
      * <code>repeated string recommended_repositories = 2 [json_name = "recommendedRepositories"];</code>
@@ -3736,7 +4997,8 @@ public final class OrganizationOuterClass {
     }
     /**
      * <pre>
-     * recommended_repositories are the repositories that are recommended for new org members
+     * recommended_repositories are the repositories that are recommended for new
+     * org members
      * </pre>
      *
      * <code>repeated string recommended_repositories = 2 [json_name = "recommendedRepositories"];</code>
@@ -3746,6 +5008,75 @@ public final class OrganizationOuterClass {
     public com.google.protobuf.ByteString
         getRecommendedRepositoriesBytes(int index) {
       return recommendedRepositories_.getByteString(index);
+    }
+
+    public static final int UPDATE_RECOMMENDED_REPOSITORIES_FIELD_NUMBER = 3;
+    private boolean updateRecommendedRepositories_ = false;
+    /**
+     * <pre>
+     * update_recommended_repositories specifies whether recommended_repositories
+     * should be updated.
+     * This field **will not** be specified in server responses.
+     * </pre>
+     *
+     * <code>optional bool update_recommended_repositories = 3 [json_name = "updateRecommendedRepositories"];</code>
+     * @return Whether the updateRecommendedRepositories field is set.
+     */
+    @java.lang.Override
+    public boolean hasUpdateRecommendedRepositories() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <pre>
+     * update_recommended_repositories specifies whether recommended_repositories
+     * should be updated.
+     * This field **will not** be specified in server responses.
+     * </pre>
+     *
+     * <code>optional bool update_recommended_repositories = 3 [json_name = "updateRecommendedRepositories"];</code>
+     * @return The updateRecommendedRepositories.
+     */
+    @java.lang.Override
+    public boolean getUpdateRecommendedRepositories() {
+      return updateRecommendedRepositories_;
+    }
+
+    public static final int WELCOME_MESSAGE_FIELD_NUMBER = 4;
+    private io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage welcomeMessage_;
+    /**
+     * <pre>
+     * welcome_message is the welcome message for the organization
+     * </pre>
+     *
+     * <code>optional .gitpod.v1.OnboardingSettings.WelcomeMessage welcome_message = 4 [json_name = "welcomeMessage"];</code>
+     * @return Whether the welcomeMessage field is set.
+     */
+    @java.lang.Override
+    public boolean hasWelcomeMessage() {
+      return ((bitField0_ & 0x00000004) != 0);
+    }
+    /**
+     * <pre>
+     * welcome_message is the welcome message for the organization
+     * </pre>
+     *
+     * <code>optional .gitpod.v1.OnboardingSettings.WelcomeMessage welcome_message = 4 [json_name = "welcomeMessage"];</code>
+     * @return The welcomeMessage.
+     */
+    @java.lang.Override
+    public io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage getWelcomeMessage() {
+      return welcomeMessage_ == null ? io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage.getDefaultInstance() : welcomeMessage_;
+    }
+    /**
+     * <pre>
+     * welcome_message is the welcome message for the organization
+     * </pre>
+     *
+     * <code>optional .gitpod.v1.OnboardingSettings.WelcomeMessage welcome_message = 4 [json_name = "welcomeMessage"];</code>
+     */
+    @java.lang.Override
+    public io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessageOrBuilder getWelcomeMessageOrBuilder() {
+      return welcomeMessage_ == null ? io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage.getDefaultInstance() : welcomeMessage_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -3768,6 +5099,12 @@ public final class OrganizationOuterClass {
       for (int i = 0; i < recommendedRepositories_.size(); i++) {
         com.google.protobuf.GeneratedMessage.writeString(output, 2, recommendedRepositories_.getRaw(i));
       }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        output.writeBool(3, updateRecommendedRepositories_);
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        output.writeMessage(4, getWelcomeMessage());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -3787,6 +5124,14 @@ public final class OrganizationOuterClass {
         }
         size += dataSize;
         size += 1 * getRecommendedRepositoriesList().size();
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(3, updateRecommendedRepositories_);
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, getWelcomeMessage());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -3810,6 +5155,16 @@ public final class OrganizationOuterClass {
       }
       if (!getRecommendedRepositoriesList()
           .equals(other.getRecommendedRepositoriesList())) return false;
+      if (hasUpdateRecommendedRepositories() != other.hasUpdateRecommendedRepositories()) return false;
+      if (hasUpdateRecommendedRepositories()) {
+        if (getUpdateRecommendedRepositories()
+            != other.getUpdateRecommendedRepositories()) return false;
+      }
+      if (hasWelcomeMessage() != other.hasWelcomeMessage()) return false;
+      if (hasWelcomeMessage()) {
+        if (!getWelcomeMessage()
+            .equals(other.getWelcomeMessage())) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -3828,6 +5183,15 @@ public final class OrganizationOuterClass {
       if (getRecommendedRepositoriesCount() > 0) {
         hash = (37 * hash) + RECOMMENDED_REPOSITORIES_FIELD_NUMBER;
         hash = (53 * hash) + getRecommendedRepositoriesList().hashCode();
+      }
+      if (hasUpdateRecommendedRepositories()) {
+        hash = (37 * hash) + UPDATE_RECOMMENDED_REPOSITORIES_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getUpdateRecommendedRepositories());
+      }
+      if (hasWelcomeMessage()) {
+        hash = (37 * hash) + WELCOME_MESSAGE_FIELD_NUMBER;
+        hash = (53 * hash) + getWelcomeMessage().hashCode();
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -3927,6 +5291,10 @@ public final class OrganizationOuterClass {
       return builder;
     }
     /**
+     * <pre>
+     * onboarding_settings are the settings for the organization's onboarding
+     * </pre>
+     *
      * Protobuf type {@code gitpod.v1.OnboardingSettings}
      */
     public static final class Builder extends
@@ -3948,13 +5316,19 @@ public final class OrganizationOuterClass {
 
       // Construct using io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.newBuilder()
       private Builder() {
-
+        maybeForceBuilderInitialization();
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessage.BuilderParent parent) {
         super(parent);
-
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage
+                .alwaysUseFieldBuilders) {
+          getWelcomeMessageFieldBuilder();
+        }
       }
       @java.lang.Override
       public Builder clear() {
@@ -3963,6 +5337,12 @@ public final class OrganizationOuterClass {
         internalLink_ = "";
         recommendedRepositories_ =
             com.google.protobuf.LazyStringArrayList.emptyList();
+        updateRecommendedRepositories_ = false;
+        welcomeMessage_ = null;
+        if (welcomeMessageBuilder_ != null) {
+          welcomeMessageBuilder_.dispose();
+          welcomeMessageBuilder_ = null;
+        }
         return this;
       }
 
@@ -4005,6 +5385,16 @@ public final class OrganizationOuterClass {
           recommendedRepositories_.makeImmutable();
           result.recommendedRepositories_ = recommendedRepositories_;
         }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.updateRecommendedRepositories_ = updateRecommendedRepositories_;
+          to_bitField0_ |= 0x00000002;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.welcomeMessage_ = welcomeMessageBuilder_ == null
+              ? welcomeMessage_
+              : welcomeMessageBuilder_.build();
+          to_bitField0_ |= 0x00000004;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -4034,6 +5424,12 @@ public final class OrganizationOuterClass {
             recommendedRepositories_.addAll(other.recommendedRepositories_);
           }
           onChanged();
+        }
+        if (other.hasUpdateRecommendedRepositories()) {
+          setUpdateRecommendedRepositories(other.getUpdateRecommendedRepositories());
+        }
+        if (other.hasWelcomeMessage()) {
+          mergeWelcomeMessage(other.getWelcomeMessage());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -4072,6 +5468,18 @@ public final class OrganizationOuterClass {
                 recommendedRepositories_.add(s);
                 break;
               } // case 18
+              case 24: {
+                updateRecommendedRepositories_ = input.readBool();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 24
+              case 34: {
+                input.readMessage(
+                    getWelcomeMessageFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 34
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -4092,7 +5500,9 @@ public final class OrganizationOuterClass {
       private java.lang.Object internalLink_ = "";
       /**
        * <pre>
-       * internal_link is the link to an internal onboarding page for the organization, possibly featuring a custom onboarding guide and other resources
+       * internal_link is the link to an internal onboarding page for the
+       * organization, possibly featuring a custom onboarding guide and other
+       * resources
        * </pre>
        *
        * <code>optional string internal_link = 1 [json_name = "internalLink"];</code>
@@ -4103,7 +5513,9 @@ public final class OrganizationOuterClass {
       }
       /**
        * <pre>
-       * internal_link is the link to an internal onboarding page for the organization, possibly featuring a custom onboarding guide and other resources
+       * internal_link is the link to an internal onboarding page for the
+       * organization, possibly featuring a custom onboarding guide and other
+       * resources
        * </pre>
        *
        * <code>optional string internal_link = 1 [json_name = "internalLink"];</code>
@@ -4123,7 +5535,9 @@ public final class OrganizationOuterClass {
       }
       /**
        * <pre>
-       * internal_link is the link to an internal onboarding page for the organization, possibly featuring a custom onboarding guide and other resources
+       * internal_link is the link to an internal onboarding page for the
+       * organization, possibly featuring a custom onboarding guide and other
+       * resources
        * </pre>
        *
        * <code>optional string internal_link = 1 [json_name = "internalLink"];</code>
@@ -4144,7 +5558,9 @@ public final class OrganizationOuterClass {
       }
       /**
        * <pre>
-       * internal_link is the link to an internal onboarding page for the organization, possibly featuring a custom onboarding guide and other resources
+       * internal_link is the link to an internal onboarding page for the
+       * organization, possibly featuring a custom onboarding guide and other
+       * resources
        * </pre>
        *
        * <code>optional string internal_link = 1 [json_name = "internalLink"];</code>
@@ -4161,7 +5577,9 @@ public final class OrganizationOuterClass {
       }
       /**
        * <pre>
-       * internal_link is the link to an internal onboarding page for the organization, possibly featuring a custom onboarding guide and other resources
+       * internal_link is the link to an internal onboarding page for the
+       * organization, possibly featuring a custom onboarding guide and other
+       * resources
        * </pre>
        *
        * <code>optional string internal_link = 1 [json_name = "internalLink"];</code>
@@ -4175,7 +5593,9 @@ public final class OrganizationOuterClass {
       }
       /**
        * <pre>
-       * internal_link is the link to an internal onboarding page for the organization, possibly featuring a custom onboarding guide and other resources
+       * internal_link is the link to an internal onboarding page for the
+       * organization, possibly featuring a custom onboarding guide and other
+       * resources
        * </pre>
        *
        * <code>optional string internal_link = 1 [json_name = "internalLink"];</code>
@@ -4202,7 +5622,8 @@ public final class OrganizationOuterClass {
       }
       /**
        * <pre>
-       * recommended_repositories are the repositories that are recommended for new org members
+       * recommended_repositories are the repositories that are recommended for new
+       * org members
        * </pre>
        *
        * <code>repeated string recommended_repositories = 2 [json_name = "recommendedRepositories"];</code>
@@ -4215,7 +5636,8 @@ public final class OrganizationOuterClass {
       }
       /**
        * <pre>
-       * recommended_repositories are the repositories that are recommended for new org members
+       * recommended_repositories are the repositories that are recommended for new
+       * org members
        * </pre>
        *
        * <code>repeated string recommended_repositories = 2 [json_name = "recommendedRepositories"];</code>
@@ -4226,7 +5648,8 @@ public final class OrganizationOuterClass {
       }
       /**
        * <pre>
-       * recommended_repositories are the repositories that are recommended for new org members
+       * recommended_repositories are the repositories that are recommended for new
+       * org members
        * </pre>
        *
        * <code>repeated string recommended_repositories = 2 [json_name = "recommendedRepositories"];</code>
@@ -4238,7 +5661,8 @@ public final class OrganizationOuterClass {
       }
       /**
        * <pre>
-       * recommended_repositories are the repositories that are recommended for new org members
+       * recommended_repositories are the repositories that are recommended for new
+       * org members
        * </pre>
        *
        * <code>repeated string recommended_repositories = 2 [json_name = "recommendedRepositories"];</code>
@@ -4251,7 +5675,8 @@ public final class OrganizationOuterClass {
       }
       /**
        * <pre>
-       * recommended_repositories are the repositories that are recommended for new org members
+       * recommended_repositories are the repositories that are recommended for new
+       * org members
        * </pre>
        *
        * <code>repeated string recommended_repositories = 2 [json_name = "recommendedRepositories"];</code>
@@ -4270,7 +5695,8 @@ public final class OrganizationOuterClass {
       }
       /**
        * <pre>
-       * recommended_repositories are the repositories that are recommended for new org members
+       * recommended_repositories are the repositories that are recommended for new
+       * org members
        * </pre>
        *
        * <code>repeated string recommended_repositories = 2 [json_name = "recommendedRepositories"];</code>
@@ -4288,7 +5714,8 @@ public final class OrganizationOuterClass {
       }
       /**
        * <pre>
-       * recommended_repositories are the repositories that are recommended for new org members
+       * recommended_repositories are the repositories that are recommended for new
+       * org members
        * </pre>
        *
        * <code>repeated string recommended_repositories = 2 [json_name = "recommendedRepositories"];</code>
@@ -4306,7 +5733,8 @@ public final class OrganizationOuterClass {
       }
       /**
        * <pre>
-       * recommended_repositories are the repositories that are recommended for new org members
+       * recommended_repositories are the repositories that are recommended for new
+       * org members
        * </pre>
        *
        * <code>repeated string recommended_repositories = 2 [json_name = "recommendedRepositories"];</code>
@@ -4321,7 +5749,8 @@ public final class OrganizationOuterClass {
       }
       /**
        * <pre>
-       * recommended_repositories are the repositories that are recommended for new org members
+       * recommended_repositories are the repositories that are recommended for new
+       * org members
        * </pre>
        *
        * <code>repeated string recommended_repositories = 2 [json_name = "recommendedRepositories"];</code>
@@ -4337,6 +5766,227 @@ public final class OrganizationOuterClass {
         bitField0_ |= 0x00000002;
         onChanged();
         return this;
+      }
+
+      private boolean updateRecommendedRepositories_ ;
+      /**
+       * <pre>
+       * update_recommended_repositories specifies whether recommended_repositories
+       * should be updated.
+       * This field **will not** be specified in server responses.
+       * </pre>
+       *
+       * <code>optional bool update_recommended_repositories = 3 [json_name = "updateRecommendedRepositories"];</code>
+       * @return Whether the updateRecommendedRepositories field is set.
+       */
+      @java.lang.Override
+      public boolean hasUpdateRecommendedRepositories() {
+        return ((bitField0_ & 0x00000004) != 0);
+      }
+      /**
+       * <pre>
+       * update_recommended_repositories specifies whether recommended_repositories
+       * should be updated.
+       * This field **will not** be specified in server responses.
+       * </pre>
+       *
+       * <code>optional bool update_recommended_repositories = 3 [json_name = "updateRecommendedRepositories"];</code>
+       * @return The updateRecommendedRepositories.
+       */
+      @java.lang.Override
+      public boolean getUpdateRecommendedRepositories() {
+        return updateRecommendedRepositories_;
+      }
+      /**
+       * <pre>
+       * update_recommended_repositories specifies whether recommended_repositories
+       * should be updated.
+       * This field **will not** be specified in server responses.
+       * </pre>
+       *
+       * <code>optional bool update_recommended_repositories = 3 [json_name = "updateRecommendedRepositories"];</code>
+       * @param value The updateRecommendedRepositories to set.
+       * @return This builder for chaining.
+       */
+      public Builder setUpdateRecommendedRepositories(boolean value) {
+
+        updateRecommendedRepositories_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * update_recommended_repositories specifies whether recommended_repositories
+       * should be updated.
+       * This field **will not** be specified in server responses.
+       * </pre>
+       *
+       * <code>optional bool update_recommended_repositories = 3 [json_name = "updateRecommendedRepositories"];</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearUpdateRecommendedRepositories() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        updateRecommendedRepositories_ = false;
+        onChanged();
+        return this;
+      }
+
+      private io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage welcomeMessage_;
+      private com.google.protobuf.SingleFieldBuilder<
+          io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage, io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage.Builder, io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessageOrBuilder> welcomeMessageBuilder_;
+      /**
+       * <pre>
+       * welcome_message is the welcome message for the organization
+       * </pre>
+       *
+       * <code>optional .gitpod.v1.OnboardingSettings.WelcomeMessage welcome_message = 4 [json_name = "welcomeMessage"];</code>
+       * @return Whether the welcomeMessage field is set.
+       */
+      public boolean hasWelcomeMessage() {
+        return ((bitField0_ & 0x00000008) != 0);
+      }
+      /**
+       * <pre>
+       * welcome_message is the welcome message for the organization
+       * </pre>
+       *
+       * <code>optional .gitpod.v1.OnboardingSettings.WelcomeMessage welcome_message = 4 [json_name = "welcomeMessage"];</code>
+       * @return The welcomeMessage.
+       */
+      public io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage getWelcomeMessage() {
+        if (welcomeMessageBuilder_ == null) {
+          return welcomeMessage_ == null ? io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage.getDefaultInstance() : welcomeMessage_;
+        } else {
+          return welcomeMessageBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * welcome_message is the welcome message for the organization
+       * </pre>
+       *
+       * <code>optional .gitpod.v1.OnboardingSettings.WelcomeMessage welcome_message = 4 [json_name = "welcomeMessage"];</code>
+       */
+      public Builder setWelcomeMessage(io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage value) {
+        if (welcomeMessageBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          welcomeMessage_ = value;
+        } else {
+          welcomeMessageBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * welcome_message is the welcome message for the organization
+       * </pre>
+       *
+       * <code>optional .gitpod.v1.OnboardingSettings.WelcomeMessage welcome_message = 4 [json_name = "welcomeMessage"];</code>
+       */
+      public Builder setWelcomeMessage(
+          io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage.Builder builderForValue) {
+        if (welcomeMessageBuilder_ == null) {
+          welcomeMessage_ = builderForValue.build();
+        } else {
+          welcomeMessageBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * welcome_message is the welcome message for the organization
+       * </pre>
+       *
+       * <code>optional .gitpod.v1.OnboardingSettings.WelcomeMessage welcome_message = 4 [json_name = "welcomeMessage"];</code>
+       */
+      public Builder mergeWelcomeMessage(io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage value) {
+        if (welcomeMessageBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) != 0) &&
+            welcomeMessage_ != null &&
+            welcomeMessage_ != io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage.getDefaultInstance()) {
+            getWelcomeMessageBuilder().mergeFrom(value);
+          } else {
+            welcomeMessage_ = value;
+          }
+        } else {
+          welcomeMessageBuilder_.mergeFrom(value);
+        }
+        if (welcomeMessage_ != null) {
+          bitField0_ |= 0x00000008;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * welcome_message is the welcome message for the organization
+       * </pre>
+       *
+       * <code>optional .gitpod.v1.OnboardingSettings.WelcomeMessage welcome_message = 4 [json_name = "welcomeMessage"];</code>
+       */
+      public Builder clearWelcomeMessage() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        welcomeMessage_ = null;
+        if (welcomeMessageBuilder_ != null) {
+          welcomeMessageBuilder_.dispose();
+          welcomeMessageBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * welcome_message is the welcome message for the organization
+       * </pre>
+       *
+       * <code>optional .gitpod.v1.OnboardingSettings.WelcomeMessage welcome_message = 4 [json_name = "welcomeMessage"];</code>
+       */
+      public io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage.Builder getWelcomeMessageBuilder() {
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return getWelcomeMessageFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * welcome_message is the welcome message for the organization
+       * </pre>
+       *
+       * <code>optional .gitpod.v1.OnboardingSettings.WelcomeMessage welcome_message = 4 [json_name = "welcomeMessage"];</code>
+       */
+      public io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessageOrBuilder getWelcomeMessageOrBuilder() {
+        if (welcomeMessageBuilder_ != null) {
+          return welcomeMessageBuilder_.getMessageOrBuilder();
+        } else {
+          return welcomeMessage_ == null ?
+              io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage.getDefaultInstance() : welcomeMessage_;
+        }
+      }
+      /**
+       * <pre>
+       * welcome_message is the welcome message for the organization
+       * </pre>
+       *
+       * <code>optional .gitpod.v1.OnboardingSettings.WelcomeMessage welcome_message = 4 [json_name = "welcomeMessage"];</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage, io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage.Builder, io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessageOrBuilder>
+          getWelcomeMessageFieldBuilder() {
+        if (welcomeMessageBuilder_ == null) {
+          welcomeMessageBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage, io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessage.Builder, io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.WelcomeMessageOrBuilder>(
+                  getWelcomeMessage(),
+                  getParentForChildren(),
+                  isClean());
+          welcomeMessage_ = null;
+        }
+        return welcomeMessageBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:gitpod.v1.OnboardingSettings)
@@ -4395,18 +6045,28 @@ public final class OrganizationOuterClass {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>bool workspace_sharing_disabled = 1 [json_name = "workspaceSharingDisabled"];</code>
+     * <code>optional bool workspace_sharing_disabled = 1 [json_name = "workspaceSharingDisabled"];</code>
+     * @return Whether the workspaceSharingDisabled field is set.
+     */
+    boolean hasWorkspaceSharingDisabled();
+    /**
+     * <code>optional bool workspace_sharing_disabled = 1 [json_name = "workspaceSharingDisabled"];</code>
      * @return The workspaceSharingDisabled.
      */
     boolean getWorkspaceSharingDisabled();
 
     /**
-     * <code>string default_workspace_image = 2 [json_name = "defaultWorkspaceImage"];</code>
+     * <code>optional string default_workspace_image = 2 [json_name = "defaultWorkspaceImage"];</code>
+     * @return Whether the defaultWorkspaceImage field is set.
+     */
+    boolean hasDefaultWorkspaceImage();
+    /**
+     * <code>optional string default_workspace_image = 2 [json_name = "defaultWorkspaceImage"];</code>
      * @return The defaultWorkspaceImage.
      */
     java.lang.String getDefaultWorkspaceImage();
     /**
-     * <code>string default_workspace_image = 2 [json_name = "defaultWorkspaceImage"];</code>
+     * <code>optional string default_workspace_image = 2 [json_name = "defaultWorkspaceImage"];</code>
      * @return The bytes for defaultWorkspaceImage.
      */
     com.google.protobuf.ByteString
@@ -4497,29 +6157,34 @@ java.lang.String defaultValue);
         java.lang.String key);
 
     /**
-     * <code>string default_role = 6 [json_name = "defaultRole"];</code>
+     * <code>optional string default_role = 6 [json_name = "defaultRole"];</code>
+     * @return Whether the defaultRole field is set.
+     */
+    boolean hasDefaultRole();
+    /**
+     * <code>optional string default_role = 6 [json_name = "defaultRole"];</code>
      * @return The defaultRole.
      */
     java.lang.String getDefaultRole();
     /**
-     * <code>string default_role = 6 [json_name = "defaultRole"];</code>
+     * <code>optional string default_role = 6 [json_name = "defaultRole"];</code>
      * @return The bytes for defaultRole.
      */
     com.google.protobuf.ByteString
         getDefaultRoleBytes();
 
     /**
-     * <code>.gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
+     * <code>optional .gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
      * @return Whether the timeoutSettings field is set.
      */
     boolean hasTimeoutSettings();
     /**
-     * <code>.gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
+     * <code>optional .gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
      * @return The timeoutSettings.
      */
     io.gitpod.publicapi.v1.OrganizationOuterClass.TimeoutSettings getTimeoutSettings();
     /**
-     * <code>.gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
+     * <code>optional .gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
      */
     io.gitpod.publicapi.v1.OrganizationOuterClass.TimeoutSettingsOrBuilder getTimeoutSettingsOrBuilder();
 
@@ -4549,36 +6214,58 @@ java.lang.String defaultValue);
 
     /**
      * <pre>
-     * max_parallel_running_workspaces is the maximum number of workspaces that a single user can run in parallel. 0 resets to the default, which depends on the org plan
+     * max_parallel_running_workspaces is the maximum number of workspaces that a
+     * single user can run in parallel. 0 resets to the default, which depends on
+     * the org plan
      * </pre>
      *
-     * <code>int32 max_parallel_running_workspaces = 9 [json_name = "maxParallelRunningWorkspaces"];</code>
+     * <code>optional int32 max_parallel_running_workspaces = 9 [json_name = "maxParallelRunningWorkspaces"];</code>
+     * @return Whether the maxParallelRunningWorkspaces field is set.
+     */
+    boolean hasMaxParallelRunningWorkspaces();
+    /**
+     * <pre>
+     * max_parallel_running_workspaces is the maximum number of workspaces that a
+     * single user can run in parallel. 0 resets to the default, which depends on
+     * the org plan
+     * </pre>
+     *
+     * <code>optional int32 max_parallel_running_workspaces = 9 [json_name = "maxParallelRunningWorkspaces"];</code>
      * @return The maxParallelRunningWorkspaces.
      */
     int getMaxParallelRunningWorkspaces();
 
     /**
-     * <code>.gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
+     * <code>optional .gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
      * @return Whether the onboardingSettings field is set.
      */
     boolean hasOnboardingSettings();
     /**
-     * <code>.gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
+     * <code>optional .gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
      * @return The onboardingSettings.
      */
     io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings getOnboardingSettings();
     /**
-     * <code>.gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
+     * <code>optional .gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
      */
     io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettingsOrBuilder getOnboardingSettingsOrBuilder();
 
     /**
-     * <code>bool annotate_git_commits = 11 [json_name = "annotateGitCommits"];</code>
+     * <code>optional bool annotate_git_commits = 11 [json_name = "annotateGitCommits"];</code>
+     * @return Whether the annotateGitCommits field is set.
+     */
+    boolean hasAnnotateGitCommits();
+    /**
+     * <code>optional bool annotate_git_commits = 11 [json_name = "annotateGitCommits"];</code>
      * @return The annotateGitCommits.
      */
     boolean getAnnotateGitCommits();
   }
   /**
+   * <pre>
+   * KEEP ALIGNED WITH UpdateOrganizationSettingsRequest shape below!!!
+   * </pre>
+   *
    * Protobuf type {@code gitpod.v1.OrganizationSettings}
    */
   public static final class OrganizationSettings extends
@@ -4638,7 +6325,15 @@ java.lang.String defaultValue);
     public static final int WORKSPACE_SHARING_DISABLED_FIELD_NUMBER = 1;
     private boolean workspaceSharingDisabled_ = false;
     /**
-     * <code>bool workspace_sharing_disabled = 1 [json_name = "workspaceSharingDisabled"];</code>
+     * <code>optional bool workspace_sharing_disabled = 1 [json_name = "workspaceSharingDisabled"];</code>
+     * @return Whether the workspaceSharingDisabled field is set.
+     */
+    @java.lang.Override
+    public boolean hasWorkspaceSharingDisabled() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>optional bool workspace_sharing_disabled = 1 [json_name = "workspaceSharingDisabled"];</code>
      * @return The workspaceSharingDisabled.
      */
     @java.lang.Override
@@ -4650,7 +6345,15 @@ java.lang.String defaultValue);
     @SuppressWarnings("serial")
     private volatile java.lang.Object defaultWorkspaceImage_ = "";
     /**
-     * <code>string default_workspace_image = 2 [json_name = "defaultWorkspaceImage"];</code>
+     * <code>optional string default_workspace_image = 2 [json_name = "defaultWorkspaceImage"];</code>
+     * @return Whether the defaultWorkspaceImage field is set.
+     */
+    @java.lang.Override
+    public boolean hasDefaultWorkspaceImage() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <code>optional string default_workspace_image = 2 [json_name = "defaultWorkspaceImage"];</code>
      * @return The defaultWorkspaceImage.
      */
     @java.lang.Override
@@ -4667,7 +6370,7 @@ java.lang.String defaultValue);
       }
     }
     /**
-     * <code>string default_workspace_image = 2 [json_name = "defaultWorkspaceImage"];</code>
+     * <code>optional string default_workspace_image = 2 [json_name = "defaultWorkspaceImage"];</code>
      * @return The bytes for defaultWorkspaceImage.
      */
     @java.lang.Override
@@ -4842,7 +6545,15 @@ java.lang.String defaultValue) {
     @SuppressWarnings("serial")
     private volatile java.lang.Object defaultRole_ = "";
     /**
-     * <code>string default_role = 6 [json_name = "defaultRole"];</code>
+     * <code>optional string default_role = 6 [json_name = "defaultRole"];</code>
+     * @return Whether the defaultRole field is set.
+     */
+    @java.lang.Override
+    public boolean hasDefaultRole() {
+      return ((bitField0_ & 0x00000004) != 0);
+    }
+    /**
+     * <code>optional string default_role = 6 [json_name = "defaultRole"];</code>
      * @return The defaultRole.
      */
     @java.lang.Override
@@ -4859,7 +6570,7 @@ java.lang.String defaultValue) {
       }
     }
     /**
-     * <code>string default_role = 6 [json_name = "defaultRole"];</code>
+     * <code>optional string default_role = 6 [json_name = "defaultRole"];</code>
      * @return The bytes for defaultRole.
      */
     @java.lang.Override
@@ -4880,15 +6591,15 @@ java.lang.String defaultValue) {
     public static final int TIMEOUT_SETTINGS_FIELD_NUMBER = 7;
     private io.gitpod.publicapi.v1.OrganizationOuterClass.TimeoutSettings timeoutSettings_;
     /**
-     * <code>.gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
+     * <code>optional .gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
      * @return Whether the timeoutSettings field is set.
      */
     @java.lang.Override
     public boolean hasTimeoutSettings() {
-      return ((bitField0_ & 0x00000001) != 0);
+      return ((bitField0_ & 0x00000008) != 0);
     }
     /**
-     * <code>.gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
+     * <code>optional .gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
      * @return The timeoutSettings.
      */
     @java.lang.Override
@@ -4896,7 +6607,7 @@ java.lang.String defaultValue) {
       return timeoutSettings_ == null ? io.gitpod.publicapi.v1.OrganizationOuterClass.TimeoutSettings.getDefaultInstance() : timeoutSettings_;
     }
     /**
-     * <code>.gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
+     * <code>optional .gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
      */
     @java.lang.Override
     public io.gitpod.publicapi.v1.OrganizationOuterClass.TimeoutSettingsOrBuilder getTimeoutSettingsOrBuilder() {
@@ -4948,10 +6659,26 @@ java.lang.String defaultValue) {
     private int maxParallelRunningWorkspaces_ = 0;
     /**
      * <pre>
-     * max_parallel_running_workspaces is the maximum number of workspaces that a single user can run in parallel. 0 resets to the default, which depends on the org plan
+     * max_parallel_running_workspaces is the maximum number of workspaces that a
+     * single user can run in parallel. 0 resets to the default, which depends on
+     * the org plan
      * </pre>
      *
-     * <code>int32 max_parallel_running_workspaces = 9 [json_name = "maxParallelRunningWorkspaces"];</code>
+     * <code>optional int32 max_parallel_running_workspaces = 9 [json_name = "maxParallelRunningWorkspaces"];</code>
+     * @return Whether the maxParallelRunningWorkspaces field is set.
+     */
+    @java.lang.Override
+    public boolean hasMaxParallelRunningWorkspaces() {
+      return ((bitField0_ & 0x00000010) != 0);
+    }
+    /**
+     * <pre>
+     * max_parallel_running_workspaces is the maximum number of workspaces that a
+     * single user can run in parallel. 0 resets to the default, which depends on
+     * the org plan
+     * </pre>
+     *
+     * <code>optional int32 max_parallel_running_workspaces = 9 [json_name = "maxParallelRunningWorkspaces"];</code>
      * @return The maxParallelRunningWorkspaces.
      */
     @java.lang.Override
@@ -4962,15 +6689,15 @@ java.lang.String defaultValue) {
     public static final int ONBOARDING_SETTINGS_FIELD_NUMBER = 10;
     private io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings onboardingSettings_;
     /**
-     * <code>.gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
+     * <code>optional .gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
      * @return Whether the onboardingSettings field is set.
      */
     @java.lang.Override
     public boolean hasOnboardingSettings() {
-      return ((bitField0_ & 0x00000002) != 0);
+      return ((bitField0_ & 0x00000020) != 0);
     }
     /**
-     * <code>.gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
+     * <code>optional .gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
      * @return The onboardingSettings.
      */
     @java.lang.Override
@@ -4978,7 +6705,7 @@ java.lang.String defaultValue) {
       return onboardingSettings_ == null ? io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.getDefaultInstance() : onboardingSettings_;
     }
     /**
-     * <code>.gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
+     * <code>optional .gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
      */
     @java.lang.Override
     public io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettingsOrBuilder getOnboardingSettingsOrBuilder() {
@@ -4988,7 +6715,15 @@ java.lang.String defaultValue) {
     public static final int ANNOTATE_GIT_COMMITS_FIELD_NUMBER = 11;
     private boolean annotateGitCommits_ = false;
     /**
-     * <code>bool annotate_git_commits = 11 [json_name = "annotateGitCommits"];</code>
+     * <code>optional bool annotate_git_commits = 11 [json_name = "annotateGitCommits"];</code>
+     * @return Whether the annotateGitCommits field is set.
+     */
+    @java.lang.Override
+    public boolean hasAnnotateGitCommits() {
+      return ((bitField0_ & 0x00000040) != 0);
+    }
+    /**
+     * <code>optional bool annotate_git_commits = 11 [json_name = "annotateGitCommits"];</code>
      * @return The annotateGitCommits.
      */
     @java.lang.Override
@@ -5010,10 +6745,10 @@ java.lang.String defaultValue) {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (workspaceSharingDisabled_ != false) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeBool(1, workspaceSharingDisabled_);
       }
-      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(defaultWorkspaceImage_)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         com.google.protobuf.GeneratedMessage.writeString(output, 2, defaultWorkspaceImage_);
       }
       for (int i = 0; i < allowedWorkspaceClasses_.size(); i++) {
@@ -5028,22 +6763,22 @@ java.lang.String defaultValue) {
           internalGetPinnedEditorVersions(),
           PinnedEditorVersionsDefaultEntryHolder.defaultEntry,
           5);
-      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(defaultRole_)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         com.google.protobuf.GeneratedMessage.writeString(output, 6, defaultRole_);
       }
-      if (((bitField0_ & 0x00000001) != 0)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         output.writeMessage(7, getTimeoutSettings());
       }
       for (int i = 0; i < roleRestrictions_.size(); i++) {
         output.writeMessage(8, roleRestrictions_.get(i));
       }
-      if (maxParallelRunningWorkspaces_ != 0) {
+      if (((bitField0_ & 0x00000010) != 0)) {
         output.writeInt32(9, maxParallelRunningWorkspaces_);
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
+      if (((bitField0_ & 0x00000020) != 0)) {
         output.writeMessage(10, getOnboardingSettings());
       }
-      if (annotateGitCommits_ != false) {
+      if (((bitField0_ & 0x00000040) != 0)) {
         output.writeBool(11, annotateGitCommits_);
       }
       getUnknownFields().writeTo(output);
@@ -5055,11 +6790,11 @@ java.lang.String defaultValue) {
       if (size != -1) return size;
 
       size = 0;
-      if (workspaceSharingDisabled_ != false) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(1, workspaceSharingDisabled_);
       }
-      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(defaultWorkspaceImage_)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.GeneratedMessage.computeStringSize(2, defaultWorkspaceImage_);
       }
       {
@@ -5088,10 +6823,10 @@ java.lang.String defaultValue) {
         size += com.google.protobuf.CodedOutputStream
             .computeMessageSize(5, pinnedEditorVersions__);
       }
-      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(defaultRole_)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.GeneratedMessage.computeStringSize(6, defaultRole_);
       }
-      if (((bitField0_ & 0x00000001) != 0)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(7, getTimeoutSettings());
       }
@@ -5099,15 +6834,15 @@ java.lang.String defaultValue) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(8, roleRestrictions_.get(i));
       }
-      if (maxParallelRunningWorkspaces_ != 0) {
+      if (((bitField0_ & 0x00000010) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(9, maxParallelRunningWorkspaces_);
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
+      if (((bitField0_ & 0x00000020) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(10, getOnboardingSettings());
       }
-      if (annotateGitCommits_ != false) {
+      if (((bitField0_ & 0x00000040) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(11, annotateGitCommits_);
       }
@@ -5126,18 +6861,27 @@ java.lang.String defaultValue) {
       }
       io.gitpod.publicapi.v1.OrganizationOuterClass.OrganizationSettings other = (io.gitpod.publicapi.v1.OrganizationOuterClass.OrganizationSettings) obj;
 
-      if (getWorkspaceSharingDisabled()
-          != other.getWorkspaceSharingDisabled()) return false;
-      if (!getDefaultWorkspaceImage()
-          .equals(other.getDefaultWorkspaceImage())) return false;
+      if (hasWorkspaceSharingDisabled() != other.hasWorkspaceSharingDisabled()) return false;
+      if (hasWorkspaceSharingDisabled()) {
+        if (getWorkspaceSharingDisabled()
+            != other.getWorkspaceSharingDisabled()) return false;
+      }
+      if (hasDefaultWorkspaceImage() != other.hasDefaultWorkspaceImage()) return false;
+      if (hasDefaultWorkspaceImage()) {
+        if (!getDefaultWorkspaceImage()
+            .equals(other.getDefaultWorkspaceImage())) return false;
+      }
       if (!getAllowedWorkspaceClassesList()
           .equals(other.getAllowedWorkspaceClassesList())) return false;
       if (!getRestrictedEditorNamesList()
           .equals(other.getRestrictedEditorNamesList())) return false;
       if (!internalGetPinnedEditorVersions().equals(
           other.internalGetPinnedEditorVersions())) return false;
-      if (!getDefaultRole()
-          .equals(other.getDefaultRole())) return false;
+      if (hasDefaultRole() != other.hasDefaultRole()) return false;
+      if (hasDefaultRole()) {
+        if (!getDefaultRole()
+            .equals(other.getDefaultRole())) return false;
+      }
       if (hasTimeoutSettings() != other.hasTimeoutSettings()) return false;
       if (hasTimeoutSettings()) {
         if (!getTimeoutSettings()
@@ -5145,15 +6889,21 @@ java.lang.String defaultValue) {
       }
       if (!getRoleRestrictionsList()
           .equals(other.getRoleRestrictionsList())) return false;
-      if (getMaxParallelRunningWorkspaces()
-          != other.getMaxParallelRunningWorkspaces()) return false;
+      if (hasMaxParallelRunningWorkspaces() != other.hasMaxParallelRunningWorkspaces()) return false;
+      if (hasMaxParallelRunningWorkspaces()) {
+        if (getMaxParallelRunningWorkspaces()
+            != other.getMaxParallelRunningWorkspaces()) return false;
+      }
       if (hasOnboardingSettings() != other.hasOnboardingSettings()) return false;
       if (hasOnboardingSettings()) {
         if (!getOnboardingSettings()
             .equals(other.getOnboardingSettings())) return false;
       }
-      if (getAnnotateGitCommits()
-          != other.getAnnotateGitCommits()) return false;
+      if (hasAnnotateGitCommits() != other.hasAnnotateGitCommits()) return false;
+      if (hasAnnotateGitCommits()) {
+        if (getAnnotateGitCommits()
+            != other.getAnnotateGitCommits()) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -5165,11 +6915,15 @@ java.lang.String defaultValue) {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + WORKSPACE_SHARING_DISABLED_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-          getWorkspaceSharingDisabled());
-      hash = (37 * hash) + DEFAULT_WORKSPACE_IMAGE_FIELD_NUMBER;
-      hash = (53 * hash) + getDefaultWorkspaceImage().hashCode();
+      if (hasWorkspaceSharingDisabled()) {
+        hash = (37 * hash) + WORKSPACE_SHARING_DISABLED_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getWorkspaceSharingDisabled());
+      }
+      if (hasDefaultWorkspaceImage()) {
+        hash = (37 * hash) + DEFAULT_WORKSPACE_IMAGE_FIELD_NUMBER;
+        hash = (53 * hash) + getDefaultWorkspaceImage().hashCode();
+      }
       if (getAllowedWorkspaceClassesCount() > 0) {
         hash = (37 * hash) + ALLOWED_WORKSPACE_CLASSES_FIELD_NUMBER;
         hash = (53 * hash) + getAllowedWorkspaceClassesList().hashCode();
@@ -5182,8 +6936,10 @@ java.lang.String defaultValue) {
         hash = (37 * hash) + PINNED_EDITOR_VERSIONS_FIELD_NUMBER;
         hash = (53 * hash) + internalGetPinnedEditorVersions().hashCode();
       }
-      hash = (37 * hash) + DEFAULT_ROLE_FIELD_NUMBER;
-      hash = (53 * hash) + getDefaultRole().hashCode();
+      if (hasDefaultRole()) {
+        hash = (37 * hash) + DEFAULT_ROLE_FIELD_NUMBER;
+        hash = (53 * hash) + getDefaultRole().hashCode();
+      }
       if (hasTimeoutSettings()) {
         hash = (37 * hash) + TIMEOUT_SETTINGS_FIELD_NUMBER;
         hash = (53 * hash) + getTimeoutSettings().hashCode();
@@ -5192,15 +6948,19 @@ java.lang.String defaultValue) {
         hash = (37 * hash) + ROLE_RESTRICTIONS_FIELD_NUMBER;
         hash = (53 * hash) + getRoleRestrictionsList().hashCode();
       }
-      hash = (37 * hash) + MAX_PARALLEL_RUNNING_WORKSPACES_FIELD_NUMBER;
-      hash = (53 * hash) + getMaxParallelRunningWorkspaces();
+      if (hasMaxParallelRunningWorkspaces()) {
+        hash = (37 * hash) + MAX_PARALLEL_RUNNING_WORKSPACES_FIELD_NUMBER;
+        hash = (53 * hash) + getMaxParallelRunningWorkspaces();
+      }
       if (hasOnboardingSettings()) {
         hash = (37 * hash) + ONBOARDING_SETTINGS_FIELD_NUMBER;
         hash = (53 * hash) + getOnboardingSettings().hashCode();
       }
-      hash = (37 * hash) + ANNOTATE_GIT_COMMITS_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-          getAnnotateGitCommits());
+      if (hasAnnotateGitCommits()) {
+        hash = (37 * hash) + ANNOTATE_GIT_COMMITS_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getAnnotateGitCommits());
+      }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -5299,6 +7059,10 @@ java.lang.String defaultValue) {
       return builder;
     }
     /**
+     * <pre>
+     * KEEP ALIGNED WITH UpdateOrganizationSettingsRequest shape below!!!
+     * </pre>
+     *
      * Protobuf type {@code gitpod.v1.OrganizationSettings}
      */
     public static final class Builder extends
@@ -5435,11 +7199,14 @@ java.lang.String defaultValue) {
 
       private void buildPartial0(io.gitpod.publicapi.v1.OrganizationOuterClass.OrganizationSettings result) {
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) != 0)) {
           result.workspaceSharingDisabled_ = workspaceSharingDisabled_;
+          to_bitField0_ |= 0x00000001;
         }
         if (((from_bitField0_ & 0x00000002) != 0)) {
           result.defaultWorkspaceImage_ = defaultWorkspaceImage_;
+          to_bitField0_ |= 0x00000002;
         }
         if (((from_bitField0_ & 0x00000004) != 0)) {
           allowedWorkspaceClasses_.makeImmutable();
@@ -5455,25 +7222,27 @@ java.lang.String defaultValue) {
         }
         if (((from_bitField0_ & 0x00000020) != 0)) {
           result.defaultRole_ = defaultRole_;
+          to_bitField0_ |= 0x00000004;
         }
-        int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000040) != 0)) {
           result.timeoutSettings_ = timeoutSettingsBuilder_ == null
               ? timeoutSettings_
               : timeoutSettingsBuilder_.build();
-          to_bitField0_ |= 0x00000001;
+          to_bitField0_ |= 0x00000008;
         }
         if (((from_bitField0_ & 0x00000100) != 0)) {
           result.maxParallelRunningWorkspaces_ = maxParallelRunningWorkspaces_;
+          to_bitField0_ |= 0x00000010;
         }
         if (((from_bitField0_ & 0x00000200) != 0)) {
           result.onboardingSettings_ = onboardingSettingsBuilder_ == null
               ? onboardingSettings_
               : onboardingSettingsBuilder_.build();
-          to_bitField0_ |= 0x00000002;
+          to_bitField0_ |= 0x00000020;
         }
         if (((from_bitField0_ & 0x00000400) != 0)) {
           result.annotateGitCommits_ = annotateGitCommits_;
+          to_bitField0_ |= 0x00000040;
         }
         result.bitField0_ |= to_bitField0_;
       }
@@ -5490,10 +7259,10 @@ java.lang.String defaultValue) {
 
       public Builder mergeFrom(io.gitpod.publicapi.v1.OrganizationOuterClass.OrganizationSettings other) {
         if (other == io.gitpod.publicapi.v1.OrganizationOuterClass.OrganizationSettings.getDefaultInstance()) return this;
-        if (other.getWorkspaceSharingDisabled() != false) {
+        if (other.hasWorkspaceSharingDisabled()) {
           setWorkspaceSharingDisabled(other.getWorkspaceSharingDisabled());
         }
-        if (!other.getDefaultWorkspaceImage().isEmpty()) {
+        if (other.hasDefaultWorkspaceImage()) {
           defaultWorkspaceImage_ = other.defaultWorkspaceImage_;
           bitField0_ |= 0x00000002;
           onChanged();
@@ -5521,7 +7290,7 @@ java.lang.String defaultValue) {
         internalGetMutablePinnedEditorVersions().mergeFrom(
             other.internalGetPinnedEditorVersions());
         bitField0_ |= 0x00000010;
-        if (!other.getDefaultRole().isEmpty()) {
+        if (other.hasDefaultRole()) {
           defaultRole_ = other.defaultRole_;
           bitField0_ |= 0x00000020;
           onChanged();
@@ -5555,13 +7324,13 @@ java.lang.String defaultValue) {
             }
           }
         }
-        if (other.getMaxParallelRunningWorkspaces() != 0) {
+        if (other.hasMaxParallelRunningWorkspaces()) {
           setMaxParallelRunningWorkspaces(other.getMaxParallelRunningWorkspaces());
         }
         if (other.hasOnboardingSettings()) {
           mergeOnboardingSettings(other.getOnboardingSettings());
         }
-        if (other.getAnnotateGitCommits() != false) {
+        if (other.hasAnnotateGitCommits()) {
           setAnnotateGitCommits(other.getAnnotateGitCommits());
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -5682,7 +7451,15 @@ java.lang.String defaultValue) {
 
       private boolean workspaceSharingDisabled_ ;
       /**
-       * <code>bool workspace_sharing_disabled = 1 [json_name = "workspaceSharingDisabled"];</code>
+       * <code>optional bool workspace_sharing_disabled = 1 [json_name = "workspaceSharingDisabled"];</code>
+       * @return Whether the workspaceSharingDisabled field is set.
+       */
+      @java.lang.Override
+      public boolean hasWorkspaceSharingDisabled() {
+        return ((bitField0_ & 0x00000001) != 0);
+      }
+      /**
+       * <code>optional bool workspace_sharing_disabled = 1 [json_name = "workspaceSharingDisabled"];</code>
        * @return The workspaceSharingDisabled.
        */
       @java.lang.Override
@@ -5690,7 +7467,7 @@ java.lang.String defaultValue) {
         return workspaceSharingDisabled_;
       }
       /**
-       * <code>bool workspace_sharing_disabled = 1 [json_name = "workspaceSharingDisabled"];</code>
+       * <code>optional bool workspace_sharing_disabled = 1 [json_name = "workspaceSharingDisabled"];</code>
        * @param value The workspaceSharingDisabled to set.
        * @return This builder for chaining.
        */
@@ -5702,7 +7479,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>bool workspace_sharing_disabled = 1 [json_name = "workspaceSharingDisabled"];</code>
+       * <code>optional bool workspace_sharing_disabled = 1 [json_name = "workspaceSharingDisabled"];</code>
        * @return This builder for chaining.
        */
       public Builder clearWorkspaceSharingDisabled() {
@@ -5714,7 +7491,14 @@ java.lang.String defaultValue) {
 
       private java.lang.Object defaultWorkspaceImage_ = "";
       /**
-       * <code>string default_workspace_image = 2 [json_name = "defaultWorkspaceImage"];</code>
+       * <code>optional string default_workspace_image = 2 [json_name = "defaultWorkspaceImage"];</code>
+       * @return Whether the defaultWorkspaceImage field is set.
+       */
+      public boolean hasDefaultWorkspaceImage() {
+        return ((bitField0_ & 0x00000002) != 0);
+      }
+      /**
+       * <code>optional string default_workspace_image = 2 [json_name = "defaultWorkspaceImage"];</code>
        * @return The defaultWorkspaceImage.
        */
       public java.lang.String getDefaultWorkspaceImage() {
@@ -5730,7 +7514,7 @@ java.lang.String defaultValue) {
         }
       }
       /**
-       * <code>string default_workspace_image = 2 [json_name = "defaultWorkspaceImage"];</code>
+       * <code>optional string default_workspace_image = 2 [json_name = "defaultWorkspaceImage"];</code>
        * @return The bytes for defaultWorkspaceImage.
        */
       public com.google.protobuf.ByteString
@@ -5747,7 +7531,7 @@ java.lang.String defaultValue) {
         }
       }
       /**
-       * <code>string default_workspace_image = 2 [json_name = "defaultWorkspaceImage"];</code>
+       * <code>optional string default_workspace_image = 2 [json_name = "defaultWorkspaceImage"];</code>
        * @param value The defaultWorkspaceImage to set.
        * @return This builder for chaining.
        */
@@ -5760,7 +7544,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>string default_workspace_image = 2 [json_name = "defaultWorkspaceImage"];</code>
+       * <code>optional string default_workspace_image = 2 [json_name = "defaultWorkspaceImage"];</code>
        * @return This builder for chaining.
        */
       public Builder clearDefaultWorkspaceImage() {
@@ -5770,7 +7554,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>string default_workspace_image = 2 [json_name = "defaultWorkspaceImage"];</code>
+       * <code>optional string default_workspace_image = 2 [json_name = "defaultWorkspaceImage"];</code>
        * @param value The bytes for defaultWorkspaceImage to set.
        * @return This builder for chaining.
        */
@@ -6135,7 +7919,14 @@ java.lang.String defaultValue) {
 
       private java.lang.Object defaultRole_ = "";
       /**
-       * <code>string default_role = 6 [json_name = "defaultRole"];</code>
+       * <code>optional string default_role = 6 [json_name = "defaultRole"];</code>
+       * @return Whether the defaultRole field is set.
+       */
+      public boolean hasDefaultRole() {
+        return ((bitField0_ & 0x00000020) != 0);
+      }
+      /**
+       * <code>optional string default_role = 6 [json_name = "defaultRole"];</code>
        * @return The defaultRole.
        */
       public java.lang.String getDefaultRole() {
@@ -6151,7 +7942,7 @@ java.lang.String defaultValue) {
         }
       }
       /**
-       * <code>string default_role = 6 [json_name = "defaultRole"];</code>
+       * <code>optional string default_role = 6 [json_name = "defaultRole"];</code>
        * @return The bytes for defaultRole.
        */
       public com.google.protobuf.ByteString
@@ -6168,7 +7959,7 @@ java.lang.String defaultValue) {
         }
       }
       /**
-       * <code>string default_role = 6 [json_name = "defaultRole"];</code>
+       * <code>optional string default_role = 6 [json_name = "defaultRole"];</code>
        * @param value The defaultRole to set.
        * @return This builder for chaining.
        */
@@ -6181,7 +7972,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>string default_role = 6 [json_name = "defaultRole"];</code>
+       * <code>optional string default_role = 6 [json_name = "defaultRole"];</code>
        * @return This builder for chaining.
        */
       public Builder clearDefaultRole() {
@@ -6191,7 +7982,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>string default_role = 6 [json_name = "defaultRole"];</code>
+       * <code>optional string default_role = 6 [json_name = "defaultRole"];</code>
        * @param value The bytes for defaultRole to set.
        * @return This builder for chaining.
        */
@@ -6209,14 +8000,14 @@ java.lang.String defaultValue) {
       private com.google.protobuf.SingleFieldBuilder<
           io.gitpod.publicapi.v1.OrganizationOuterClass.TimeoutSettings, io.gitpod.publicapi.v1.OrganizationOuterClass.TimeoutSettings.Builder, io.gitpod.publicapi.v1.OrganizationOuterClass.TimeoutSettingsOrBuilder> timeoutSettingsBuilder_;
       /**
-       * <code>.gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
+       * <code>optional .gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
        * @return Whether the timeoutSettings field is set.
        */
       public boolean hasTimeoutSettings() {
         return ((bitField0_ & 0x00000040) != 0);
       }
       /**
-       * <code>.gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
+       * <code>optional .gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
        * @return The timeoutSettings.
        */
       public io.gitpod.publicapi.v1.OrganizationOuterClass.TimeoutSettings getTimeoutSettings() {
@@ -6227,7 +8018,7 @@ java.lang.String defaultValue) {
         }
       }
       /**
-       * <code>.gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
+       * <code>optional .gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
        */
       public Builder setTimeoutSettings(io.gitpod.publicapi.v1.OrganizationOuterClass.TimeoutSettings value) {
         if (timeoutSettingsBuilder_ == null) {
@@ -6243,7 +8034,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>.gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
+       * <code>optional .gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
        */
       public Builder setTimeoutSettings(
           io.gitpod.publicapi.v1.OrganizationOuterClass.TimeoutSettings.Builder builderForValue) {
@@ -6257,7 +8048,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>.gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
+       * <code>optional .gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
        */
       public Builder mergeTimeoutSettings(io.gitpod.publicapi.v1.OrganizationOuterClass.TimeoutSettings value) {
         if (timeoutSettingsBuilder_ == null) {
@@ -6278,7 +8069,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>.gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
+       * <code>optional .gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
        */
       public Builder clearTimeoutSettings() {
         bitField0_ = (bitField0_ & ~0x00000040);
@@ -6291,7 +8082,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>.gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
+       * <code>optional .gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
        */
       public io.gitpod.publicapi.v1.OrganizationOuterClass.TimeoutSettings.Builder getTimeoutSettingsBuilder() {
         bitField0_ |= 0x00000040;
@@ -6299,7 +8090,7 @@ java.lang.String defaultValue) {
         return getTimeoutSettingsFieldBuilder().getBuilder();
       }
       /**
-       * <code>.gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
+       * <code>optional .gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
        */
       public io.gitpod.publicapi.v1.OrganizationOuterClass.TimeoutSettingsOrBuilder getTimeoutSettingsOrBuilder() {
         if (timeoutSettingsBuilder_ != null) {
@@ -6310,7 +8101,7 @@ java.lang.String defaultValue) {
         }
       }
       /**
-       * <code>.gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
+       * <code>optional .gitpod.v1.TimeoutSettings timeout_settings = 7 [json_name = "timeoutSettings"];</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           io.gitpod.publicapi.v1.OrganizationOuterClass.TimeoutSettings, io.gitpod.publicapi.v1.OrganizationOuterClass.TimeoutSettings.Builder, io.gitpod.publicapi.v1.OrganizationOuterClass.TimeoutSettingsOrBuilder>
@@ -6569,10 +8360,26 @@ java.lang.String defaultValue) {
       private int maxParallelRunningWorkspaces_ ;
       /**
        * <pre>
-       * max_parallel_running_workspaces is the maximum number of workspaces that a single user can run in parallel. 0 resets to the default, which depends on the org plan
+       * max_parallel_running_workspaces is the maximum number of workspaces that a
+       * single user can run in parallel. 0 resets to the default, which depends on
+       * the org plan
        * </pre>
        *
-       * <code>int32 max_parallel_running_workspaces = 9 [json_name = "maxParallelRunningWorkspaces"];</code>
+       * <code>optional int32 max_parallel_running_workspaces = 9 [json_name = "maxParallelRunningWorkspaces"];</code>
+       * @return Whether the maxParallelRunningWorkspaces field is set.
+       */
+      @java.lang.Override
+      public boolean hasMaxParallelRunningWorkspaces() {
+        return ((bitField0_ & 0x00000100) != 0);
+      }
+      /**
+       * <pre>
+       * max_parallel_running_workspaces is the maximum number of workspaces that a
+       * single user can run in parallel. 0 resets to the default, which depends on
+       * the org plan
+       * </pre>
+       *
+       * <code>optional int32 max_parallel_running_workspaces = 9 [json_name = "maxParallelRunningWorkspaces"];</code>
        * @return The maxParallelRunningWorkspaces.
        */
       @java.lang.Override
@@ -6581,10 +8388,12 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * max_parallel_running_workspaces is the maximum number of workspaces that a single user can run in parallel. 0 resets to the default, which depends on the org plan
+       * max_parallel_running_workspaces is the maximum number of workspaces that a
+       * single user can run in parallel. 0 resets to the default, which depends on
+       * the org plan
        * </pre>
        *
-       * <code>int32 max_parallel_running_workspaces = 9 [json_name = "maxParallelRunningWorkspaces"];</code>
+       * <code>optional int32 max_parallel_running_workspaces = 9 [json_name = "maxParallelRunningWorkspaces"];</code>
        * @param value The maxParallelRunningWorkspaces to set.
        * @return This builder for chaining.
        */
@@ -6597,10 +8406,12 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * max_parallel_running_workspaces is the maximum number of workspaces that a single user can run in parallel. 0 resets to the default, which depends on the org plan
+       * max_parallel_running_workspaces is the maximum number of workspaces that a
+       * single user can run in parallel. 0 resets to the default, which depends on
+       * the org plan
        * </pre>
        *
-       * <code>int32 max_parallel_running_workspaces = 9 [json_name = "maxParallelRunningWorkspaces"];</code>
+       * <code>optional int32 max_parallel_running_workspaces = 9 [json_name = "maxParallelRunningWorkspaces"];</code>
        * @return This builder for chaining.
        */
       public Builder clearMaxParallelRunningWorkspaces() {
@@ -6614,14 +8425,14 @@ java.lang.String defaultValue) {
       private com.google.protobuf.SingleFieldBuilder<
           io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings, io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.Builder, io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettingsOrBuilder> onboardingSettingsBuilder_;
       /**
-       * <code>.gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
+       * <code>optional .gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
        * @return Whether the onboardingSettings field is set.
        */
       public boolean hasOnboardingSettings() {
         return ((bitField0_ & 0x00000200) != 0);
       }
       /**
-       * <code>.gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
+       * <code>optional .gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
        * @return The onboardingSettings.
        */
       public io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings getOnboardingSettings() {
@@ -6632,7 +8443,7 @@ java.lang.String defaultValue) {
         }
       }
       /**
-       * <code>.gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
+       * <code>optional .gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
        */
       public Builder setOnboardingSettings(io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings value) {
         if (onboardingSettingsBuilder_ == null) {
@@ -6648,7 +8459,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>.gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
+       * <code>optional .gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
        */
       public Builder setOnboardingSettings(
           io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.Builder builderForValue) {
@@ -6662,7 +8473,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>.gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
+       * <code>optional .gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
        */
       public Builder mergeOnboardingSettings(io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings value) {
         if (onboardingSettingsBuilder_ == null) {
@@ -6683,7 +8494,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>.gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
+       * <code>optional .gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
        */
       public Builder clearOnboardingSettings() {
         bitField0_ = (bitField0_ & ~0x00000200);
@@ -6696,7 +8507,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>.gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
+       * <code>optional .gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
        */
       public io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.Builder getOnboardingSettingsBuilder() {
         bitField0_ |= 0x00000200;
@@ -6704,7 +8515,7 @@ java.lang.String defaultValue) {
         return getOnboardingSettingsFieldBuilder().getBuilder();
       }
       /**
-       * <code>.gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
+       * <code>optional .gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
        */
       public io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettingsOrBuilder getOnboardingSettingsOrBuilder() {
         if (onboardingSettingsBuilder_ != null) {
@@ -6715,7 +8526,7 @@ java.lang.String defaultValue) {
         }
       }
       /**
-       * <code>.gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
+       * <code>optional .gitpod.v1.OnboardingSettings onboarding_settings = 10 [json_name = "onboardingSettings"];</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings, io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettings.Builder, io.gitpod.publicapi.v1.OrganizationOuterClass.OnboardingSettingsOrBuilder>
@@ -6733,7 +8544,15 @@ java.lang.String defaultValue) {
 
       private boolean annotateGitCommits_ ;
       /**
-       * <code>bool annotate_git_commits = 11 [json_name = "annotateGitCommits"];</code>
+       * <code>optional bool annotate_git_commits = 11 [json_name = "annotateGitCommits"];</code>
+       * @return Whether the annotateGitCommits field is set.
+       */
+      @java.lang.Override
+      public boolean hasAnnotateGitCommits() {
+        return ((bitField0_ & 0x00000400) != 0);
+      }
+      /**
+       * <code>optional bool annotate_git_commits = 11 [json_name = "annotateGitCommits"];</code>
        * @return The annotateGitCommits.
        */
       @java.lang.Override
@@ -6741,7 +8560,7 @@ java.lang.String defaultValue) {
         return annotateGitCommits_;
       }
       /**
-       * <code>bool annotate_git_commits = 11 [json_name = "annotateGitCommits"];</code>
+       * <code>optional bool annotate_git_commits = 11 [json_name = "annotateGitCommits"];</code>
        * @param value The annotateGitCommits to set.
        * @return This builder for chaining.
        */
@@ -6753,7 +8572,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>bool annotate_git_commits = 11 [json_name = "annotateGitCommits"];</code>
+       * <code>optional bool annotate_git_commits = 11 [json_name = "annotateGitCommits"];</code>
        * @return This builder for chaining.
        */
       public Builder clearAnnotateGitCommits() {
@@ -9951,7 +11770,8 @@ java.lang.String defaultValue) {
 
     /**
      * <pre>
-     * deny_user_timeout specifies whether applying custom timeouts is denied for organization members
+     * deny_user_timeout specifies whether applying custom timeouts is denied for
+     * organization members
      * </pre>
      *
      * <code>optional bool deny_user_timeouts = 2 [json_name = "denyUserTimeouts"];</code>
@@ -9960,7 +11780,8 @@ java.lang.String defaultValue) {
     boolean hasDenyUserTimeouts();
     /**
      * <pre>
-     * deny_user_timeout specifies whether applying custom timeouts is denied for organization members
+     * deny_user_timeout specifies whether applying custom timeouts is denied for
+     * organization members
      * </pre>
      *
      * <code>optional bool deny_user_timeouts = 2 [json_name = "denyUserTimeouts"];</code>
@@ -10048,7 +11869,8 @@ java.lang.String defaultValue) {
     private boolean denyUserTimeouts_ = false;
     /**
      * <pre>
-     * deny_user_timeout specifies whether applying custom timeouts is denied for organization members
+     * deny_user_timeout specifies whether applying custom timeouts is denied for
+     * organization members
      * </pre>
      *
      * <code>optional bool deny_user_timeouts = 2 [json_name = "denyUserTimeouts"];</code>
@@ -10060,7 +11882,8 @@ java.lang.String defaultValue) {
     }
     /**
      * <pre>
-     * deny_user_timeout specifies whether applying custom timeouts is denied for organization members
+     * deny_user_timeout specifies whether applying custom timeouts is denied for
+     * organization members
      * </pre>
      *
      * <code>optional bool deny_user_timeouts = 2 [json_name = "denyUserTimeouts"];</code>
@@ -10576,7 +12399,8 @@ java.lang.String defaultValue) {
       private boolean denyUserTimeouts_ ;
       /**
        * <pre>
-       * deny_user_timeout specifies whether applying custom timeouts is denied for organization members
+       * deny_user_timeout specifies whether applying custom timeouts is denied for
+       * organization members
        * </pre>
        *
        * <code>optional bool deny_user_timeouts = 2 [json_name = "denyUserTimeouts"];</code>
@@ -10588,7 +12412,8 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * deny_user_timeout specifies whether applying custom timeouts is denied for organization members
+       * deny_user_timeout specifies whether applying custom timeouts is denied for
+       * organization members
        * </pre>
        *
        * <code>optional bool deny_user_timeouts = 2 [json_name = "denyUserTimeouts"];</code>
@@ -10600,7 +12425,8 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * deny_user_timeout specifies whether applying custom timeouts is denied for organization members
+       * deny_user_timeout specifies whether applying custom timeouts is denied for
+       * organization members
        * </pre>
        *
        * <code>optional bool deny_user_timeouts = 2 [json_name = "denyUserTimeouts"];</code>
@@ -10616,7 +12442,8 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * deny_user_timeout specifies whether applying custom timeouts is denied for organization members
+       * deny_user_timeout specifies whether applying custom timeouts is denied for
+       * organization members
        * </pre>
        *
        * <code>optional bool deny_user_timeouts = 2 [json_name = "denyUserTimeouts"];</code>
@@ -10748,7 +12575,8 @@ java.lang.String defaultValue) {
      * <pre>
      * allowed_workspace_classes are the IDs of classes, which can be used by
      * workspaces in an organization. Pass an empty array to allow all workspace
-     * classes
+     * classes.
+     * Only updates if update_allowed_workspace_classes is true.
      * </pre>
      *
      * <code>repeated string allowed_workspace_classes = 5 [json_name = "allowedWorkspaceClasses"];</code>
@@ -10760,7 +12588,8 @@ java.lang.String defaultValue) {
      * <pre>
      * allowed_workspace_classes are the IDs of classes, which can be used by
      * workspaces in an organization. Pass an empty array to allow all workspace
-     * classes
+     * classes.
+     * Only updates if update_allowed_workspace_classes is true.
      * </pre>
      *
      * <code>repeated string allowed_workspace_classes = 5 [json_name = "allowedWorkspaceClasses"];</code>
@@ -10771,7 +12600,8 @@ java.lang.String defaultValue) {
      * <pre>
      * allowed_workspace_classes are the IDs of classes, which can be used by
      * workspaces in an organization. Pass an empty array to allow all workspace
-     * classes
+     * classes.
+     * Only updates if update_allowed_workspace_classes is true.
      * </pre>
      *
      * <code>repeated string allowed_workspace_classes = 5 [json_name = "allowedWorkspaceClasses"];</code>
@@ -10783,7 +12613,8 @@ java.lang.String defaultValue) {
      * <pre>
      * allowed_workspace_classes are the IDs of classes, which can be used by
      * workspaces in an organization. Pass an empty array to allow all workspace
-     * classes
+     * classes.
+     * Only updates if update_allowed_workspace_classes is true.
      * </pre>
      *
      * <code>repeated string allowed_workspace_classes = 5 [json_name = "allowedWorkspaceClasses"];</code>
@@ -10797,8 +12628,8 @@ java.lang.String defaultValue) {
      * <pre>
      * restricted_editor_names updates the list of restricted editor names that
      * are not allowed to be used by workspaces in an organization. If empty, all
-     * editors are allowed. Only updates if update_restricted_editor_names is
-     * true.
+     * editors are allowed.
+     * Only updates if update_restricted_editor_names is true.
      * </pre>
      *
      * <code>repeated string restricted_editor_names = 6 [json_name = "restrictedEditorNames"];</code>
@@ -10810,8 +12641,8 @@ java.lang.String defaultValue) {
      * <pre>
      * restricted_editor_names updates the list of restricted editor names that
      * are not allowed to be used by workspaces in an organization. If empty, all
-     * editors are allowed. Only updates if update_restricted_editor_names is
-     * true.
+     * editors are allowed.
+     * Only updates if update_restricted_editor_names is true.
      * </pre>
      *
      * <code>repeated string restricted_editor_names = 6 [json_name = "restrictedEditorNames"];</code>
@@ -10822,8 +12653,8 @@ java.lang.String defaultValue) {
      * <pre>
      * restricted_editor_names updates the list of restricted editor names that
      * are not allowed to be used by workspaces in an organization. If empty, all
-     * editors are allowed. Only updates if update_restricted_editor_names is
-     * true.
+     * editors are allowed.
+     * Only updates if update_restricted_editor_names is true.
      * </pre>
      *
      * <code>repeated string restricted_editor_names = 6 [json_name = "restrictedEditorNames"];</code>
@@ -10835,8 +12666,8 @@ java.lang.String defaultValue) {
      * <pre>
      * restricted_editor_names updates the list of restricted editor names that
      * are not allowed to be used by workspaces in an organization. If empty, all
-     * editors are allowed. Only updates if update_restricted_editor_names is
-     * true.
+     * editors are allowed.
+     * Only updates if update_restricted_editor_names is true.
      * </pre>
      *
      * <code>repeated string restricted_editor_names = 6 [json_name = "restrictedEditorNames"];</code>
@@ -10868,7 +12699,8 @@ java.lang.String defaultValue) {
     /**
      * <pre>
      * pinned_editor_versions updates the pinned version for the corresponding
-     * editor
+     * editor.
+     * Only updates if update_pinned_editor_versions is true.
      * </pre>
      *
      * <code>map&lt;string, string&gt; pinned_editor_versions = 8 [json_name = "pinnedEditorVersions"];</code>
@@ -10877,7 +12709,8 @@ java.lang.String defaultValue) {
     /**
      * <pre>
      * pinned_editor_versions updates the pinned version for the corresponding
-     * editor
+     * editor.
+     * Only updates if update_pinned_editor_versions is true.
      * </pre>
      *
      * <code>map&lt;string, string&gt; pinned_editor_versions = 8 [json_name = "pinnedEditorVersions"];</code>
@@ -10893,7 +12726,8 @@ java.lang.String defaultValue) {
     /**
      * <pre>
      * pinned_editor_versions updates the pinned version for the corresponding
-     * editor
+     * editor.
+     * Only updates if update_pinned_editor_versions is true.
      * </pre>
      *
      * <code>map&lt;string, string&gt; pinned_editor_versions = 8 [json_name = "pinnedEditorVersions"];</code>
@@ -10903,7 +12737,8 @@ java.lang.String defaultValue) {
     /**
      * <pre>
      * pinned_editor_versions updates the pinned version for the corresponding
-     * editor
+     * editor.
+     * Only updates if update_pinned_editor_versions is true.
      * </pre>
      *
      * <code>map&lt;string, string&gt; pinned_editor_versions = 8 [json_name = "pinnedEditorVersions"];</code>
@@ -10916,7 +12751,8 @@ java.lang.String defaultValue);
     /**
      * <pre>
      * pinned_editor_versions updates the pinned version for the corresponding
-     * editor
+     * editor.
+     * Only updates if update_pinned_editor_versions is true.
      * </pre>
      *
      * <code>map&lt;string, string&gt; pinned_editor_versions = 8 [json_name = "pinnedEditorVersions"];</code>
@@ -11000,24 +12836,44 @@ java.lang.String defaultValue);
     io.gitpod.publicapi.v1.OrganizationOuterClass.TimeoutSettingsOrBuilder getTimeoutSettingsOrBuilder();
 
     /**
+     * <pre>
+     * Only updates if update_role_restrictions is true.
+     * </pre>
+     *
      * <code>repeated .gitpod.v1.RoleRestrictionEntry role_restrictions = 12 [json_name = "roleRestrictions"];</code>
      */
     java.util.List<io.gitpod.publicapi.v1.OrganizationOuterClass.RoleRestrictionEntry>
         getRoleRestrictionsList();
     /**
+     * <pre>
+     * Only updates if update_role_restrictions is true.
+     * </pre>
+     *
      * <code>repeated .gitpod.v1.RoleRestrictionEntry role_restrictions = 12 [json_name = "roleRestrictions"];</code>
      */
     io.gitpod.publicapi.v1.OrganizationOuterClass.RoleRestrictionEntry getRoleRestrictions(int index);
     /**
+     * <pre>
+     * Only updates if update_role_restrictions is true.
+     * </pre>
+     *
      * <code>repeated .gitpod.v1.RoleRestrictionEntry role_restrictions = 12 [json_name = "roleRestrictions"];</code>
      */
     int getRoleRestrictionsCount();
     /**
+     * <pre>
+     * Only updates if update_role_restrictions is true.
+     * </pre>
+     *
      * <code>repeated .gitpod.v1.RoleRestrictionEntry role_restrictions = 12 [json_name = "roleRestrictions"];</code>
      */
     java.util.List<? extends io.gitpod.publicapi.v1.OrganizationOuterClass.RoleRestrictionEntryOrBuilder>
         getRoleRestrictionsOrBuilderList();
     /**
+     * <pre>
+     * Only updates if update_role_restrictions is true.
+     * </pre>
+     *
      * <code>repeated .gitpod.v1.RoleRestrictionEntry role_restrictions = 12 [json_name = "roleRestrictions"];</code>
      */
     io.gitpod.publicapi.v1.OrganizationOuterClass.RoleRestrictionEntryOrBuilder getRoleRestrictionsOrBuilder(
@@ -11025,7 +12881,8 @@ java.lang.String defaultValue);
 
     /**
      * <pre>
-     * update_role_restrictions specifies whether role_restrictions should be updated
+     * update_role_restrictions specifies whether role_restrictions should be
+     * updated
      * </pre>
      *
      * <code>optional bool update_role_restrictions = 13 [json_name = "updateRoleRestrictions"];</code>
@@ -11034,7 +12891,8 @@ java.lang.String defaultValue);
     boolean hasUpdateRoleRestrictions();
     /**
      * <pre>
-     * update_role_restrictions specifies whether role_restrictions should be updated
+     * update_role_restrictions specifies whether role_restrictions should be
+     * updated
      * </pre>
      *
      * <code>optional bool update_role_restrictions = 13 [json_name = "updateRoleRestrictions"];</code>
@@ -11044,7 +12902,9 @@ java.lang.String defaultValue);
 
     /**
      * <pre>
-     * max_parallel_running_workspaces is the maximum number of workspaces that a single user can run in parallel. 0 resets to the default, which depends on the org plan
+     * max_parallel_running_workspaces is the maximum number of workspaces that a
+     * single user can run in parallel. 0 resets to the default, which depends on
+     * the org plan
      * </pre>
      *
      * <code>optional int32 max_parallel_running_workspaces = 15 [json_name = "maxParallelRunningWorkspaces"];</code>
@@ -11053,7 +12913,9 @@ java.lang.String defaultValue);
     boolean hasMaxParallelRunningWorkspaces();
     /**
      * <pre>
-     * max_parallel_running_workspaces is the maximum number of workspaces that a single user can run in parallel. 0 resets to the default, which depends on the org plan
+     * max_parallel_running_workspaces is the maximum number of workspaces that a
+     * single user can run in parallel. 0 resets to the default, which depends on
+     * the org plan
      * </pre>
      *
      * <code>optional int32 max_parallel_running_workspaces = 15 [json_name = "maxParallelRunningWorkspaces"];</code>
@@ -11090,7 +12952,8 @@ java.lang.String defaultValue);
 
     /**
      * <pre>
-     * annotate_git_commits specifies whether to annotate git commits created in Gitpod workspaces with the gitpod host
+     * annotate_git_commits specifies whether to annotate git commits created in
+     * Gitpod workspaces with the gitpod host
      * </pre>
      *
      * <code>optional bool annotate_git_commits = 17 [json_name = "annotateGitCommits"];</code>
@@ -11099,13 +12962,35 @@ java.lang.String defaultValue);
     boolean hasAnnotateGitCommits();
     /**
      * <pre>
-     * annotate_git_commits specifies whether to annotate git commits created in Gitpod workspaces with the gitpod host
+     * annotate_git_commits specifies whether to annotate git commits created in
+     * Gitpod workspaces with the gitpod host
      * </pre>
      *
      * <code>optional bool annotate_git_commits = 17 [json_name = "annotateGitCommits"];</code>
      * @return The annotateGitCommits.
      */
     boolean getAnnotateGitCommits();
+
+    /**
+     * <pre>
+     * update_role_restrictions specifies whether role_restrictions should be
+     * updated
+     * </pre>
+     *
+     * <code>optional bool update_allowed_workspace_classes = 18 [json_name = "updateAllowedWorkspaceClasses"];</code>
+     * @return Whether the updateAllowedWorkspaceClasses field is set.
+     */
+    boolean hasUpdateAllowedWorkspaceClasses();
+    /**
+     * <pre>
+     * update_role_restrictions specifies whether role_restrictions should be
+     * updated
+     * </pre>
+     *
+     * <code>optional bool update_allowed_workspace_classes = 18 [json_name = "updateAllowedWorkspaceClasses"];</code>
+     * @return The updateAllowedWorkspaceClasses.
+     */
+    boolean getUpdateAllowedWorkspaceClasses();
   }
   /**
    * Protobuf type {@code gitpod.v1.UpdateOrganizationSettingsRequest}
@@ -11298,7 +13183,8 @@ java.lang.String defaultValue);
      * <pre>
      * allowed_workspace_classes are the IDs of classes, which can be used by
      * workspaces in an organization. Pass an empty array to allow all workspace
-     * classes
+     * classes.
+     * Only updates if update_allowed_workspace_classes is true.
      * </pre>
      *
      * <code>repeated string allowed_workspace_classes = 5 [json_name = "allowedWorkspaceClasses"];</code>
@@ -11312,7 +13198,8 @@ java.lang.String defaultValue);
      * <pre>
      * allowed_workspace_classes are the IDs of classes, which can be used by
      * workspaces in an organization. Pass an empty array to allow all workspace
-     * classes
+     * classes.
+     * Only updates if update_allowed_workspace_classes is true.
      * </pre>
      *
      * <code>repeated string allowed_workspace_classes = 5 [json_name = "allowedWorkspaceClasses"];</code>
@@ -11325,7 +13212,8 @@ java.lang.String defaultValue);
      * <pre>
      * allowed_workspace_classes are the IDs of classes, which can be used by
      * workspaces in an organization. Pass an empty array to allow all workspace
-     * classes
+     * classes.
+     * Only updates if update_allowed_workspace_classes is true.
      * </pre>
      *
      * <code>repeated string allowed_workspace_classes = 5 [json_name = "allowedWorkspaceClasses"];</code>
@@ -11339,7 +13227,8 @@ java.lang.String defaultValue);
      * <pre>
      * allowed_workspace_classes are the IDs of classes, which can be used by
      * workspaces in an organization. Pass an empty array to allow all workspace
-     * classes
+     * classes.
+     * Only updates if update_allowed_workspace_classes is true.
      * </pre>
      *
      * <code>repeated string allowed_workspace_classes = 5 [json_name = "allowedWorkspaceClasses"];</code>
@@ -11359,8 +13248,8 @@ java.lang.String defaultValue);
      * <pre>
      * restricted_editor_names updates the list of restricted editor names that
      * are not allowed to be used by workspaces in an organization. If empty, all
-     * editors are allowed. Only updates if update_restricted_editor_names is
-     * true.
+     * editors are allowed.
+     * Only updates if update_restricted_editor_names is true.
      * </pre>
      *
      * <code>repeated string restricted_editor_names = 6 [json_name = "restrictedEditorNames"];</code>
@@ -11374,8 +13263,8 @@ java.lang.String defaultValue);
      * <pre>
      * restricted_editor_names updates the list of restricted editor names that
      * are not allowed to be used by workspaces in an organization. If empty, all
-     * editors are allowed. Only updates if update_restricted_editor_names is
-     * true.
+     * editors are allowed.
+     * Only updates if update_restricted_editor_names is true.
      * </pre>
      *
      * <code>repeated string restricted_editor_names = 6 [json_name = "restrictedEditorNames"];</code>
@@ -11388,8 +13277,8 @@ java.lang.String defaultValue);
      * <pre>
      * restricted_editor_names updates the list of restricted editor names that
      * are not allowed to be used by workspaces in an organization. If empty, all
-     * editors are allowed. Only updates if update_restricted_editor_names is
-     * true.
+     * editors are allowed.
+     * Only updates if update_restricted_editor_names is true.
      * </pre>
      *
      * <code>repeated string restricted_editor_names = 6 [json_name = "restrictedEditorNames"];</code>
@@ -11403,8 +13292,8 @@ java.lang.String defaultValue);
      * <pre>
      * restricted_editor_names updates the list of restricted editor names that
      * are not allowed to be used by workspaces in an organization. If empty, all
-     * editors are allowed. Only updates if update_restricted_editor_names is
-     * true.
+     * editors are allowed.
+     * Only updates if update_restricted_editor_names is true.
      * </pre>
      *
      * <code>repeated string restricted_editor_names = 6 [json_name = "restrictedEditorNames"];</code>
@@ -11472,7 +13361,8 @@ java.lang.String defaultValue);
     /**
      * <pre>
      * pinned_editor_versions updates the pinned version for the corresponding
-     * editor
+     * editor.
+     * Only updates if update_pinned_editor_versions is true.
      * </pre>
      *
      * <code>map&lt;string, string&gt; pinned_editor_versions = 8 [json_name = "pinnedEditorVersions"];</code>
@@ -11494,7 +13384,8 @@ java.lang.String defaultValue);
     /**
      * <pre>
      * pinned_editor_versions updates the pinned version for the corresponding
-     * editor
+     * editor.
+     * Only updates if update_pinned_editor_versions is true.
      * </pre>
      *
      * <code>map&lt;string, string&gt; pinned_editor_versions = 8 [json_name = "pinnedEditorVersions"];</code>
@@ -11506,7 +13397,8 @@ java.lang.String defaultValue);
     /**
      * <pre>
      * pinned_editor_versions updates the pinned version for the corresponding
-     * editor
+     * editor.
+     * Only updates if update_pinned_editor_versions is true.
      * </pre>
      *
      * <code>map&lt;string, string&gt; pinned_editor_versions = 8 [json_name = "pinnedEditorVersions"];</code>
@@ -11525,7 +13417,8 @@ java.lang.String defaultValue) {
     /**
      * <pre>
      * pinned_editor_versions updates the pinned version for the corresponding
-     * editor
+     * editor.
+     * Only updates if update_pinned_editor_versions is true.
      * </pre>
      *
      * <code>map&lt;string, string&gt; pinned_editor_versions = 8 [json_name = "pinnedEditorVersions"];</code>
@@ -11670,6 +13563,10 @@ java.lang.String defaultValue) {
     @SuppressWarnings("serial")
     private java.util.List<io.gitpod.publicapi.v1.OrganizationOuterClass.RoleRestrictionEntry> roleRestrictions_;
     /**
+     * <pre>
+     * Only updates if update_role_restrictions is true.
+     * </pre>
+     *
      * <code>repeated .gitpod.v1.RoleRestrictionEntry role_restrictions = 12 [json_name = "roleRestrictions"];</code>
      */
     @java.lang.Override
@@ -11677,6 +13574,10 @@ java.lang.String defaultValue) {
       return roleRestrictions_;
     }
     /**
+     * <pre>
+     * Only updates if update_role_restrictions is true.
+     * </pre>
+     *
      * <code>repeated .gitpod.v1.RoleRestrictionEntry role_restrictions = 12 [json_name = "roleRestrictions"];</code>
      */
     @java.lang.Override
@@ -11685,6 +13586,10 @@ java.lang.String defaultValue) {
       return roleRestrictions_;
     }
     /**
+     * <pre>
+     * Only updates if update_role_restrictions is true.
+     * </pre>
+     *
      * <code>repeated .gitpod.v1.RoleRestrictionEntry role_restrictions = 12 [json_name = "roleRestrictions"];</code>
      */
     @java.lang.Override
@@ -11692,6 +13597,10 @@ java.lang.String defaultValue) {
       return roleRestrictions_.size();
     }
     /**
+     * <pre>
+     * Only updates if update_role_restrictions is true.
+     * </pre>
+     *
      * <code>repeated .gitpod.v1.RoleRestrictionEntry role_restrictions = 12 [json_name = "roleRestrictions"];</code>
      */
     @java.lang.Override
@@ -11699,6 +13608,10 @@ java.lang.String defaultValue) {
       return roleRestrictions_.get(index);
     }
     /**
+     * <pre>
+     * Only updates if update_role_restrictions is true.
+     * </pre>
+     *
      * <code>repeated .gitpod.v1.RoleRestrictionEntry role_restrictions = 12 [json_name = "roleRestrictions"];</code>
      */
     @java.lang.Override
@@ -11711,7 +13624,8 @@ java.lang.String defaultValue) {
     private boolean updateRoleRestrictions_ = false;
     /**
      * <pre>
-     * update_role_restrictions specifies whether role_restrictions should be updated
+     * update_role_restrictions specifies whether role_restrictions should be
+     * updated
      * </pre>
      *
      * <code>optional bool update_role_restrictions = 13 [json_name = "updateRoleRestrictions"];</code>
@@ -11723,7 +13637,8 @@ java.lang.String defaultValue) {
     }
     /**
      * <pre>
-     * update_role_restrictions specifies whether role_restrictions should be updated
+     * update_role_restrictions specifies whether role_restrictions should be
+     * updated
      * </pre>
      *
      * <code>optional bool update_role_restrictions = 13 [json_name = "updateRoleRestrictions"];</code>
@@ -11738,7 +13653,9 @@ java.lang.String defaultValue) {
     private int maxParallelRunningWorkspaces_ = 0;
     /**
      * <pre>
-     * max_parallel_running_workspaces is the maximum number of workspaces that a single user can run in parallel. 0 resets to the default, which depends on the org plan
+     * max_parallel_running_workspaces is the maximum number of workspaces that a
+     * single user can run in parallel. 0 resets to the default, which depends on
+     * the org plan
      * </pre>
      *
      * <code>optional int32 max_parallel_running_workspaces = 15 [json_name = "maxParallelRunningWorkspaces"];</code>
@@ -11750,7 +13667,9 @@ java.lang.String defaultValue) {
     }
     /**
      * <pre>
-     * max_parallel_running_workspaces is the maximum number of workspaces that a single user can run in parallel. 0 resets to the default, which depends on the org plan
+     * max_parallel_running_workspaces is the maximum number of workspaces that a
+     * single user can run in parallel. 0 resets to the default, which depends on
+     * the org plan
      * </pre>
      *
      * <code>optional int32 max_parallel_running_workspaces = 15 [json_name = "maxParallelRunningWorkspaces"];</code>
@@ -11803,7 +13722,8 @@ java.lang.String defaultValue) {
     private boolean annotateGitCommits_ = false;
     /**
      * <pre>
-     * annotate_git_commits specifies whether to annotate git commits created in Gitpod workspaces with the gitpod host
+     * annotate_git_commits specifies whether to annotate git commits created in
+     * Gitpod workspaces with the gitpod host
      * </pre>
      *
      * <code>optional bool annotate_git_commits = 17 [json_name = "annotateGitCommits"];</code>
@@ -11815,7 +13735,8 @@ java.lang.String defaultValue) {
     }
     /**
      * <pre>
-     * annotate_git_commits specifies whether to annotate git commits created in Gitpod workspaces with the gitpod host
+     * annotate_git_commits specifies whether to annotate git commits created in
+     * Gitpod workspaces with the gitpod host
      * </pre>
      *
      * <code>optional bool annotate_git_commits = 17 [json_name = "annotateGitCommits"];</code>
@@ -11824,6 +13745,35 @@ java.lang.String defaultValue) {
     @java.lang.Override
     public boolean getAnnotateGitCommits() {
       return annotateGitCommits_;
+    }
+
+    public static final int UPDATE_ALLOWED_WORKSPACE_CLASSES_FIELD_NUMBER = 18;
+    private boolean updateAllowedWorkspaceClasses_ = false;
+    /**
+     * <pre>
+     * update_role_restrictions specifies whether role_restrictions should be
+     * updated
+     * </pre>
+     *
+     * <code>optional bool update_allowed_workspace_classes = 18 [json_name = "updateAllowedWorkspaceClasses"];</code>
+     * @return Whether the updateAllowedWorkspaceClasses field is set.
+     */
+    @java.lang.Override
+    public boolean hasUpdateAllowedWorkspaceClasses() {
+      return ((bitField0_ & 0x00000400) != 0);
+    }
+    /**
+     * <pre>
+     * update_role_restrictions specifies whether role_restrictions should be
+     * updated
+     * </pre>
+     *
+     * <code>optional bool update_allowed_workspace_classes = 18 [json_name = "updateAllowedWorkspaceClasses"];</code>
+     * @return The updateAllowedWorkspaceClasses.
+     */
+    @java.lang.Override
+    public boolean getUpdateAllowedWorkspaceClasses() {
+      return updateAllowedWorkspaceClasses_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -11887,6 +13837,9 @@ java.lang.String defaultValue) {
       }
       if (((bitField0_ & 0x00000200) != 0)) {
         output.writeBool(17, annotateGitCommits_);
+      }
+      if (((bitField0_ & 0x00000400) != 0)) {
+        output.writeBool(18, updateAllowedWorkspaceClasses_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -11968,6 +13921,10 @@ java.lang.String defaultValue) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(17, annotateGitCommits_);
       }
+      if (((bitField0_ & 0x00000400) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(18, updateAllowedWorkspaceClasses_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -12043,6 +14000,11 @@ java.lang.String defaultValue) {
         if (getAnnotateGitCommits()
             != other.getAnnotateGitCommits()) return false;
       }
+      if (hasUpdateAllowedWorkspaceClasses() != other.hasUpdateAllowedWorkspaceClasses()) return false;
+      if (hasUpdateAllowedWorkspaceClasses()) {
+        if (getUpdateAllowedWorkspaceClasses()
+            != other.getUpdateAllowedWorkspaceClasses()) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -12116,6 +14078,11 @@ java.lang.String defaultValue) {
         hash = (37 * hash) + ANNOTATE_GIT_COMMITS_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
             getAnnotateGitCommits());
+      }
+      if (hasUpdateAllowedWorkspaceClasses()) {
+        hash = (37 * hash) + UPDATE_ALLOWED_WORKSPACE_CLASSES_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getUpdateAllowedWorkspaceClasses());
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -12309,6 +14276,7 @@ java.lang.String defaultValue) {
           onboardingSettingsBuilder_ = null;
         }
         annotateGitCommits_ = false;
+        updateAllowedWorkspaceClasses_ = false;
         return this;
       }
 
@@ -12415,6 +14383,10 @@ java.lang.String defaultValue) {
           result.annotateGitCommits_ = annotateGitCommits_;
           to_bitField0_ |= 0x00000200;
         }
+        if (((from_bitField0_ & 0x00008000) != 0)) {
+          result.updateAllowedWorkspaceClasses_ = updateAllowedWorkspaceClasses_;
+          to_bitField0_ |= 0x00000400;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -12517,6 +14489,9 @@ java.lang.String defaultValue) {
         }
         if (other.hasAnnotateGitCommits()) {
           setAnnotateGitCommits(other.getAnnotateGitCommits());
+        }
+        if (other.hasUpdateAllowedWorkspaceClasses()) {
+          setUpdateAllowedWorkspaceClasses(other.getUpdateAllowedWorkspaceClasses());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -12637,6 +14612,11 @@ java.lang.String defaultValue) {
                 bitField0_ |= 0x00004000;
                 break;
               } // case 136
+              case 144: {
+                updateAllowedWorkspaceClasses_ = input.readBool();
+                bitField0_ |= 0x00008000;
+                break;
+              } // case 144
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -12901,7 +14881,8 @@ java.lang.String defaultValue) {
        * <pre>
        * allowed_workspace_classes are the IDs of classes, which can be used by
        * workspaces in an organization. Pass an empty array to allow all workspace
-       * classes
+       * classes.
+       * Only updates if update_allowed_workspace_classes is true.
        * </pre>
        *
        * <code>repeated string allowed_workspace_classes = 5 [json_name = "allowedWorkspaceClasses"];</code>
@@ -12916,7 +14897,8 @@ java.lang.String defaultValue) {
        * <pre>
        * allowed_workspace_classes are the IDs of classes, which can be used by
        * workspaces in an organization. Pass an empty array to allow all workspace
-       * classes
+       * classes.
+       * Only updates if update_allowed_workspace_classes is true.
        * </pre>
        *
        * <code>repeated string allowed_workspace_classes = 5 [json_name = "allowedWorkspaceClasses"];</code>
@@ -12929,7 +14911,8 @@ java.lang.String defaultValue) {
        * <pre>
        * allowed_workspace_classes are the IDs of classes, which can be used by
        * workspaces in an organization. Pass an empty array to allow all workspace
-       * classes
+       * classes.
+       * Only updates if update_allowed_workspace_classes is true.
        * </pre>
        *
        * <code>repeated string allowed_workspace_classes = 5 [json_name = "allowedWorkspaceClasses"];</code>
@@ -12943,7 +14926,8 @@ java.lang.String defaultValue) {
        * <pre>
        * allowed_workspace_classes are the IDs of classes, which can be used by
        * workspaces in an organization. Pass an empty array to allow all workspace
-       * classes
+       * classes.
+       * Only updates if update_allowed_workspace_classes is true.
        * </pre>
        *
        * <code>repeated string allowed_workspace_classes = 5 [json_name = "allowedWorkspaceClasses"];</code>
@@ -12958,7 +14942,8 @@ java.lang.String defaultValue) {
        * <pre>
        * allowed_workspace_classes are the IDs of classes, which can be used by
        * workspaces in an organization. Pass an empty array to allow all workspace
-       * classes
+       * classes.
+       * Only updates if update_allowed_workspace_classes is true.
        * </pre>
        *
        * <code>repeated string allowed_workspace_classes = 5 [json_name = "allowedWorkspaceClasses"];</code>
@@ -12979,7 +14964,8 @@ java.lang.String defaultValue) {
        * <pre>
        * allowed_workspace_classes are the IDs of classes, which can be used by
        * workspaces in an organization. Pass an empty array to allow all workspace
-       * classes
+       * classes.
+       * Only updates if update_allowed_workspace_classes is true.
        * </pre>
        *
        * <code>repeated string allowed_workspace_classes = 5 [json_name = "allowedWorkspaceClasses"];</code>
@@ -12999,7 +14985,8 @@ java.lang.String defaultValue) {
        * <pre>
        * allowed_workspace_classes are the IDs of classes, which can be used by
        * workspaces in an organization. Pass an empty array to allow all workspace
-       * classes
+       * classes.
+       * Only updates if update_allowed_workspace_classes is true.
        * </pre>
        *
        * <code>repeated string allowed_workspace_classes = 5 [json_name = "allowedWorkspaceClasses"];</code>
@@ -13019,7 +15006,8 @@ java.lang.String defaultValue) {
        * <pre>
        * allowed_workspace_classes are the IDs of classes, which can be used by
        * workspaces in an organization. Pass an empty array to allow all workspace
-       * classes
+       * classes.
+       * Only updates if update_allowed_workspace_classes is true.
        * </pre>
        *
        * <code>repeated string allowed_workspace_classes = 5 [json_name = "allowedWorkspaceClasses"];</code>
@@ -13036,7 +15024,8 @@ java.lang.String defaultValue) {
        * <pre>
        * allowed_workspace_classes are the IDs of classes, which can be used by
        * workspaces in an organization. Pass an empty array to allow all workspace
-       * classes
+       * classes.
+       * Only updates if update_allowed_workspace_classes is true.
        * </pre>
        *
        * <code>repeated string allowed_workspace_classes = 5 [json_name = "allowedWorkspaceClasses"];</code>
@@ -13066,8 +15055,8 @@ java.lang.String defaultValue) {
        * <pre>
        * restricted_editor_names updates the list of restricted editor names that
        * are not allowed to be used by workspaces in an organization. If empty, all
-       * editors are allowed. Only updates if update_restricted_editor_names is
-       * true.
+       * editors are allowed.
+       * Only updates if update_restricted_editor_names is true.
        * </pre>
        *
        * <code>repeated string restricted_editor_names = 6 [json_name = "restrictedEditorNames"];</code>
@@ -13082,8 +15071,8 @@ java.lang.String defaultValue) {
        * <pre>
        * restricted_editor_names updates the list of restricted editor names that
        * are not allowed to be used by workspaces in an organization. If empty, all
-       * editors are allowed. Only updates if update_restricted_editor_names is
-       * true.
+       * editors are allowed.
+       * Only updates if update_restricted_editor_names is true.
        * </pre>
        *
        * <code>repeated string restricted_editor_names = 6 [json_name = "restrictedEditorNames"];</code>
@@ -13096,8 +15085,8 @@ java.lang.String defaultValue) {
        * <pre>
        * restricted_editor_names updates the list of restricted editor names that
        * are not allowed to be used by workspaces in an organization. If empty, all
-       * editors are allowed. Only updates if update_restricted_editor_names is
-       * true.
+       * editors are allowed.
+       * Only updates if update_restricted_editor_names is true.
        * </pre>
        *
        * <code>repeated string restricted_editor_names = 6 [json_name = "restrictedEditorNames"];</code>
@@ -13111,8 +15100,8 @@ java.lang.String defaultValue) {
        * <pre>
        * restricted_editor_names updates the list of restricted editor names that
        * are not allowed to be used by workspaces in an organization. If empty, all
-       * editors are allowed. Only updates if update_restricted_editor_names is
-       * true.
+       * editors are allowed.
+       * Only updates if update_restricted_editor_names is true.
        * </pre>
        *
        * <code>repeated string restricted_editor_names = 6 [json_name = "restrictedEditorNames"];</code>
@@ -13127,8 +15116,8 @@ java.lang.String defaultValue) {
        * <pre>
        * restricted_editor_names updates the list of restricted editor names that
        * are not allowed to be used by workspaces in an organization. If empty, all
-       * editors are allowed. Only updates if update_restricted_editor_names is
-       * true.
+       * editors are allowed.
+       * Only updates if update_restricted_editor_names is true.
        * </pre>
        *
        * <code>repeated string restricted_editor_names = 6 [json_name = "restrictedEditorNames"];</code>
@@ -13149,8 +15138,8 @@ java.lang.String defaultValue) {
        * <pre>
        * restricted_editor_names updates the list of restricted editor names that
        * are not allowed to be used by workspaces in an organization. If empty, all
-       * editors are allowed. Only updates if update_restricted_editor_names is
-       * true.
+       * editors are allowed.
+       * Only updates if update_restricted_editor_names is true.
        * </pre>
        *
        * <code>repeated string restricted_editor_names = 6 [json_name = "restrictedEditorNames"];</code>
@@ -13170,8 +15159,8 @@ java.lang.String defaultValue) {
        * <pre>
        * restricted_editor_names updates the list of restricted editor names that
        * are not allowed to be used by workspaces in an organization. If empty, all
-       * editors are allowed. Only updates if update_restricted_editor_names is
-       * true.
+       * editors are allowed.
+       * Only updates if update_restricted_editor_names is true.
        * </pre>
        *
        * <code>repeated string restricted_editor_names = 6 [json_name = "restrictedEditorNames"];</code>
@@ -13191,8 +15180,8 @@ java.lang.String defaultValue) {
        * <pre>
        * restricted_editor_names updates the list of restricted editor names that
        * are not allowed to be used by workspaces in an organization. If empty, all
-       * editors are allowed. Only updates if update_restricted_editor_names is
-       * true.
+       * editors are allowed.
+       * Only updates if update_restricted_editor_names is true.
        * </pre>
        *
        * <code>repeated string restricted_editor_names = 6 [json_name = "restrictedEditorNames"];</code>
@@ -13209,8 +15198,8 @@ java.lang.String defaultValue) {
        * <pre>
        * restricted_editor_names updates the list of restricted editor names that
        * are not allowed to be used by workspaces in an organization. If empty, all
-       * editors are allowed. Only updates if update_restricted_editor_names is
-       * true.
+       * editors are allowed.
+       * Only updates if update_restricted_editor_names is true.
        * </pre>
        *
        * <code>repeated string restricted_editor_names = 6 [json_name = "restrictedEditorNames"];</code>
@@ -13313,7 +15302,8 @@ java.lang.String defaultValue) {
       /**
        * <pre>
        * pinned_editor_versions updates the pinned version for the corresponding
-       * editor
+       * editor.
+       * Only updates if update_pinned_editor_versions is true.
        * </pre>
        *
        * <code>map&lt;string, string&gt; pinned_editor_versions = 8 [json_name = "pinnedEditorVersions"];</code>
@@ -13335,7 +15325,8 @@ java.lang.String defaultValue) {
       /**
        * <pre>
        * pinned_editor_versions updates the pinned version for the corresponding
-       * editor
+       * editor.
+       * Only updates if update_pinned_editor_versions is true.
        * </pre>
        *
        * <code>map&lt;string, string&gt; pinned_editor_versions = 8 [json_name = "pinnedEditorVersions"];</code>
@@ -13347,7 +15338,8 @@ java.lang.String defaultValue) {
       /**
        * <pre>
        * pinned_editor_versions updates the pinned version for the corresponding
-       * editor
+       * editor.
+       * Only updates if update_pinned_editor_versions is true.
        * </pre>
        *
        * <code>map&lt;string, string&gt; pinned_editor_versions = 8 [json_name = "pinnedEditorVersions"];</code>
@@ -13366,7 +15358,8 @@ java.lang.String defaultValue) {
       /**
        * <pre>
        * pinned_editor_versions updates the pinned version for the corresponding
-       * editor
+       * editor.
+       * Only updates if update_pinned_editor_versions is true.
        * </pre>
        *
        * <code>map&lt;string, string&gt; pinned_editor_versions = 8 [json_name = "pinnedEditorVersions"];</code>
@@ -13391,7 +15384,8 @@ java.lang.String defaultValue) {
       /**
        * <pre>
        * pinned_editor_versions updates the pinned version for the corresponding
-       * editor
+       * editor.
+       * Only updates if update_pinned_editor_versions is true.
        * </pre>
        *
        * <code>map&lt;string, string&gt; pinned_editor_versions = 8 [json_name = "pinnedEditorVersions"];</code>
@@ -13415,7 +15409,8 @@ java.lang.String defaultValue) {
       /**
        * <pre>
        * pinned_editor_versions updates the pinned version for the corresponding
-       * editor
+       * editor.
+       * Only updates if update_pinned_editor_versions is true.
        * </pre>
        *
        * <code>map&lt;string, string&gt; pinned_editor_versions = 8 [json_name = "pinnedEditorVersions"];</code>
@@ -13433,7 +15428,8 @@ java.lang.String defaultValue) {
       /**
        * <pre>
        * pinned_editor_versions updates the pinned version for the corresponding
-       * editor
+       * editor.
+       * Only updates if update_pinned_editor_versions is true.
        * </pre>
        *
        * <code>map&lt;string, string&gt; pinned_editor_versions = 8 [json_name = "pinnedEditorVersions"];</code>
@@ -13775,6 +15771,10 @@ java.lang.String defaultValue) {
           io.gitpod.publicapi.v1.OrganizationOuterClass.RoleRestrictionEntry, io.gitpod.publicapi.v1.OrganizationOuterClass.RoleRestrictionEntry.Builder, io.gitpod.publicapi.v1.OrganizationOuterClass.RoleRestrictionEntryOrBuilder> roleRestrictionsBuilder_;
 
       /**
+       * <pre>
+       * Only updates if update_role_restrictions is true.
+       * </pre>
+       *
        * <code>repeated .gitpod.v1.RoleRestrictionEntry role_restrictions = 12 [json_name = "roleRestrictions"];</code>
        */
       public java.util.List<io.gitpod.publicapi.v1.OrganizationOuterClass.RoleRestrictionEntry> getRoleRestrictionsList() {
@@ -13785,6 +15785,10 @@ java.lang.String defaultValue) {
         }
       }
       /**
+       * <pre>
+       * Only updates if update_role_restrictions is true.
+       * </pre>
+       *
        * <code>repeated .gitpod.v1.RoleRestrictionEntry role_restrictions = 12 [json_name = "roleRestrictions"];</code>
        */
       public int getRoleRestrictionsCount() {
@@ -13795,6 +15799,10 @@ java.lang.String defaultValue) {
         }
       }
       /**
+       * <pre>
+       * Only updates if update_role_restrictions is true.
+       * </pre>
+       *
        * <code>repeated .gitpod.v1.RoleRestrictionEntry role_restrictions = 12 [json_name = "roleRestrictions"];</code>
        */
       public io.gitpod.publicapi.v1.OrganizationOuterClass.RoleRestrictionEntry getRoleRestrictions(int index) {
@@ -13805,6 +15813,10 @@ java.lang.String defaultValue) {
         }
       }
       /**
+       * <pre>
+       * Only updates if update_role_restrictions is true.
+       * </pre>
+       *
        * <code>repeated .gitpod.v1.RoleRestrictionEntry role_restrictions = 12 [json_name = "roleRestrictions"];</code>
        */
       public Builder setRoleRestrictions(
@@ -13822,6 +15834,10 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
+       * <pre>
+       * Only updates if update_role_restrictions is true.
+       * </pre>
+       *
        * <code>repeated .gitpod.v1.RoleRestrictionEntry role_restrictions = 12 [json_name = "roleRestrictions"];</code>
        */
       public Builder setRoleRestrictions(
@@ -13836,6 +15852,10 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
+       * <pre>
+       * Only updates if update_role_restrictions is true.
+       * </pre>
+       *
        * <code>repeated .gitpod.v1.RoleRestrictionEntry role_restrictions = 12 [json_name = "roleRestrictions"];</code>
        */
       public Builder addRoleRestrictions(io.gitpod.publicapi.v1.OrganizationOuterClass.RoleRestrictionEntry value) {
@@ -13852,6 +15872,10 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
+       * <pre>
+       * Only updates if update_role_restrictions is true.
+       * </pre>
+       *
        * <code>repeated .gitpod.v1.RoleRestrictionEntry role_restrictions = 12 [json_name = "roleRestrictions"];</code>
        */
       public Builder addRoleRestrictions(
@@ -13869,6 +15893,10 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
+       * <pre>
+       * Only updates if update_role_restrictions is true.
+       * </pre>
+       *
        * <code>repeated .gitpod.v1.RoleRestrictionEntry role_restrictions = 12 [json_name = "roleRestrictions"];</code>
        */
       public Builder addRoleRestrictions(
@@ -13883,6 +15911,10 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
+       * <pre>
+       * Only updates if update_role_restrictions is true.
+       * </pre>
+       *
        * <code>repeated .gitpod.v1.RoleRestrictionEntry role_restrictions = 12 [json_name = "roleRestrictions"];</code>
        */
       public Builder addRoleRestrictions(
@@ -13897,6 +15929,10 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
+       * <pre>
+       * Only updates if update_role_restrictions is true.
+       * </pre>
+       *
        * <code>repeated .gitpod.v1.RoleRestrictionEntry role_restrictions = 12 [json_name = "roleRestrictions"];</code>
        */
       public Builder addAllRoleRestrictions(
@@ -13912,6 +15948,10 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
+       * <pre>
+       * Only updates if update_role_restrictions is true.
+       * </pre>
+       *
        * <code>repeated .gitpod.v1.RoleRestrictionEntry role_restrictions = 12 [json_name = "roleRestrictions"];</code>
        */
       public Builder clearRoleRestrictions() {
@@ -13925,6 +15965,10 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
+       * <pre>
+       * Only updates if update_role_restrictions is true.
+       * </pre>
+       *
        * <code>repeated .gitpod.v1.RoleRestrictionEntry role_restrictions = 12 [json_name = "roleRestrictions"];</code>
        */
       public Builder removeRoleRestrictions(int index) {
@@ -13938,6 +15982,10 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
+       * <pre>
+       * Only updates if update_role_restrictions is true.
+       * </pre>
+       *
        * <code>repeated .gitpod.v1.RoleRestrictionEntry role_restrictions = 12 [json_name = "roleRestrictions"];</code>
        */
       public io.gitpod.publicapi.v1.OrganizationOuterClass.RoleRestrictionEntry.Builder getRoleRestrictionsBuilder(
@@ -13945,6 +15993,10 @@ java.lang.String defaultValue) {
         return getRoleRestrictionsFieldBuilder().getBuilder(index);
       }
       /**
+       * <pre>
+       * Only updates if update_role_restrictions is true.
+       * </pre>
+       *
        * <code>repeated .gitpod.v1.RoleRestrictionEntry role_restrictions = 12 [json_name = "roleRestrictions"];</code>
        */
       public io.gitpod.publicapi.v1.OrganizationOuterClass.RoleRestrictionEntryOrBuilder getRoleRestrictionsOrBuilder(
@@ -13955,6 +16007,10 @@ java.lang.String defaultValue) {
         }
       }
       /**
+       * <pre>
+       * Only updates if update_role_restrictions is true.
+       * </pre>
+       *
        * <code>repeated .gitpod.v1.RoleRestrictionEntry role_restrictions = 12 [json_name = "roleRestrictions"];</code>
        */
       public java.util.List<? extends io.gitpod.publicapi.v1.OrganizationOuterClass.RoleRestrictionEntryOrBuilder>
@@ -13966,6 +16022,10 @@ java.lang.String defaultValue) {
         }
       }
       /**
+       * <pre>
+       * Only updates if update_role_restrictions is true.
+       * </pre>
+       *
        * <code>repeated .gitpod.v1.RoleRestrictionEntry role_restrictions = 12 [json_name = "roleRestrictions"];</code>
        */
       public io.gitpod.publicapi.v1.OrganizationOuterClass.RoleRestrictionEntry.Builder addRoleRestrictionsBuilder() {
@@ -13973,6 +16033,10 @@ java.lang.String defaultValue) {
             io.gitpod.publicapi.v1.OrganizationOuterClass.RoleRestrictionEntry.getDefaultInstance());
       }
       /**
+       * <pre>
+       * Only updates if update_role_restrictions is true.
+       * </pre>
+       *
        * <code>repeated .gitpod.v1.RoleRestrictionEntry role_restrictions = 12 [json_name = "roleRestrictions"];</code>
        */
       public io.gitpod.publicapi.v1.OrganizationOuterClass.RoleRestrictionEntry.Builder addRoleRestrictionsBuilder(
@@ -13981,6 +16045,10 @@ java.lang.String defaultValue) {
             index, io.gitpod.publicapi.v1.OrganizationOuterClass.RoleRestrictionEntry.getDefaultInstance());
       }
       /**
+       * <pre>
+       * Only updates if update_role_restrictions is true.
+       * </pre>
+       *
        * <code>repeated .gitpod.v1.RoleRestrictionEntry role_restrictions = 12 [json_name = "roleRestrictions"];</code>
        */
       public java.util.List<io.gitpod.publicapi.v1.OrganizationOuterClass.RoleRestrictionEntry.Builder>
@@ -14005,7 +16073,8 @@ java.lang.String defaultValue) {
       private boolean updateRoleRestrictions_ ;
       /**
        * <pre>
-       * update_role_restrictions specifies whether role_restrictions should be updated
+       * update_role_restrictions specifies whether role_restrictions should be
+       * updated
        * </pre>
        *
        * <code>optional bool update_role_restrictions = 13 [json_name = "updateRoleRestrictions"];</code>
@@ -14017,7 +16086,8 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * update_role_restrictions specifies whether role_restrictions should be updated
+       * update_role_restrictions specifies whether role_restrictions should be
+       * updated
        * </pre>
        *
        * <code>optional bool update_role_restrictions = 13 [json_name = "updateRoleRestrictions"];</code>
@@ -14029,7 +16099,8 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * update_role_restrictions specifies whether role_restrictions should be updated
+       * update_role_restrictions specifies whether role_restrictions should be
+       * updated
        * </pre>
        *
        * <code>optional bool update_role_restrictions = 13 [json_name = "updateRoleRestrictions"];</code>
@@ -14045,7 +16116,8 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * update_role_restrictions specifies whether role_restrictions should be updated
+       * update_role_restrictions specifies whether role_restrictions should be
+       * updated
        * </pre>
        *
        * <code>optional bool update_role_restrictions = 13 [json_name = "updateRoleRestrictions"];</code>
@@ -14061,7 +16133,9 @@ java.lang.String defaultValue) {
       private int maxParallelRunningWorkspaces_ ;
       /**
        * <pre>
-       * max_parallel_running_workspaces is the maximum number of workspaces that a single user can run in parallel. 0 resets to the default, which depends on the org plan
+       * max_parallel_running_workspaces is the maximum number of workspaces that a
+       * single user can run in parallel. 0 resets to the default, which depends on
+       * the org plan
        * </pre>
        *
        * <code>optional int32 max_parallel_running_workspaces = 15 [json_name = "maxParallelRunningWorkspaces"];</code>
@@ -14073,7 +16147,9 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * max_parallel_running_workspaces is the maximum number of workspaces that a single user can run in parallel. 0 resets to the default, which depends on the org plan
+       * max_parallel_running_workspaces is the maximum number of workspaces that a
+       * single user can run in parallel. 0 resets to the default, which depends on
+       * the org plan
        * </pre>
        *
        * <code>optional int32 max_parallel_running_workspaces = 15 [json_name = "maxParallelRunningWorkspaces"];</code>
@@ -14085,7 +16161,9 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * max_parallel_running_workspaces is the maximum number of workspaces that a single user can run in parallel. 0 resets to the default, which depends on the org plan
+       * max_parallel_running_workspaces is the maximum number of workspaces that a
+       * single user can run in parallel. 0 resets to the default, which depends on
+       * the org plan
        * </pre>
        *
        * <code>optional int32 max_parallel_running_workspaces = 15 [json_name = "maxParallelRunningWorkspaces"];</code>
@@ -14101,7 +16179,9 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * max_parallel_running_workspaces is the maximum number of workspaces that a single user can run in parallel. 0 resets to the default, which depends on the org plan
+       * max_parallel_running_workspaces is the maximum number of workspaces that a
+       * single user can run in parallel. 0 resets to the default, which depends on
+       * the org plan
        * </pre>
        *
        * <code>optional int32 max_parallel_running_workspaces = 15 [json_name = "maxParallelRunningWorkspaces"];</code>
@@ -14274,7 +16354,8 @@ java.lang.String defaultValue) {
       private boolean annotateGitCommits_ ;
       /**
        * <pre>
-       * annotate_git_commits specifies whether to annotate git commits created in Gitpod workspaces with the gitpod host
+       * annotate_git_commits specifies whether to annotate git commits created in
+       * Gitpod workspaces with the gitpod host
        * </pre>
        *
        * <code>optional bool annotate_git_commits = 17 [json_name = "annotateGitCommits"];</code>
@@ -14286,7 +16367,8 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * annotate_git_commits specifies whether to annotate git commits created in Gitpod workspaces with the gitpod host
+       * annotate_git_commits specifies whether to annotate git commits created in
+       * Gitpod workspaces with the gitpod host
        * </pre>
        *
        * <code>optional bool annotate_git_commits = 17 [json_name = "annotateGitCommits"];</code>
@@ -14298,7 +16380,8 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * annotate_git_commits specifies whether to annotate git commits created in Gitpod workspaces with the gitpod host
+       * annotate_git_commits specifies whether to annotate git commits created in
+       * Gitpod workspaces with the gitpod host
        * </pre>
        *
        * <code>optional bool annotate_git_commits = 17 [json_name = "annotateGitCommits"];</code>
@@ -14314,7 +16397,8 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * annotate_git_commits specifies whether to annotate git commits created in Gitpod workspaces with the gitpod host
+       * annotate_git_commits specifies whether to annotate git commits created in
+       * Gitpod workspaces with the gitpod host
        * </pre>
        *
        * <code>optional bool annotate_git_commits = 17 [json_name = "annotateGitCommits"];</code>
@@ -14323,6 +16407,66 @@ java.lang.String defaultValue) {
       public Builder clearAnnotateGitCommits() {
         bitField0_ = (bitField0_ & ~0x00004000);
         annotateGitCommits_ = false;
+        onChanged();
+        return this;
+      }
+
+      private boolean updateAllowedWorkspaceClasses_ ;
+      /**
+       * <pre>
+       * update_role_restrictions specifies whether role_restrictions should be
+       * updated
+       * </pre>
+       *
+       * <code>optional bool update_allowed_workspace_classes = 18 [json_name = "updateAllowedWorkspaceClasses"];</code>
+       * @return Whether the updateAllowedWorkspaceClasses field is set.
+       */
+      @java.lang.Override
+      public boolean hasUpdateAllowedWorkspaceClasses() {
+        return ((bitField0_ & 0x00008000) != 0);
+      }
+      /**
+       * <pre>
+       * update_role_restrictions specifies whether role_restrictions should be
+       * updated
+       * </pre>
+       *
+       * <code>optional bool update_allowed_workspace_classes = 18 [json_name = "updateAllowedWorkspaceClasses"];</code>
+       * @return The updateAllowedWorkspaceClasses.
+       */
+      @java.lang.Override
+      public boolean getUpdateAllowedWorkspaceClasses() {
+        return updateAllowedWorkspaceClasses_;
+      }
+      /**
+       * <pre>
+       * update_role_restrictions specifies whether role_restrictions should be
+       * updated
+       * </pre>
+       *
+       * <code>optional bool update_allowed_workspace_classes = 18 [json_name = "updateAllowedWorkspaceClasses"];</code>
+       * @param value The updateAllowedWorkspaceClasses to set.
+       * @return This builder for chaining.
+       */
+      public Builder setUpdateAllowedWorkspaceClasses(boolean value) {
+
+        updateAllowedWorkspaceClasses_ = value;
+        bitField0_ |= 0x00008000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * update_role_restrictions specifies whether role_restrictions should be
+       * updated
+       * </pre>
+       *
+       * <code>optional bool update_allowed_workspace_classes = 18 [json_name = "updateAllowedWorkspaceClasses"];</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearUpdateAllowedWorkspaceClasses() {
+        bitField0_ = (bitField0_ & ~0x00008000);
+        updateAllowedWorkspaceClasses_ = false;
         onChanged();
         return this;
       }
@@ -29220,6 +31364,11 @@ java.lang.String defaultValue) {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_gitpod_v1_OnboardingSettings_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_gitpod_v1_OnboardingSettings_WelcomeMessage_descriptor;
+  private static final
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_gitpod_v1_OnboardingSettings_WelcomeMessage_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_gitpod_v1_OrganizationSettings_descriptor;
   private static final
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -29406,187 +31555,209 @@ java.lang.String defaultValue) {
       "leRestrictionEntry\022/\n\004role\030\001 \001(\0162\033.gitpo" +
       "d.v1.OrganizationRoleR\004role\022C\n\013permissio" +
       "ns\030\002 \003(\0162!.gitpod.v1.OrganizationPermiss" +
-      "ionR\013permissions\"\213\001\n\022OnboardingSettings\022" +
+      "ionR\013permissions\"\232\005\n\022OnboardingSettings\022" +
       "(\n\rinternal_link\030\001 \001(\tH\000R\014internalLink\210\001" +
       "\001\0229\n\030recommended_repositories\030\002 \003(\tR\027rec" +
-      "ommendedRepositoriesB\020\n\016_internal_link\"\273" +
-      "\006\n\024OrganizationSettings\022<\n\032workspace_sha" +
-      "ring_disabled\030\001 \001(\010R\030workspaceSharingDis" +
-      "abled\0226\n\027default_workspace_image\030\002 \001(\tR\025" +
-      "defaultWorkspaceImage\022:\n\031allowed_workspa" +
-      "ce_classes\030\003 \003(\tR\027allowedWorkspaceClasse" +
-      "s\0226\n\027restricted_editor_names\030\004 \003(\tR\025rest" +
-      "rictedEditorNames\022o\n\026pinned_editor_versi" +
-      "ons\030\005 \003(\01329.gitpod.v1.OrganizationSettin" +
-      "gs.PinnedEditorVersionsEntryR\024pinnedEdit" +
-      "orVersions\022!\n\014default_role\030\006 \001(\tR\013defaul" +
-      "tRole\022E\n\020timeout_settings\030\007 \001(\0132\032.gitpod" +
-      ".v1.TimeoutSettingsR\017timeoutSettings\022L\n\021" +
-      "role_restrictions\030\010 \003(\0132\037.gitpod.v1.Role" +
-      "RestrictionEntryR\020roleRestrictions\022E\n\037ma" +
-      "x_parallel_running_workspaces\030\t \001(\005R\034max" +
-      "ParallelRunningWorkspaces\022N\n\023onboarding_" +
-      "settings\030\n \001(\0132\035.gitpod.v1.OnboardingSet" +
-      "tingsR\022onboardingSettings\0220\n\024annotate_gi" +
-      "t_commits\030\013 \001(\010R\022annotateGitCommits\032G\n\031P" +
-      "innedEditorVersionsEntry\022\020\n\003key\030\001 \001(\tR\003k" +
-      "ey\022\024\n\005value\030\002 \001(\tR\005value:\0028\001\"\220\001\n\'ListOrg" +
-      "anizationWorkspaceClassesRequest\022<\n\npagi" +
-      "nation\030\001 \001(\0132\034.gitpod.v1.PaginationReque" +
-      "stR\npagination\022\'\n\017organization_id\030\002 \001(\tR" +
-      "\016organizationId\"\261\001\n(ListOrganizationWork" +
-      "spaceClassesResponse\022=\n\npagination\030\001 \001(\013" +
-      "2\035.gitpod.v1.PaginationResponseR\npaginat" +
-      "ion\022F\n\021workspace_classes\030\002 \003(\0132\031.gitpod." +
-      "v1.WorkspaceClassR\020workspaceClasses\"f\n\031U" +
-      "pdateOrganizationRequest\022\'\n\017organization" +
-      "_id\030\001 \001(\tR\016organizationId\022\027\n\004name\030\002 \001(\tH" +
-      "\000R\004name\210\001\001B\007\n\005_name\"Y\n\032UpdateOrganizatio" +
-      "nResponse\022;\n\014organization\030\001 \001(\0132\027.gitpod" +
-      ".v1.OrganizationR\014organization\"\252\001\n\017Timeo" +
-      "utSettings\022>\n\ninactivity\030\001 \001(\0132\031.google." +
-      "protobuf.DurationH\000R\ninactivity\210\001\001\0221\n\022de" +
-      "ny_user_timeouts\030\002 \001(\010H\001R\020denyUserTimeou" +
-      "ts\210\001\001B\r\n\013_inactivityB\025\n\023_deny_user_timeo" +
-      "uts\"\212\013\n!UpdateOrganizationSettingsReques" +
+      "ommendedRepositories\022K\n\037update_recommend" +
+      "ed_repositories\030\003 \001(\010H\001R\035updateRecommend" +
+      "edRepositories\210\001\001\022Z\n\017welcome_message\030\004 \001" +
+      "(\0132,.gitpod.v1.OnboardingSettings.Welcom" +
+      "eMessageH\002R\016welcomeMessage\210\001\001\032\253\002\n\016Welcom" +
+      "eMessage\022\035\n\007enabled\030\001 \001(\010H\000R\007enabled\210\001\001\022" +
+      "\035\n\007message\030\002 \001(\tH\001R\007message\210\001\001\0221\n\022featur" +
+      "ed_member_id\030\004 \001(\tH\002R\020featuredMemberId\210\001" +
+      "\001\022Q\n#featured_member_resolved_avatar_url" +
+      "\030\005 \001(\tH\003R\037featuredMemberResolvedAvatarUr" +
+      "l\210\001\001B\n\n\010_enabledB\n\n\010_messageB\025\n\023_feature" +
+      "d_member_idB&\n$_featured_member_resolved" +
+      "_avatar_urlB\020\n\016_internal_linkB\"\n _update" +
+      "_recommended_repositoriesB\022\n\020_welcome_me" +
+      "ssage\"\224\010\n\024OrganizationSettings\022A\n\032worksp" +
+      "ace_sharing_disabled\030\001 \001(\010H\000R\030workspaceS" +
+      "haringDisabled\210\001\001\022;\n\027default_workspace_i" +
+      "mage\030\002 \001(\tH\001R\025defaultWorkspaceImage\210\001\001\022:" +
+      "\n\031allowed_workspace_classes\030\003 \003(\tR\027allow" +
+      "edWorkspaceClasses\0226\n\027restricted_editor_" +
+      "names\030\004 \003(\tR\025restrictedEditorNames\022o\n\026pi" +
+      "nned_editor_versions\030\005 \003(\01329.gitpod.v1.O" +
+      "rganizationSettings.PinnedEditorVersions" +
+      "EntryR\024pinnedEditorVersions\022&\n\014default_r" +
+      "ole\030\006 \001(\tH\002R\013defaultRole\210\001\001\022J\n\020timeout_s" +
+      "ettings\030\007 \001(\0132\032.gitpod.v1.TimeoutSetting" +
+      "sH\003R\017timeoutSettings\210\001\001\022L\n\021role_restrict" +
+      "ions\030\010 \003(\0132\037.gitpod.v1.RoleRestrictionEn" +
+      "tryR\020roleRestrictions\022J\n\037max_parallel_ru" +
+      "nning_workspaces\030\t \001(\005H\004R\034maxParallelRun" +
+      "ningWorkspaces\210\001\001\022S\n\023onboarding_settings" +
+      "\030\n \001(\0132\035.gitpod.v1.OnboardingSettingsH\005R" +
+      "\022onboardingSettings\210\001\001\0225\n\024annotate_git_c" +
+      "ommits\030\013 \001(\010H\006R\022annotateGitCommits\210\001\001\032G\n" +
+      "\031PinnedEditorVersionsEntry\022\020\n\003key\030\001 \001(\tR" +
+      "\003key\022\024\n\005value\030\002 \001(\tR\005value:\0028\001B\035\n\033_works" +
+      "pace_sharing_disabledB\032\n\030_default_worksp" +
+      "ace_imageB\017\n\r_default_roleB\023\n\021_timeout_s" +
+      "ettingsB\"\n _max_parallel_running_workspa" +
+      "cesB\026\n\024_onboarding_settingsB\027\n\025_annotate" +
+      "_git_commits\"\220\001\n\'ListOrganizationWorkspa" +
+      "ceClassesRequest\022<\n\npagination\030\001 \001(\0132\034.g" +
+      "itpod.v1.PaginationRequestR\npagination\022\'" +
+      "\n\017organization_id\030\002 \001(\tR\016organizationId\"" +
+      "\261\001\n(ListOrganizationWorkspaceClassesResp" +
+      "onse\022=\n\npagination\030\001 \001(\0132\035.gitpod.v1.Pag" +
+      "inationResponseR\npagination\022F\n\021workspace" +
+      "_classes\030\002 \003(\0132\031.gitpod.v1.WorkspaceClas" +
+      "sR\020workspaceClasses\"f\n\031UpdateOrganizatio" +
+      "nRequest\022\'\n\017organization_id\030\001 \001(\tR\016organ" +
+      "izationId\022\027\n\004name\030\002 \001(\tH\000R\004name\210\001\001B\007\n\005_n" +
+      "ame\"Y\n\032UpdateOrganizationResponse\022;\n\014org" +
+      "anization\030\001 \001(\0132\027.gitpod.v1.Organization" +
+      "R\014organization\"\252\001\n\017TimeoutSettings\022>\n\nin" +
+      "activity\030\001 \001(\0132\031.google.protobuf.Duratio" +
+      "nH\000R\ninactivity\210\001\001\0221\n\022deny_user_timeouts" +
+      "\030\002 \001(\010H\001R\020denyUserTimeouts\210\001\001B\r\n\013_inacti" +
+      "vityB\025\n\023_deny_user_timeouts\"\375\013\n!UpdateOr" +
+      "ganizationSettingsRequest\022\'\n\017organizatio" +
+      "n_id\030\001 \001(\tR\016organizationId\022A\n\032workspace_" +
+      "sharing_disabled\030\003 \001(\010H\000R\030workspaceShari" +
+      "ngDisabled\210\001\001\022;\n\027default_workspace_image" +
+      "\030\004 \001(\tH\001R\025defaultWorkspaceImage\210\001\001\022:\n\031al" +
+      "lowed_workspace_classes\030\005 \003(\tR\027allowedWo" +
+      "rkspaceClasses\0226\n\027restricted_editor_name" +
+      "s\030\006 \003(\tR\025restrictedEditorNames\022H\n\036update" +
+      "_restricted_editor_names\030\007 \001(\010H\002R\033update" +
+      "RestrictedEditorNames\210\001\001\022|\n\026pinned_edito" +
+      "r_versions\030\010 \003(\0132F.gitpod.v1.UpdateOrgan" +
+      "izationSettingsRequest.PinnedEditorVersi" +
+      "onsEntryR\024pinnedEditorVersions\022F\n\035update" +
+      "_pinned_editor_versions\030\t \001(\010H\003R\032updateP" +
+      "innedEditorVersions\210\001\001\022&\n\014default_role\030\n" +
+      " \001(\tH\004R\013defaultRole\210\001\001\022J\n\020timeout_settin" +
+      "gs\030\013 \001(\0132\032.gitpod.v1.TimeoutSettingsH\005R\017" +
+      "timeoutSettings\210\001\001\022L\n\021role_restrictions\030" +
+      "\014 \003(\0132\037.gitpod.v1.RoleRestrictionEntryR\020" +
+      "roleRestrictions\022=\n\030update_role_restrict" +
+      "ions\030\r \001(\010H\006R\026updateRoleRestrictions\210\001\001\022" +
+      "J\n\037max_parallel_running_workspaces\030\017 \001(\005" +
+      "H\007R\034maxParallelRunningWorkspaces\210\001\001\022S\n\023o" +
+      "nboarding_settings\030\020 \001(\0132\035.gitpod.v1.Onb" +
+      "oardingSettingsH\010R\022onboardingSettings\210\001\001" +
+      "\0225\n\024annotate_git_commits\030\021 \001(\010H\tR\022annota" +
+      "teGitCommits\210\001\001\022L\n update_allowed_worksp" +
+      "ace_classes\030\022 \001(\010H\nR\035updateAllowedWorksp" +
+      "aceClasses\210\001\001\032G\n\031PinnedEditorVersionsEnt" +
+      "ry\022\020\n\003key\030\001 \001(\tR\003key\022\024\n\005value\030\002 \001(\tR\005val" +
+      "ue:\0028\001B\035\n\033_workspace_sharing_disabledB\032\n" +
+      "\030_default_workspace_imageB!\n\037_update_res" +
+      "tricted_editor_namesB \n\036_update_pinned_e" +
+      "ditor_versionsB\017\n\r_default_roleB\023\n\021_time" +
+      "out_settingsB\033\n\031_update_role_restriction" +
+      "sB\"\n _max_parallel_running_workspacesB\026\n" +
+      "\024_onboarding_settingsB\027\n\025_annotate_git_c" +
+      "ommitsB#\n!_update_allowed_workspace_clas" +
+      "ses\"a\n\"UpdateOrganizationSettingsRespons" +
+      "e\022;\n\010settings\030\001 \001(\0132\037.gitpod.v1.Organiza" +
+      "tionSettingsR\010settings\"I\n\036GetOrganizatio" +
+      "nSettingsRequest\022\'\n\017organization_id\030\001 \001(" +
+      "\tR\016organizationId\"^\n\037GetOrganizationSett" +
+      "ingsResponse\022;\n\010settings\030\001 \001(\0132\037.gitpod." +
+      "v1.OrganizationSettingsR\010settings\"/\n\031Cre" +
+      "ateOrganizationRequest\022\022\n\004name\030\001 \001(\tR\004na" +
+      "me\"Y\n\032CreateOrganizationResponse\022;\n\014orga" +
+      "nization\030\001 \001(\0132\027.gitpod.v1.OrganizationR" +
+      "\014organization\"A\n\026GetOrganizationRequest\022" +
+      "\'\n\017organization_id\030\001 \001(\tR\016organizationId" +
+      "\"V\n\027GetOrganizationResponse\022;\n\014organizat" +
+      "ion\030\001 \001(\0132\027.gitpod.v1.OrganizationR\014orga" +
+      "nization\"\332\001\n\030ListOrganizationsRequest\022<\n" +
+      "\npagination\030\001 \001(\0132\034.gitpod.v1.Pagination" +
+      "RequestR\npagination\022?\n\005scope\030\002 \001(\0162).git" +
+      "pod.v1.ListOrganizationsRequest.ScopeR\005s" +
+      "cope\"?\n\005Scope\022\025\n\021SCOPE_UNSPECIFIED\020\000\022\020\n\014" +
+      "SCOPE_MEMBER\020\001\022\r\n\tSCOPE_ALL\020\002\"\231\001\n\031ListOr" +
+      "ganizationsResponse\022=\n\rorganizations\030\001 \003" +
+      "(\0132\027.gitpod.v1.OrganizationR\rorganizatio" +
+      "ns\022=\n\npagination\030\002 \001(\0132\035.gitpod.v1.Pagin" +
+      "ationResponseR\npagination\"D\n\031DeleteOrgan" +
+      "izationRequest\022\'\n\017organization_id\030\001 \001(\tR" +
+      "\016organizationId\"\034\n\032DeleteOrganizationRes" +
+      "ponse\"K\n GetOrganizationInvitationReques" +
       "t\022\'\n\017organization_id\030\001 \001(\tR\016organization" +
-      "Id\022A\n\032workspace_sharing_disabled\030\003 \001(\010H\000" +
-      "R\030workspaceSharingDisabled\210\001\001\022;\n\027default" +
-      "_workspace_image\030\004 \001(\tH\001R\025defaultWorkspa" +
-      "ceImage\210\001\001\022:\n\031allowed_workspace_classes\030" +
-      "\005 \003(\tR\027allowedWorkspaceClasses\0226\n\027restri" +
-      "cted_editor_names\030\006 \003(\tR\025restrictedEdito" +
-      "rNames\022H\n\036update_restricted_editor_names" +
-      "\030\007 \001(\010H\002R\033updateRestrictedEditorNames\210\001\001" +
-      "\022|\n\026pinned_editor_versions\030\010 \003(\0132F.gitpo" +
-      "d.v1.UpdateOrganizationSettingsRequest.P" +
-      "innedEditorVersionsEntryR\024pinnedEditorVe" +
-      "rsions\022F\n\035update_pinned_editor_versions\030" +
-      "\t \001(\010H\003R\032updatePinnedEditorVersions\210\001\001\022&" +
-      "\n\014default_role\030\n \001(\tH\004R\013defaultRole\210\001\001\022J" +
-      "\n\020timeout_settings\030\013 \001(\0132\032.gitpod.v1.Tim" +
-      "eoutSettingsH\005R\017timeoutSettings\210\001\001\022L\n\021ro" +
-      "le_restrictions\030\014 \003(\0132\037.gitpod.v1.RoleRe" +
-      "strictionEntryR\020roleRestrictions\022=\n\030upda" +
-      "te_role_restrictions\030\r \001(\010H\006R\026updateRole" +
-      "Restrictions\210\001\001\022J\n\037max_parallel_running_" +
-      "workspaces\030\017 \001(\005H\007R\034maxParallelRunningWo" +
-      "rkspaces\210\001\001\022S\n\023onboarding_settings\030\020 \001(\013" +
-      "2\035.gitpod.v1.OnboardingSettingsH\010R\022onboa" +
-      "rdingSettings\210\001\001\0225\n\024annotate_git_commits" +
-      "\030\021 \001(\010H\tR\022annotateGitCommits\210\001\001\032G\n\031Pinne" +
-      "dEditorVersionsEntry\022\020\n\003key\030\001 \001(\tR\003key\022\024" +
-      "\n\005value\030\002 \001(\tR\005value:\0028\001B\035\n\033_workspace_s" +
-      "haring_disabledB\032\n\030_default_workspace_im" +
-      "ageB!\n\037_update_restricted_editor_namesB " +
-      "\n\036_update_pinned_editor_versionsB\017\n\r_def" +
-      "ault_roleB\023\n\021_timeout_settingsB\033\n\031_updat" +
-      "e_role_restrictionsB\"\n _max_parallel_run" +
-      "ning_workspacesB\026\n\024_onboarding_settingsB" +
-      "\027\n\025_annotate_git_commits\"a\n\"UpdateOrgani" +
-      "zationSettingsResponse\022;\n\010settings\030\001 \001(\013" +
-      "2\037.gitpod.v1.OrganizationSettingsR\010setti" +
-      "ngs\"I\n\036GetOrganizationSettingsRequest\022\'\n" +
-      "\017organization_id\030\001 \001(\tR\016organizationId\"^" +
-      "\n\037GetOrganizationSettingsResponse\022;\n\010set" +
-      "tings\030\001 \001(\0132\037.gitpod.v1.OrganizationSett" +
-      "ingsR\010settings\"/\n\031CreateOrganizationRequ" +
-      "est\022\022\n\004name\030\001 \001(\tR\004name\"Y\n\032CreateOrganiz" +
-      "ationResponse\022;\n\014organization\030\001 \001(\0132\027.gi" +
-      "tpod.v1.OrganizationR\014organization\"A\n\026Ge" +
-      "tOrganizationRequest\022\'\n\017organization_id\030" +
-      "\001 \001(\tR\016organizationId\"V\n\027GetOrganization" +
-      "Response\022;\n\014organization\030\001 \001(\0132\027.gitpod." +
-      "v1.OrganizationR\014organization\"\332\001\n\030ListOr" +
-      "ganizationsRequest\022<\n\npagination\030\001 \001(\0132\034" +
-      ".gitpod.v1.PaginationRequestR\npagination" +
-      "\022?\n\005scope\030\002 \001(\0162).gitpod.v1.ListOrganiza" +
-      "tionsRequest.ScopeR\005scope\"?\n\005Scope\022\025\n\021SC" +
-      "OPE_UNSPECIFIED\020\000\022\020\n\014SCOPE_MEMBER\020\001\022\r\n\tS" +
-      "COPE_ALL\020\002\"\231\001\n\031ListOrganizationsResponse" +
-      "\022=\n\rorganizations\030\001 \003(\0132\027.gitpod.v1.Orga" +
-      "nizationR\rorganizations\022=\n\npagination\030\002 " +
-      "\001(\0132\035.gitpod.v1.PaginationResponseR\npagi" +
-      "nation\"D\n\031DeleteOrganizationRequest\022\'\n\017o" +
-      "rganization_id\030\001 \001(\tR\016organizationId\"\034\n\032" +
-      "DeleteOrganizationResponse\"K\n GetOrganiz" +
-      "ationInvitationRequest\022\'\n\017organization_i" +
-      "d\030\001 \001(\tR\016organizationId\"H\n!GetOrganizati" +
-      "onInvitationResponse\022#\n\rinvitation_id\030\001 " +
-      "\001(\tR\014invitationId\">\n\027JoinOrganizationReq" +
-      "uest\022#\n\rinvitation_id\030\001 \001(\tR\014invitationI" +
-      "d\"C\n\030JoinOrganizationResponse\022\'\n\017organiz" +
-      "ation_id\030\001 \001(\tR\016organizationId\"M\n\"ResetO" +
-      "rganizationInvitationRequest\022\'\n\017organiza" +
-      "tion_id\030\001 \001(\tR\016organizationId\"J\n#ResetOr" +
-      "ganizationInvitationResponse\022#\n\rinvitati" +
-      "on_id\030\001 \001(\tR\014invitationId\"\207\001\n\036ListOrgani" +
-      "zationMembersRequest\022\'\n\017organization_id\030" +
-      "\001 \001(\tR\016organizationId\022<\n\npagination\030\002 \001(" +
-      "\0132\034.gitpod.v1.PaginationRequestR\npaginat" +
-      "ion\"\231\001\n\037ListOrganizationMembersResponse\022" +
-      "7\n\007members\030\001 \003(\0132\035.gitpod.v1.Organizatio" +
-      "nMemberR\007members\022=\n\npagination\030\002 \001(\0132\035.g" +
-      "itpod.v1.PaginationResponseR\npagination\"" +
-      "\242\001\n\037UpdateOrganizationMemberRequest\022\'\n\017o" +
-      "rganization_id\030\001 \001(\tR\016organizationId\022\027\n\007" +
-      "user_id\030\002 \001(\tR\006userId\0224\n\004role\030\003 \001(\0162\033.gi" +
-      "tpod.v1.OrganizationRoleH\000R\004role\210\001\001B\007\n\005_" +
-      "role\"Y\n UpdateOrganizationMemberResponse" +
-      "\0225\n\006member\030\001 \001(\0132\035.gitpod.v1.Organizatio" +
-      "nMemberR\006member\"c\n\037DeleteOrganizationMem" +
-      "berRequest\022\'\n\017organization_id\030\001 \001(\tR\016org" +
-      "anizationId\022\027\n\007user_id\030\002 \001(\tR\006userId\"\"\n " +
-      "DeleteOrganizationMemberResponse*\224\001\n\020Org" +
-      "anizationRole\022!\n\035ORGANIZATION_ROLE_UNSPE" +
-      "CIFIED\020\000\022\033\n\027ORGANIZATION_ROLE_OWNER\020\001\022\034\n" +
-      "\030ORGANIZATION_ROLE_MEMBER\020\002\022\"\n\036ORGANIZAT" +
-      "ION_ROLE_COLLABORATOR\020\003*t\n\026OrganizationP" +
-      "ermission\022\'\n#ORGANIZATION_PERMISSION_UNS" +
-      "PECIFIED\020\000\0221\n-ORGANIZATION_PERMISSION_ST" +
-      "ART_ARBITRARY_REPOS\020\0012\276\014\n\023OrganizationSe" +
-      "rvice\022c\n\022CreateOrganization\022$.gitpod.v1." +
-      "CreateOrganizationRequest\032%.gitpod.v1.Cr" +
-      "eateOrganizationResponse\"\000\022Z\n\017GetOrganiz" +
-      "ation\022!.gitpod.v1.GetOrganizationRequest" +
-      "\032\".gitpod.v1.GetOrganizationResponse\"\000\022c" +
-      "\n\022UpdateOrganization\022$.gitpod.v1.UpdateO" +
-      "rganizationRequest\032%.gitpod.v1.UpdateOrg" +
-      "anizationResponse\"\000\022`\n\021ListOrganizations" +
-      "\022#.gitpod.v1.ListOrganizationsRequest\032$." +
-      "gitpod.v1.ListOrganizationsResponse\"\000\022c\n" +
-      "\022DeleteOrganization\022$.gitpod.v1.DeleteOr" +
-      "ganizationRequest\032%.gitpod.v1.DeleteOrga" +
-      "nizationResponse\"\000\022x\n\031GetOrganizationInv" +
-      "itation\022+.gitpod.v1.GetOrganizationInvit" +
-      "ationRequest\032,.gitpod.v1.GetOrganization" +
-      "InvitationResponse\"\000\022]\n\020JoinOrganization" +
-      "\022\".gitpod.v1.JoinOrganizationRequest\032#.g" +
-      "itpod.v1.JoinOrganizationResponse\"\000\022~\n\033R" +
-      "esetOrganizationInvitation\022-.gitpod.v1.R" +
-      "esetOrganizationInvitationRequest\032..gitp" +
-      "od.v1.ResetOrganizationInvitationRespons" +
-      "e\"\000\022r\n\027ListOrganizationMembers\022).gitpod." +
-      "v1.ListOrganizationMembersRequest\032*.gitp" +
-      "od.v1.ListOrganizationMembersResponse\"\000\022" +
-      "u\n\030UpdateOrganizationMember\022*.gitpod.v1." +
-      "UpdateOrganizationMemberRequest\032+.gitpod" +
-      ".v1.UpdateOrganizationMemberResponse\"\000\022u" +
-      "\n\030DeleteOrganizationMember\022*.gitpod.v1.D" +
-      "eleteOrganizationMemberRequest\032+.gitpod." +
-      "v1.DeleteOrganizationMemberResponse\"\000\022r\n" +
-      "\027GetOrganizationSettings\022).gitpod.v1.Get" +
-      "OrganizationSettingsRequest\032*.gitpod.v1." +
-      "GetOrganizationSettingsResponse\"\000\022{\n\032Upd" +
-      "ateOrganizationSettings\022,.gitpod.v1.Upda" +
-      "teOrganizationSettingsRequest\032-.gitpod.v" +
-      "1.UpdateOrganizationSettingsResponse\"\000\022\215" +
-      "\001\n ListOrganizationWorkspaceClasses\0222.gi" +
-      "tpod.v1.ListOrganizationWorkspaceClasses" +
-      "Request\0323.gitpod.v1.ListOrganizationWork" +
-      "spaceClassesResponse\"\000BQ\n\026io.gitpod.publ" +
-      "icapi.v1Z7github.com/gitpod-io/gitpod/co" +
-      "mponents/public-api/go/v1b\006proto3"
+      "Id\"H\n!GetOrganizationInvitationResponse\022" +
+      "#\n\rinvitation_id\030\001 \001(\tR\014invitationId\">\n\027" +
+      "JoinOrganizationRequest\022#\n\rinvitation_id" +
+      "\030\001 \001(\tR\014invitationId\"C\n\030JoinOrganization" +
+      "Response\022\'\n\017organization_id\030\001 \001(\tR\016organ" +
+      "izationId\"M\n\"ResetOrganizationInvitation" +
+      "Request\022\'\n\017organization_id\030\001 \001(\tR\016organi" +
+      "zationId\"J\n#ResetOrganizationInvitationR" +
+      "esponse\022#\n\rinvitation_id\030\001 \001(\tR\014invitati" +
+      "onId\"\207\001\n\036ListOrganizationMembersRequest\022" +
+      "\'\n\017organization_id\030\001 \001(\tR\016organizationId" +
+      "\022<\n\npagination\030\002 \001(\0132\034.gitpod.v1.Paginat" +
+      "ionRequestR\npagination\"\231\001\n\037ListOrganizat" +
+      "ionMembersResponse\0227\n\007members\030\001 \003(\0132\035.gi" +
+      "tpod.v1.OrganizationMemberR\007members\022=\n\np" +
+      "agination\030\002 \001(\0132\035.gitpod.v1.PaginationRe" +
+      "sponseR\npagination\"\242\001\n\037UpdateOrganizatio" +
+      "nMemberRequest\022\'\n\017organization_id\030\001 \001(\tR" +
+      "\016organizationId\022\027\n\007user_id\030\002 \001(\tR\006userId" +
+      "\0224\n\004role\030\003 \001(\0162\033.gitpod.v1.OrganizationR" +
+      "oleH\000R\004role\210\001\001B\007\n\005_role\"Y\n UpdateOrganiz" +
+      "ationMemberResponse\0225\n\006member\030\001 \001(\0132\035.gi" +
+      "tpod.v1.OrganizationMemberR\006member\"c\n\037De" +
+      "leteOrganizationMemberRequest\022\'\n\017organiz" +
+      "ation_id\030\001 \001(\tR\016organizationId\022\027\n\007user_i" +
+      "d\030\002 \001(\tR\006userId\"\"\n DeleteOrganizationMem" +
+      "berResponse*\224\001\n\020OrganizationRole\022!\n\035ORGA" +
+      "NIZATION_ROLE_UNSPECIFIED\020\000\022\033\n\027ORGANIZAT" +
+      "ION_ROLE_OWNER\020\001\022\034\n\030ORGANIZATION_ROLE_ME" +
+      "MBER\020\002\022\"\n\036ORGANIZATION_ROLE_COLLABORATOR" +
+      "\020\003*t\n\026OrganizationPermission\022\'\n#ORGANIZA" +
+      "TION_PERMISSION_UNSPECIFIED\020\000\0221\n-ORGANIZ" +
+      "ATION_PERMISSION_START_ARBITRARY_REPOS\020\001" +
+      "2\276\014\n\023OrganizationService\022c\n\022CreateOrgani" +
+      "zation\022$.gitpod.v1.CreateOrganizationReq" +
+      "uest\032%.gitpod.v1.CreateOrganizationRespo" +
+      "nse\"\000\022Z\n\017GetOrganization\022!.gitpod.v1.Get" +
+      "OrganizationRequest\032\".gitpod.v1.GetOrgan" +
+      "izationResponse\"\000\022c\n\022UpdateOrganization\022" +
+      "$.gitpod.v1.UpdateOrganizationRequest\032%." +
+      "gitpod.v1.UpdateOrganizationResponse\"\000\022`" +
+      "\n\021ListOrganizations\022#.gitpod.v1.ListOrga" +
+      "nizationsRequest\032$.gitpod.v1.ListOrganiz" +
+      "ationsResponse\"\000\022c\n\022DeleteOrganization\022$" +
+      ".gitpod.v1.DeleteOrganizationRequest\032%.g" +
+      "itpod.v1.DeleteOrganizationResponse\"\000\022x\n" +
+      "\031GetOrganizationInvitation\022+.gitpod.v1.G" +
+      "etOrganizationInvitationRequest\032,.gitpod" +
+      ".v1.GetOrganizationInvitationResponse\"\000\022" +
+      "]\n\020JoinOrganization\022\".gitpod.v1.JoinOrga" +
+      "nizationRequest\032#.gitpod.v1.JoinOrganiza" +
+      "tionResponse\"\000\022~\n\033ResetOrganizationInvit" +
+      "ation\022-.gitpod.v1.ResetOrganizationInvit" +
+      "ationRequest\032..gitpod.v1.ResetOrganizati" +
+      "onInvitationResponse\"\000\022r\n\027ListOrganizati" +
+      "onMembers\022).gitpod.v1.ListOrganizationMe" +
+      "mbersRequest\032*.gitpod.v1.ListOrganizatio" +
+      "nMembersResponse\"\000\022u\n\030UpdateOrganization" +
+      "Member\022*.gitpod.v1.UpdateOrganizationMem" +
+      "berRequest\032+.gitpod.v1.UpdateOrganizatio" +
+      "nMemberResponse\"\000\022u\n\030DeleteOrganizationM" +
+      "ember\022*.gitpod.v1.DeleteOrganizationMemb" +
+      "erRequest\032+.gitpod.v1.DeleteOrganization" +
+      "MemberResponse\"\000\022r\n\027GetOrganizationSetti" +
+      "ngs\022).gitpod.v1.GetOrganizationSettingsR" +
+      "equest\032*.gitpod.v1.GetOrganizationSettin" +
+      "gsResponse\"\000\022{\n\032UpdateOrganizationSettin" +
+      "gs\022,.gitpod.v1.UpdateOrganizationSetting" +
+      "sRequest\032-.gitpod.v1.UpdateOrganizationS" +
+      "ettingsResponse\"\000\022\215\001\n ListOrganizationWo" +
+      "rkspaceClasses\0222.gitpod.v1.ListOrganizat" +
+      "ionWorkspaceClassesRequest\0323.gitpod.v1.L" +
+      "istOrganizationWorkspaceClassesResponse\"" +
+      "\000BQ\n\026io.gitpod.publicapi.v1Z7github.com/" +
+      "gitpod-io/gitpod/components/public-api/g" +
+      "o/v1b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -29619,7 +31790,13 @@ java.lang.String defaultValue) {
     internal_static_gitpod_v1_OnboardingSettings_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_gitpod_v1_OnboardingSettings_descriptor,
-        new java.lang.String[] { "InternalLink", "RecommendedRepositories", });
+        new java.lang.String[] { "InternalLink", "RecommendedRepositories", "UpdateRecommendedRepositories", "WelcomeMessage", });
+    internal_static_gitpod_v1_OnboardingSettings_WelcomeMessage_descriptor =
+      internal_static_gitpod_v1_OnboardingSettings_descriptor.getNestedTypes().get(0);
+    internal_static_gitpod_v1_OnboardingSettings_WelcomeMessage_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_gitpod_v1_OnboardingSettings_WelcomeMessage_descriptor,
+        new java.lang.String[] { "Enabled", "Message", "FeaturedMemberId", "FeaturedMemberResolvedAvatarUrl", });
     internal_static_gitpod_v1_OrganizationSettings_descriptor =
       getDescriptor().getMessageTypes().get(4);
     internal_static_gitpod_v1_OrganizationSettings_fieldAccessorTable = new
@@ -29667,7 +31844,7 @@ java.lang.String defaultValue) {
     internal_static_gitpod_v1_UpdateOrganizationSettingsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_gitpod_v1_UpdateOrganizationSettingsRequest_descriptor,
-        new java.lang.String[] { "OrganizationId", "WorkspaceSharingDisabled", "DefaultWorkspaceImage", "AllowedWorkspaceClasses", "RestrictedEditorNames", "UpdateRestrictedEditorNames", "PinnedEditorVersions", "UpdatePinnedEditorVersions", "DefaultRole", "TimeoutSettings", "RoleRestrictions", "UpdateRoleRestrictions", "MaxParallelRunningWorkspaces", "OnboardingSettings", "AnnotateGitCommits", });
+        new java.lang.String[] { "OrganizationId", "WorkspaceSharingDisabled", "DefaultWorkspaceImage", "AllowedWorkspaceClasses", "RestrictedEditorNames", "UpdateRestrictedEditorNames", "PinnedEditorVersions", "UpdatePinnedEditorVersions", "DefaultRole", "TimeoutSettings", "RoleRestrictions", "UpdateRoleRestrictions", "MaxParallelRunningWorkspaces", "OnboardingSettings", "AnnotateGitCommits", "UpdateAllowedWorkspaceClasses", });
     internal_static_gitpod_v1_UpdateOrganizationSettingsRequest_PinnedEditorVersionsEntry_descriptor =
       internal_static_gitpod_v1_UpdateOrganizationSettingsRequest_descriptor.getNestedTypes().get(0);
     internal_static_gitpod_v1_UpdateOrganizationSettingsRequest_PinnedEditorVersionsEntry_fieldAccessorTable = new

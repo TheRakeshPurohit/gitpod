@@ -25,6 +25,7 @@ import { converter, userClient } from "../service/public-api";
 import { LoadingButton } from "@podkit/buttons/LoadingButton";
 import { useOrgSettingsQuery } from "../data/organizations/org-settings-query";
 import Alert from "../components/Alert";
+import { useDefaultOrgTimeoutQuery } from "../data/organizations/default-org-timeout-query";
 
 export type IDEChangedTrackLocation = "workspace_list" | "workspace_start" | "preferences";
 
@@ -35,11 +36,11 @@ export default function Preferences() {
     const billingMode = useOrgBillingMode();
     const updateDotfileRepo = useUpdateCurrentUserDotfileRepoMutation();
     const { data: settings } = useOrgSettingsQuery();
-
+    const defaultOrgTimeout = useDefaultOrgTimeoutQuery();
     const [dotfileRepo, setDotfileRepo] = useState<string>(user?.dotfileRepo || "");
 
     const [workspaceTimeout, setWorkspaceTimeout] = useState<string>(
-        converter.toDurationString(user?.workspaceTimeoutSettings?.inactivity),
+        converter.toDurationStringOpt(user?.workspaceTimeoutSettings?.inactivity) || "",
     );
     const [timeoutUpdating, setTimeoutUpdating] = useState(false);
     const [creationError, setCreationError] = useState<Error>();
@@ -173,7 +174,8 @@ export default function Preferences() {
                         <Alert type="warning" className="mb-4">
                             The currently selected organization does not allow members to set custom workspace timeouts,
                             so for workspaces created in it, its default timeout of{" "}
-                            {converter.toDurationString(settings?.timeoutSettings?.inactivity)} will be used.
+                            {converter.toDurationStringOpt(settings?.timeoutSettings?.inactivity) ?? defaultOrgTimeout}{" "}
+                            will be used.
                         </Alert>
                     )}
 
@@ -201,7 +203,9 @@ export default function Preferences() {
                                         loading={timeoutUpdating}
                                         disabled={
                                             workspaceTimeout ===
-                                            converter.toDurationString(user?.workspaceTimeoutSettings?.inactivity)
+                                            (converter.toDurationStringOpt(
+                                                user?.workspaceTimeoutSettings?.inactivity,
+                                            ) || "")
                                         }
                                     >
                                         Save

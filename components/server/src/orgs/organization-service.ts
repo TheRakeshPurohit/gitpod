@@ -36,6 +36,8 @@ import { UsageService } from "./usage-service";
 import { CostCenter_BillingStrategy } from "@gitpod/gitpod-protocol/lib/usage";
 import { CreateUserParams, UserAuthentication } from "../user/user-authentication";
 import isURL from "validator/lib/isURL";
+import { merge } from "ts-deepmerge";
+import { EntitlementService } from "../billing/entitlement-service";
 
 @injectable()
 export class OrganizationService {
@@ -53,6 +55,7 @@ export class OrganizationService {
         @inject(DefaultWorkspaceImageValidator)
         private readonly validateDefaultWorkspaceImage: DefaultWorkspaceImageValidator,
         @inject(UserAuthentication) private readonly userAuthentication: UserAuthentication,
+        @inject(EntitlementService) private readonly entitlementService: EntitlementService,
     ) {}
 
     async listOrganizations(
@@ -490,20 +493,17 @@ export class OrganizationService {
         settings: Partial<OrganizationSettings>,
     ): Promise<OrganizationSettings> {
         await this.auth.checkPermissionOnOrganization(userId, "write_settings", orgId);
+
         if (typeof settings.defaultWorkspaceImage === "string") {
             const defaultWorkspaceImage = settings.defaultWorkspaceImage.trim();
             if (defaultWorkspaceImage) {
                 await this.validateDefaultWorkspaceImage(userId, defaultWorkspaceImage, orgId);
-                settings = { ...settings, defaultWorkspaceImage };
-            } else {
-                settings = { ...settings, defaultWorkspaceImage: null };
             }
+            settings = { ...settings, defaultWorkspaceImage };
         }
+
         if (settings.allowedWorkspaceClasses) {
-            if (settings.allowedWorkspaceClasses.length === 0) {
-                // Pass an empty array to allow all workspace classes
-                settings.allowedWorkspaceClasses = null;
-            } else {
+            if (settings.allowedWorkspaceClasses.length > 0) {
                 const allClasses = await this.installationService.getInstallationWorkspaceClasses(userId);
                 const availableClasses = allClasses.filter((e) => settings.allowedWorkspaceClasses!.includes(e.id));
                 if (availableClasses.length !== settings.allowedWorkspaceClasses.length) {
@@ -550,18 +550,136 @@ export class OrganizationService {
             }
         }
 
-        if (settings.onboardingSettings?.internalLink) {
-            if (
-                !isURL(settings.onboardingSettings.internalLink ?? "", {
-                    require_protocol: true,
-                    host_blacklist: ["localhost", "127.0.0.1", "::1"],
-                })
-            ) {
-                throw new ApplicationError(ErrorCodes.BAD_REQUEST, "Invalid internal link");
+        if (settings.maxParallelRunningWorkspaces !== undefined) {
+            if (settings.maxParallelRunningWorkspaces < 0) {
+                throw new ApplicationError(ErrorCodes.BAD_REQUEST, "maxParallelRunningWorkspaces must be >= 0");
+            }
+            const maxAllowance = await this.entitlementService.getMaxParallelWorkspaces(userId, orgId);
+            if (maxAllowance && settings.maxParallelRunningWorkspaces > maxAllowance) {
+                throw new ApplicationError(
+                    ErrorCodes.BAD_REQUEST,
+                    `maxParallelRunningWorkspaces must be <= ${maxAllowance}`,
+                );
+            }
+            if (!Number.isInteger(settings.maxParallelRunningWorkspaces)) {
+                throw new ApplicationError(ErrorCodes.BAD_REQUEST, "maxParallelRunningWorkspaces must be an integer");
             }
         }
 
-        return this.toSettings(await this.teamDB.setOrgSettings(orgId, settings));
+        if (settings.onboardingSettings) {
+            if (settings.onboardingSettings.internalLink) {
+                if (settings.onboardingSettings.internalLink.length > 255) {
+                    throw new ApplicationError(ErrorCodes.BAD_REQUEST, "internalLink must be <= 255 characters long");
+                }
+
+                if (
+                    !isURL(settings.onboardingSettings.internalLink, {
+                        require_protocol: true,
+                        host_blacklist: ["localhost", "127.0.0.1", "::1"],
+                    })
+                ) {
+                    throw new ApplicationError(ErrorCodes.BAD_REQUEST, "Invalid internal link");
+                }
+            }
+
+            if (settings.onboardingSettings.recommendedRepositories) {
+                if (settings.onboardingSettings.recommendedRepositories.length > 3) {
+                    throw new ApplicationError(
+                        ErrorCodes.BAD_REQUEST,
+                        "there can't be more than 3 recommendedRepositories",
+                    );
+                }
+                for (const configurationId of settings.onboardingSettings.recommendedRepositories) {
+                    const project = await this.projectsService.getProject(userId, configurationId);
+                    if (!project) {
+                        throw new ApplicationError(ErrorCodes.BAD_REQUEST, `repository ${configurationId} not found`);
+                    }
+                }
+            }
+
+            if (settings.onboardingSettings.welcomeMessage) {
+                const welcomeMessage = settings.onboardingSettings.welcomeMessage;
+                if (welcomeMessage.featuredMemberResolvedAvatarUrl) {
+                    throw new ApplicationError(
+                        ErrorCodes.BAD_REQUEST,
+                        "featuredMemberResolvedAvatarUrl is not allowed to be set",
+                    );
+                }
+                if (welcomeMessage.featuredMemberId) {
+                    const resolved = await this.resolveMemberAvatarUrl(orgId, settings);
+                    if (!resolved) {
+                        throw new ApplicationError(
+                            ErrorCodes.BAD_REQUEST,
+                            "cannot resolve featuredMemberId: user not found",
+                        );
+                    }
+                } else if (welcomeMessage.featuredMemberId === "") {
+                    // re-set to default value
+                    welcomeMessage.featuredMemberResolvedAvatarUrl = "";
+                }
+            }
+        }
+
+        const mergeSettings = (
+            currentSettings: OrganizationSettings,
+            partialUpdate: Partial<OrganizationSettings>,
+        ): OrganizationSettings => {
+            // We want to deep-merge columns that are JSON shapes here.
+            // We ignore fields set to undefined, and don't merge arrays to match our API semantics
+            const settings = merge.withOptions(
+                { mergeArrays: false, allowUndefinedOverrides: false },
+                currentSettings,
+                partialUpdate,
+            );
+
+            // roleRestrictions is an exception: override if set
+            if (partialUpdate.roleRestrictions !== undefined) {
+                settings.roleRestrictions = partialUpdate.roleRestrictions;
+            }
+
+            // pinnedEditorVersions is an exception: override if set
+            if (partialUpdate.pinnedEditorVersions !== undefined) {
+                settings.pinnedEditorVersions = partialUpdate.pinnedEditorVersions;
+            }
+
+            return settings;
+        };
+
+        const dbSettings = await this.teamDB.setOrgSettings(orgId, settings, mergeSettings);
+        await this.resolveMemberAvatarUrl(orgId, settings);
+        return this.toSettings(dbSettings);
+    }
+
+    /**
+     * In addition to the `getSettings` method, this method also resolves the avatar URL for the featured member in the welcome message.
+     */
+    async getSettingsWithResolvedWelcomeMessage(userId: string, orgId: string): Promise<OrganizationSettings> {
+        const settings = await this.getSettings(userId, orgId);
+        await this.resolveMemberAvatarUrl(orgId, settings);
+        return settings;
+    }
+
+    /**
+     * Resolves the avatar URL for a member of an organization.
+     * This is not done in methods like `getSettings` directly
+     * because we don't need to pay the extra lookup cost for the avatar URL for most requests.
+     */
+    private async resolveMemberAvatarUrl(orgId: string, settings: OrganizationSettings): Promise<boolean> {
+        const featuredMemberId = settings.onboardingSettings?.welcomeMessage?.featuredMemberId;
+        if (!featuredMemberId) {
+            return false;
+        }
+
+        const membership = await this.teamDB.findTeamMembership(featuredMemberId, orgId);
+        if (!membership) {
+            return false;
+        }
+        const user = await this.userDB.findUserById(membership.userId);
+        if (!user) {
+            return false;
+        }
+        settings.onboardingSettings!.welcomeMessage!.featuredMemberResolvedAvatarUrl = user.avatarUrl;
+        return true;
     }
 
     private async toSettings(settings: OrganizationSettings = {}): Promise<OrganizationSettings> {
@@ -585,10 +703,7 @@ export class OrganizationService {
             result.defaultRole = settings.defaultRole;
         }
         if (settings.timeoutSettings) {
-            result.timeoutSettings = {
-                denyUserTimeouts: settings.timeoutSettings?.denyUserTimeouts,
-                inactivity: settings.timeoutSettings?.inactivity,
-            };
+            result.timeoutSettings = settings.timeoutSettings;
         }
         if (settings.roleRestrictions) {
             result.roleRestrictions = settings.roleRestrictions;
@@ -604,6 +719,22 @@ export class OrganizationService {
         }
 
         return result;
+    }
+
+    /**
+     * To be notified when a project is deleted, so that we can remove it from the list of recommended repositories
+     */
+    public async onProjectDeletion(userId: string, organizationId: string, projectId: string): Promise<void> {
+        const orgSettings = await this.getSettings(userId, organizationId);
+        const repoRecommendations = orgSettings.onboardingSettings?.recommendedRepositories;
+        if (repoRecommendations) {
+            const updatedRepoRecommendations = repoRecommendations.filter((id) => id !== projectId);
+            if (updatedRepoRecommendations.length !== repoRecommendations.length) {
+                await this.updateSettings(userId, organizationId, {
+                    onboardingSettings: { recommendedRepositories: updatedRepoRecommendations },
+                });
+            }
+        }
     }
 
     public async listWorkspaceClasses(userId: string, orgId: string): Promise<SupportedWorkspaceClass[]> {

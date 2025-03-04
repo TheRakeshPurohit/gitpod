@@ -4,18 +4,19 @@
  * See License.AGPL.txt in the project root for license information.
  */
 
-import { OrganizationSettings } from "@gitpod/public-api/lib/gitpod/v1/organization_pb";
 import { FormEvent, useCallback, useEffect, useState } from "react";
 import { Heading2, Heading3, Subheading } from "../components/typography/headings";
 import { useIsOwner } from "../data/organizations/members-query";
 import { useOrgSettingsQuery } from "../data/organizations/org-settings-query";
 import { useCurrentOrg } from "../data/organizations/orgs-query";
-import { useUpdateOrgSettingsMutation } from "../data/organizations/update-org-settings-mutation";
+import {
+    UpdateOrganizationSettingsArgs,
+    useUpdateOrgSettingsMutation,
+} from "../data/organizations/update-org-settings-mutation";
 import { OrgSettingsPage } from "./OrgSettingsPage";
 import { ConfigurationSettingsField } from "../repositories/detail/ConfigurationSettingsField";
 import { useDocumentTitle } from "../hooks/use-document-title";
 import { useToast } from "../components/toasts/Toasts";
-import type { PlainMessage } from "@bufbuild/protobuf";
 import { InputField } from "../components/forms/InputField";
 import { TextInput } from "../components/forms/TextInputField";
 import { LoadingButton } from "@podkit/buttons/LoadingButton";
@@ -24,11 +25,16 @@ import { useOrgSuggestedRepos } from "../data/organizations/suggested-repositori
 import { RepositoryListItem } from "../repositories/list/RepoListItem";
 import { LoadingState } from "@podkit/loading/LoadingState";
 import { Table, TableHeader, TableRow, TableHead, TableBody } from "@podkit/tables/Table";
+import { WelcomeMessageConfigurationField } from "./onboarding/WelcomeMessageConfigurationField";
+
+export type UpdateTeamSettingsOptions = {
+    throwMutateError?: boolean;
+};
 
 export default function TeamOnboardingPage() {
     useDocumentTitle("Organization Settings - Onboarding");
     const { toast } = useToast();
-    const org = useCurrentOrg().data;
+    const { data: org } = useCurrentOrg();
     const isOwner = useIsOwner();
 
     const { data: settings } = useOrgSettingsQuery();
@@ -39,7 +45,7 @@ export default function TeamOnboardingPage() {
     const [internalLink, setInternalLink] = useState<string | undefined>(undefined);
 
     const handleUpdateTeamSettings = useCallback(
-        async (newSettings: Partial<PlainMessage<OrganizationSettings>>, options?: { throwMutateError?: boolean }) => {
+        async (newSettings: UpdateOrganizationSettingsArgs, options?: UpdateTeamSettingsOptions) => {
             if (!org?.id) {
                 throw new Error("no organization selected");
             }
@@ -47,10 +53,7 @@ export default function TeamOnboardingPage() {
                 throw new Error("no organization settings change permission");
             }
             try {
-                await updateTeamSettings.mutateAsync({
-                    ...settings,
-                    ...newSettings,
-                });
+                await updateTeamSettings.mutateAsync(newSettings);
                 toast("Organization settings updated");
             } catch (error) {
                 if (options?.throwMutateError) {
@@ -60,7 +63,7 @@ export default function TeamOnboardingPage() {
                 console.error(error);
             }
         },
-        [updateTeamSettings, org?.id, isOwner, settings, toast],
+        [updateTeamSettings, org?.id, isOwner, toast],
     );
 
     const handleUpdateInternalLink = useCallback(
@@ -70,11 +73,10 @@ export default function TeamOnboardingPage() {
             await handleUpdateTeamSettings({
                 onboardingSettings: {
                     internalLink,
-                    recommendedRepositories: settings?.onboardingSettings?.recommendedRepositories ?? [],
                 },
             });
         },
-        [handleUpdateTeamSettings, internalLink, settings?.onboardingSettings?.recommendedRepositories],
+        [handleUpdateTeamSettings, internalLink],
     );
 
     useEffect(() => {
@@ -115,13 +117,13 @@ export default function TeamOnboardingPage() {
                 <ConfigurationSettingsField>
                     <Heading3>Suggested repositories</Heading3>
                     <Subheading>
-                        A list of repositories suggested to new organization members. To manage recommended
-                        repositories, visit the{" "}
+                        A list of repositories suggested to new organization members. You can toggle a repository's
+                        visibility in the onboarding process by visiting the{" "}
                         <Link to="/repositories" className="gp-link">
                             Repository settings
                         </Link>{" "}
-                        page and add / remove repositories from the list using the context menu on the corresponding
-                        repository's row.
+                        page and toggling the "Mark this repository as Suggested" setting under the details of the
+                        repository.
                     </Subheading>
                     {(suggestedRepos ?? []).length > 0 && (
                         <Table className="mt-4">
@@ -146,7 +148,7 @@ export default function TeamOnboardingPage() {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {(suggestedRepos ?? []).map((repo) => (
+                                {suggestedRepos?.map((repo) => (
                                     <RepositoryListItem
                                         key={repo.configurationId}
                                         configuration={repo.configuration}
@@ -157,6 +159,8 @@ export default function TeamOnboardingPage() {
                         </Table>
                     )}
                 </ConfigurationSettingsField>
+
+                <WelcomeMessageConfigurationField handleUpdateTeamSettings={handleUpdateTeamSettings} />
             </div>
         </OrgSettingsPage>
     );

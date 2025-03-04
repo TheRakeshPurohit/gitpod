@@ -28,6 +28,11 @@ export interface ProjectSettings {
     restrictedWorkspaceClasses?: string[];
 
     restrictedEditorNames?: string[];
+
+    /**
+     * Enable automatic authentication for docker daemon with all credentials specified in GITPOD_IMAGE_AUTH
+     */
+    enableDockerdAuthentication?: boolean;
 }
 export namespace PrebuildSettings {
     export type BranchStrategy = "default-branch" | "all-branches" | "matched-branches";
@@ -216,15 +221,15 @@ export interface Organization {
 
 export interface OrganizationSettings {
     workspaceSharingDisabled?: boolean;
-    // null or empty string to reset to default
-    defaultWorkspaceImage?: string | null;
+    // undefined or empty string to reset to default
+    defaultWorkspaceImage?: string;
 
     // empty array to allow all kind of workspace classes
-    allowedWorkspaceClasses?: string[] | null;
+    allowedWorkspaceClasses?: string[];
 
-    pinnedEditorVersions?: { [key: string]: string } | null;
+    pinnedEditorVersions?: { [key: string]: string };
 
-    restrictedEditorNames?: string[] | null;
+    restrictedEditorNames?: string[];
 
     // what role new members will get, default is "member"
     defaultRole?: OrgMemberRole;
@@ -276,6 +281,18 @@ export interface OnboardingSettings {
      * the repository IDs of the repositories that are recommended for members to start with
      */
     recommendedRepositories?: string[];
+
+    /**
+     * the welcome message for new members of the organization
+     */
+    welcomeMessage?: WelcomeMessage;
+}
+
+export interface WelcomeMessage {
+    enabled?: boolean;
+    featuredMemberId?: string;
+    featuredMemberResolvedAvatarUrl?: string;
+    message?: string;
 }
 
 export type TeamMemberInfo = OrgMemberInfo;
